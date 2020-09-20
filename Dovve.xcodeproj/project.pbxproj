@@ -3,27 +3,53 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		44FAE82B2514ADEC006D6867 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FAE82A2514ADEC006D6867 /* AppDelegate.swift */; };
 		44FAE82D2514ADEC006D6867 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FAE82C2514ADEC006D6867 /* SceneDelegate.swift */; };
-		44FAE82F2514ADEC006D6867 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FAE82E2514ADEC006D6867 /* ViewController.swift */; };
-		44FAE8322514ADEC006D6867 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44FAE8302514ADEC006D6867 /* Main.storyboard */; };
 		44FAE8342514ADF3006D6867 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44FAE8332514ADF3006D6867 /* Assets.xcassets */; };
 		44FAE8372514ADF3006D6867 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44FAE8352514ADF3006D6867 /* LaunchScreen.storyboard */; };
+		44FAE8472514AFBB006D6867 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FAE8462514AFBB006D6867 /* LoginViewController.swift */; };
+		44FAE84B2514C704006D6867 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FAE84A2514C704006D6867 /* Constants.swift */; };
+		44FAE84E2514C950006D6867 /* LoginCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FAE84D2514C950006D6867 /* LoginCardView.swift */; };
+		44FAE8502514D0DE006D6867 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FAE84F2514D0DE006D6867 /* UIButton.swift */; };
+		44FE6A852515FEAB00284738 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A842515FEAB00284738 /* HomeViewController.swift */; };
+		44FE6A872516041D00284738 /* CustomTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A862516041D00284738 /* CustomTabBarViewController.swift */; };
+		44FE6A892516301A00284738 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A882516301A00284738 /* UIView.swift */; };
+		44FE6A8B2516313800284738 /* HomeFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A8A2516313800284738 /* HomeFeedCollectionViewCell.swift */; };
+		44FE6A8D251741E600284738 /* MentionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A8C251741E600284738 /* MentionsViewController.swift */; };
+		44FE6A8F2517439000284738 /* NSTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A8E2517439000284738 /* NSTextAttachment.swift */; };
+		44FE6A912517482800284738 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A902517482800284738 /* ProfileViewController.swift */; };
+		44FE6A95251751E700284738 /* ProfileStrechyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A94251751E700284738 /* ProfileStrechyHeader.swift */; };
+		44FE6A972517524400284738 /* StretchyCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A962517524400284738 /* StretchyCollectionViewFlowLayout.swift */; };
+		53457842AA41B66FF8B73EE3 /* Pods_Dovve.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCAC2841E400CF6F55FCA9D4 /* Pods_Dovve.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		44FAE8272514ADEC006D6867 /* Dovve.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dovve.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44FAE82A2514ADEC006D6867 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44FAE82C2514ADEC006D6867 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		44FAE82E2514ADEC006D6867 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		44FAE8312514ADEC006D6867 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		44FAE8332514ADF3006D6867 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		44FAE8362514ADF3006D6867 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		44FAE8382514ADF3006D6867 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		44FAE8462514AFBB006D6867 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		44FAE84A2514C704006D6867 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		44FAE84D2514C950006D6867 /* LoginCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCardView.swift; sourceTree = "<group>"; };
+		44FAE84F2514D0DE006D6867 /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
+		44FE6A842515FEAB00284738 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		44FE6A862516041D00284738 /* CustomTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarViewController.swift; sourceTree = "<group>"; };
+		44FE6A882516301A00284738 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		44FE6A8A2516313800284738 /* HomeFeedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedCollectionViewCell.swift; sourceTree = "<group>"; };
+		44FE6A8C251741E600284738 /* MentionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionsViewController.swift; sourceTree = "<group>"; };
+		44FE6A8E2517439000284738 /* NSTextAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSTextAttachment.swift; sourceTree = "<group>"; };
+		44FE6A902517482800284738 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		44FE6A94251751E700284738 /* ProfileStrechyHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStrechyHeader.swift; sourceTree = "<group>"; };
+		44FE6A962517524400284738 /* StretchyCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchyCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		8BE01ADEB339DFDB995CF837 /* Pods-Dovve.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dovve.debug.xcconfig"; path = "Target Support Files/Pods-Dovve/Pods-Dovve.debug.xcconfig"; sourceTree = "<group>"; };
+		CCAC2841E400CF6F55FCA9D4 /* Pods_Dovve.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dovve.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA3B84137003676414685CB4 /* Pods-Dovve.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dovve.release.xcconfig"; path = "Target Support Files/Pods-Dovve/Pods-Dovve.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +57,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53457842AA41B66FF8B73EE3 /* Pods_Dovve.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		21886EA92C2BFBDF6F4E26A1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CCAC2841E400CF6F55FCA9D4 /* Pods_Dovve.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		43F361FE69F02A9C1624F4C8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8BE01ADEB339DFDB995CF837 /* Pods-Dovve.debug.xcconfig */,
+				EA3B84137003676414685CB4 /* Pods-Dovve.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		44FAE81E2514ADEC006D6867 = {
 			isa = PBXGroup;
 			children = (
 				44FAE8292514ADEC006D6867 /* Dovve */,
 				44FAE8282514ADEC006D6867 /* Products */,
+				43F361FE69F02A9C1624F4C8 /* Pods */,
+				21886EA92C2BFBDF6F4E26A1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +102,90 @@
 		44FAE8292514ADEC006D6867 /* Dovve */ = {
 			isa = PBXGroup;
 			children = (
+				44FAE8412514AF60006D6867 /* Utils */,
+				44FAE83F2514AF49006D6867 /* Modal */,
+				44FAE8402514AF4F006D6867 /* View */,
+				44FAE83E2514AF3E006D6867 /* Controller */,
+				44FAE8422514AF67006D6867 /* SupportingFiles */,
+			);
+			path = Dovve;
+			sourceTree = "<group>";
+		};
+		44FAE83E2514AF3E006D6867 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				44FE6A832515FE9A00284738 /* Main */,
+				44FAE8432514AF91006D6867 /* Login */,
+				44FE6A862516041D00284738 /* CustomTabBarViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		44FAE83F2514AF49006D6867 /* Modal */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Modal;
+			sourceTree = "<group>";
+		};
+		44FAE8402514AF4F006D6867 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				44FAE84C2514C935006D6867 /* CustomViews */,
+				44FE6A8A2516313800284738 /* HomeFeedCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		44FAE8412514AF60006D6867 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				44FAE84A2514C704006D6867 /* Constants.swift */,
+				44FAE84F2514D0DE006D6867 /* UIButton.swift */,
+				44FE6A882516301A00284738 /* UIView.swift */,
+				44FE6A8E2517439000284738 /* NSTextAttachment.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		44FAE8422514AF67006D6867 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				44FAE8332514ADF3006D6867 /* Assets.xcassets */,
 				44FAE82A2514ADEC006D6867 /* AppDelegate.swift */,
 				44FAE82C2514ADEC006D6867 /* SceneDelegate.swift */,
-				44FAE82E2514ADEC006D6867 /* ViewController.swift */,
-				44FAE8302514ADEC006D6867 /* Main.storyboard */,
-				44FAE8332514ADF3006D6867 /* Assets.xcassets */,
 				44FAE8352514ADF3006D6867 /* LaunchScreen.storyboard */,
 				44FAE8382514ADF3006D6867 /* Info.plist */,
 			);
-			path = Dovve;
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		44FAE8432514AF91006D6867 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				44FAE8462514AFBB006D6867 /* LoginViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		44FAE84C2514C935006D6867 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				44FAE84D2514C950006D6867 /* LoginCardView.swift */,
+				44FE6A94251751E700284738 /* ProfileStrechyHeader.swift */,
+				44FE6A962517524400284738 /* StretchyCollectionViewFlowLayout.swift */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		44FE6A832515FE9A00284738 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				44FE6A842515FEAB00284738 /* HomeViewController.swift */,
+				44FE6A8C251741E600284738 /* MentionsViewController.swift */,
+				44FE6A902517482800284738 /* ProfileViewController.swift */,
+			);
+			path = Main;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +195,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 44FAE83B2514ADF3006D6867 /* Build configuration list for PBXNativeTarget "Dovve" */;
 			buildPhases = (
+				DC4E9766C50CA3C899EA80BC /* [CP] Check Pods Manifest.lock */,
 				44FAE8232514ADEC006D6867 /* Sources */,
 				44FAE8242514ADEC006D6867 /* Frameworks */,
 				44FAE8252514ADEC006D6867 /* Resources */,
+				9187CB033F4A92FE78E06379 /* [CP] Embed Pods Frameworks */,
+				33E033DEBE5796BE6721836D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -127,34 +251,96 @@
 			files = (
 				44FAE8372514ADF3006D6867 /* LaunchScreen.storyboard in Resources */,
 				44FAE8342514ADF3006D6867 /* Assets.xcassets in Resources */,
-				44FAE8322514ADEC006D6867 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		33E033DEBE5796BE6721836D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Dovve/Pods-Dovve-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Dovve/Pods-Dovve-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Dovve/Pods-Dovve-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9187CB033F4A92FE78E06379 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Dovve/Pods-Dovve-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Dovve/Pods-Dovve-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Dovve/Pods-Dovve-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DC4E9766C50CA3C899EA80BC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Dovve-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		44FAE8232514ADEC006D6867 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				44FAE82F2514ADEC006D6867 /* ViewController.swift in Sources */,
+				44FAE8472514AFBB006D6867 /* LoginViewController.swift in Sources */,
 				44FAE82B2514ADEC006D6867 /* AppDelegate.swift in Sources */,
+				44FE6A8B2516313800284738 /* HomeFeedCollectionViewCell.swift in Sources */,
+				44FE6A872516041D00284738 /* CustomTabBarViewController.swift in Sources */,
+				44FE6A8F2517439000284738 /* NSTextAttachment.swift in Sources */,
+				44FE6A8D251741E600284738 /* MentionsViewController.swift in Sources */,
 				44FAE82D2514ADEC006D6867 /* SceneDelegate.swift in Sources */,
+				44FAE84E2514C950006D6867 /* LoginCardView.swift in Sources */,
+				44FAE84B2514C704006D6867 /* Constants.swift in Sources */,
+				44FE6A95251751E700284738 /* ProfileStrechyHeader.swift in Sources */,
+				44FE6A852515FEAB00284738 /* HomeViewController.swift in Sources */,
+				44FE6A912517482800284738 /* ProfileViewController.swift in Sources */,
+				44FE6A892516301A00284738 /* UIView.swift in Sources */,
+				44FE6A972517524400284738 /* StretchyCollectionViewFlowLayout.swift in Sources */,
+				44FAE8502514D0DE006D6867 /* UIButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		44FAE8302514ADEC006D6867 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				44FAE8312514ADEC006D6867 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		44FAE8352514ADF3006D6867 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -282,11 +468,12 @@
 		};
 		44FAE83C2514ADF3006D6867 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BE01ADEB339DFDB995CF837 /* Pods-Dovve.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9W5STY688V;
-				INFOPLIST_FILE = Dovve/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Dovve/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -300,11 +487,12 @@
 		};
 		44FAE83D2514ADF3006D6867 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA3B84137003676414685CB4 /* Pods-Dovve.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9W5STY688V;
-				INFOPLIST_FILE = Dovve/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Dovve/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TwitterKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -14,10 +15,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.windowScene = windowScene
+        window?.rootViewController = LoginViewController()
+        window?.makeKeyAndVisible()
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let openURLContext = URLContexts.first{
+            let url = openURLContext.url
+            let options: [AnyHashable : Any] = [ UIApplication.OpenURLOptionsKey.annotation : openURLContext.options.annotation as Any, UIApplication.OpenURLOptionsKey.sourceApplication : openURLContext.options.sourceApplication as Any, UIApplication.OpenURLOptionsKey.openInPlace : openURLContext.options.openInPlace
+            ]
+            TWTRTwitter.sharedInstance().application(UIApplication.shared, open: url, options: options)
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
