@@ -30,13 +30,14 @@ class HomeFeedCollectionViewCell: UICollectionViewCell {
         l.translatesAutoresizingMaskIntoConstraints = false
         l.font = UIFont(name: CustomFonts.appFont, size: 17)
         l.text = "Long converstion goes here, tweet content goes here. Long converstion goes here, tweet content goes here. Long converstion goes here."
-        l.textColor = CustomColors.appBlack
+        l.textColor = UIColor.dynamicColor(.textColor)
         l.numberOfLines = 0
         return l
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = UIColor.dynamicColor(.appBackground)
         addSubview(userProfileImage)
         addSubview(userInfo)
         addSubview(tweet)
@@ -65,14 +66,14 @@ class HomeFeedCollectionViewCell: UICollectionViewCell {
     }
     
     func setUpAttributes( _ name:String, _ userName:String , _ time:String){
-        let attributedText = NSMutableAttributedString(string:"\(name) " , attributes:[NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Medium", size: 17)!])
+        let attributedText = NSMutableAttributedString(string:"\(name) " , attributes:[NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Medium", size: 17)!, NSAttributedString.Key.foregroundColor: UIColor.dynamicColor(.textColor)])
         
-        let font = UIFont.systemFont(ofSize: 17)
+        let font = UIFont.systemFont(ofSize: 16)
         let verifiyImg = UIImage(named:"verify")
         let verifiedImage = NSTextAttachment()
         verifiedImage.image = verifiyImg
-        verifiedImage.bounds = CGRect(x: 0, y: (font.capHeight - 17).rounded() / 2, width: 17, height: 17)
-        verifiedImage.setImageHeight(height: 17)
+        verifiedImage.bounds = CGRect(x: 0, y: (font.capHeight - 16).rounded() / 2, width: 16, height: 16)
+        verifiedImage.setImageHeight(height: 16)
         let imgString = NSAttributedString(attachment: verifiedImage)
         attributedText.append(imgString)
         

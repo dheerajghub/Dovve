@@ -22,7 +22,7 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
     let name:UILabel = {
         let l = UILabel()
         l.text = "Dheeraj"
-        l.textColor = CustomColors.appBlack
+        l.textColor = UIColor.dynamicColor(.textColor)
         l.font = UIFont(name: CustomFonts.appFontBold, size: 22)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -41,7 +41,7 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         let l = UILabel()
         l.text = "iOS Developer, XDian 😅"
         l.translatesAutoresizingMaskIntoConstraints = false
-        l.textColor = CustomColors.appBlack
+        l.textColor = UIColor.dynamicColor(.textColor)
         l.font = UIFont(name: CustomFonts.appFont, size: 17)
         return l
     }()
@@ -73,6 +73,7 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = UIColor.dynamicColor(.appBackground)
         addSubview(profileImgView)
         addSubview(name)
         addSubview(screenName)
@@ -124,7 +125,7 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
     }
     
     func customAttribute(_ count:String , attr:String , btn:UIButton) {
-        let attributedText = NSMutableAttributedString(string:"\(count)" , attributes:[NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Medium", size: 15)!, NSAttributedString.Key.foregroundColor: CustomColors.appBlack])
+        let attributedText = NSMutableAttributedString(string:"\(count)" , attributes:[NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Medium", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.dynamicColor(.textColor)])
         
         attributedText.append(NSAttributedString(string: " \(attr)" , attributes:[NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 15)! , NSAttributedString.Key.foregroundColor: CustomColors.appDarkGray]))
         

@@ -12,11 +12,17 @@ class CustomProfileNavBar: UIView {
 
     var controller:ProfileViewController?
     
+    let textOverlayView:UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.layer.masksToBounds = true
+        return v
+    }()
+    
     let cardImageView:UIImageView = {
         let img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.image = UIImage(named: "demo")
-//        img.backgroundColor = .white
         img.contentMode = .scaleAspectFill
         img.clipsToBounds = true
         return img
@@ -32,7 +38,9 @@ class CustomProfileNavBar: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(cardImageView)
-        addSubview(titleLabel)
+        addSubview(textOverlayView)
+        textOverlayView.addSubview(titleLabel)
+        textOverlayView.pin(to: self)
         setUpConstraints()
         titleLabel.transform = CGAffineTransform(translationX: 0, y: +50)
         setAttributedText("Dheeraj", tweetCount: "43")

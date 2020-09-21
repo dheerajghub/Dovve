@@ -34,21 +34,18 @@ class ProfileViewController: UIViewController {
         cv.setCollectionViewLayout(layout, animated: false)
         cv.delegate = self
         cv.dataSource = self
-        cv.backgroundColor = CustomColors.appExtraLightGray
+        cv.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
         return cv
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
         view.addSubview(collectionView)
         view.addSubview(navBar)
         collectionView.pin(to: view)
         setUpCustomNavBar()
         setUpConstraints()
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .darkContent
     }
     
     func setUpConstraints(){
@@ -85,11 +82,9 @@ extension ProfileViewController:UICollectionViewDelegate , UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileHeaderCollectionViewCell", for: indexPath) as! ProfileHeaderCollectionViewCell
-            cell.backgroundColor = .white
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeFeedCollectionViewCell", for: indexPath) as! HomeFeedCollectionViewCell
-        cell.backgroundColor = .white
         return cell
     }
     
@@ -105,11 +100,11 @@ extension ProfileViewController:UICollectionViewDelegate , UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 0.7
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 0.7
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -118,7 +113,7 @@ extension ProfileViewController:UICollectionViewDelegate , UICollectionViewDataS
         let value = Double(round(100*v)/100)
         
         if value >= 1.0 {
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.7, options: .curveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.7, options: .curveEaseInOut, animations: {
                 self.navBar.alpha = 1
             }, completion: nil)
             
@@ -127,7 +122,7 @@ extension ProfileViewController:UICollectionViewDelegate , UICollectionViewDataS
             }
             
         } else {
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.7, options: .curveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.7, options: .curveEaseInOut, animations: {
                 self.navBar.alpha = 0
             }, completion: nil)
             

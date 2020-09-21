@@ -20,14 +20,13 @@ class HomeViewController: UIViewController {
         cv.setCollectionViewLayout(layout, animated: false)
         cv.delegate = self
         cv.dataSource = self
-        cv.backgroundColor = CustomColors.appExtraLightGray
+        cv.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
         return cv
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        view.backgroundColor = CustomColors.appExtraLightGray
+        view.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
         view.addSubview(collectionView)
         collectionView.pin(to: view)
         setUpCustomNavBar()
@@ -35,11 +34,11 @@ class HomeViewController: UIViewController {
     
     func setUpCustomNavBar(){
         navigationController?.navigationBar.topItem?.title = "Home"
-        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.barTintColor = UIColor.dynamicColor(.appBackground)
         navigationController?.navigationBar.isTranslucent = false
         self.navigationController!.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont(name: CustomFonts.appFontBold, size: 19)!,
-            NSAttributedString.Key.foregroundColor: CustomColors.appBlack
+            NSAttributedString.Key.foregroundColor: UIColor.dynamicColor(.textColor)
         ]
         
     }
@@ -54,7 +53,6 @@ extension HomeViewController:UICollectionViewDelegate , UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeFeedCollectionViewCell", for: indexPath) as! HomeFeedCollectionViewCell
-        cell.backgroundColor = .white
         return cell
     }
     
@@ -63,11 +61,11 @@ extension HomeViewController:UICollectionViewDelegate , UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 0.7
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 0.7
     }
     
 }

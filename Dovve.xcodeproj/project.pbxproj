@@ -26,6 +26,7 @@
 		44FE6A972517524400284738 /* StretchyCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A962517524400284738 /* StretchyCollectionViewFlowLayout.swift */; };
 		44FE6A99251755B900284738 /* CustomProfileNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A98251755B900284738 /* CustomProfileNavBar.swift */; };
 		44FE6A9B25175C0D00284738 /* ProfileHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A9A25175C0D00284738 /* ProfileHeaderCollectionViewCell.swift */; };
+		44FE6A9D2518433E00284738 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A9C2518433E00284738 /* ColorTheme.swift */; };
 		53457842AA41B66FF8B73EE3 /* Pods_Dovve.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCAC2841E400CF6F55FCA9D4 /* Pods_Dovve.framework */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 		44FE6A962517524400284738 /* StretchyCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchyCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		44FE6A98251755B900284738 /* CustomProfileNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProfileNavBar.swift; sourceTree = "<group>"; };
 		44FE6A9A25175C0D00284738 /* ProfileHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
+		44FE6A9C2518433E00284738 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		8BE01ADEB339DFDB995CF837 /* Pods-Dovve.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dovve.debug.xcconfig"; path = "Target Support Files/Pods-Dovve/Pods-Dovve.debug.xcconfig"; sourceTree = "<group>"; };
 		CCAC2841E400CF6F55FCA9D4 /* Pods_Dovve.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dovve.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA3B84137003676414685CB4 /* Pods-Dovve.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dovve.release.xcconfig"; path = "Target Support Files/Pods-Dovve/Pods-Dovve.release.xcconfig"; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				44FAE84F2514D0DE006D6867 /* UIButton.swift */,
 				44FE6A882516301A00284738 /* UIView.swift */,
 				44FE6A8E2517439000284738 /* NSTextAttachment.swift */,
+				44FE6A9C2518433E00284738 /* ColorTheme.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 				44FAE82D2514ADEC006D6867 /* SceneDelegate.swift in Sources */,
 				44FAE84E2514C950006D6867 /* LoginCardView.swift in Sources */,
 				44FAE84B2514C704006D6867 /* Constants.swift in Sources */,
+				44FE6A9D2518433E00284738 /* ColorTheme.swift in Sources */,
 				44FE6A95251751E700284738 /* ProfileStrechyHeader.swift in Sources */,
 				44FE6A99251755B900284738 /* CustomProfileNavBar.swift in Sources */,
 				44FE6A852515FEAB00284738 /* HomeViewController.swift in Sources */,

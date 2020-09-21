@@ -51,7 +51,7 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate{
     func setUpViews(){
         self.tabBar.isTranslucent = false
         self.tabBar.backgroundImage = UIImage()
-        self.tabBar.barTintColor = UIColor.white
+        self.tabBar.barTintColor = UIColor.dynamicColor(.appBackground)
     }
     
     func customTab(selectedImage image1 : String , deselectedImage image2: String , indexOfTab index: Int , tabTitle title: String ){

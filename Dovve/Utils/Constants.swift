@@ -19,6 +19,7 @@ struct CustomColors {
     static let appDarkGray = UIColor(red: 101/255, green: 119/255, blue: 134/255, alpha: 1)
     static let appBlack = UIColor(red: 20/255, green: 23/255, blue: 26/255, alpha: 1)
     static let appBlue = UIColor(red: 29/255, green: 161/255, blue: 242/255, alpha: 1)
+    static let appBackground = UIColor(red: 21/255, green: 33/255, blue: 43/255, alpha: 1)
 }
 
 struct CustomFonts {
