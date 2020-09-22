@@ -20,7 +20,7 @@ class LoginCardView: UIView {
         let l = UILabel()
         l.font = UIFont(name: CustomFonts.appFontBold, size: 30)
         l.text = "Welcome folks!"
-        l.textColor = CustomColors.appBlack
+        l.textColor = UIColor.dynamicColor(.textColor)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()

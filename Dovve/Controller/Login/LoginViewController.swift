@@ -32,14 +32,14 @@ class LoginViewController: UIViewController {
         let v = LoginCardView()
         v.controller = self
         v.translatesAutoresizingMaskIntoConstraints = false
-        v.backgroundColor = .white
+        v.backgroundColor = UIColor.dynamicColor(.appBackground)
         v.layer.cornerRadius = 30
         return v
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = CustomColors.appExtraLightGray
+        view.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
         view.addSubview(loginCardView)
         view.addSubview(logoCard)
         logoCard.addSubview(appLogo)
@@ -54,11 +54,13 @@ class LoginViewController: UIViewController {
     
     func setUpConstraints(){
         NSLayoutConstraint.activate([
+            
             loginCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             loginCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             loginCardView.heightAnchor.constraint(equalToConstant: 300),
             
             logoCard.topAnchor.constraint(equalTo: view.topAnchor , constant: 20),
+            
             logoCard.bottomAnchor.constraint(equalTo: loginCardView.topAnchor, constant: -20),
             logoCard.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             logoCard.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),

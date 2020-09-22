@@ -1,14 +1,22 @@
 //
-//  HomeFeedCollectionViewCell.swift
+//  PostWithImagesCollectionViewCell.swift
 //  Dovve
 //
-//  Created by Dheeraj Kumar Sharma on 19/09/20.
+//  Created by Dheeraj Kumar Sharma on 21/09/20.
 //  Copyright © 2020 Dheeraj Kumar Sharma. All rights reserved.
 //
 
 import UIKit
 
-class HomeFeedCollectionViewCell: UICollectionViewCell {
+class PostWithImagesCollectionViewCell: UICollectionViewCell {
+    
+    let imageCount = 4
+    
+    var data:SimpleTextedPost?{
+        didSet{
+            manageData()
+        }
+    }
     
     let userProfileImage:UIImageView = {
         let img = UIImageView()
@@ -29,10 +37,26 @@ class HomeFeedCollectionViewCell: UICollectionViewCell {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.font = UIFont(name: CustomFonts.appFont, size: 17)
-        l.text = "Long converstion goes here, tweet content goes here. Long converstion goes here, tweet content goes here. Long converstion goes here."
         l.textColor = UIColor.dynamicColor(.textColor)
         l.numberOfLines = 0
         return l
+    }()
+    
+    lazy var collectionView:UICollectionView = {
+        let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
+        layout.scrollDirection = .vertical
+        let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewLayout.init())
+        cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.showsVerticalScrollIndicator = false
+        cv.setCollectionViewLayout(layout, animated: false)
+        cv.backgroundColor = UIColor.dynamicColor(.appBackground)
+        cv.layer.cornerRadius = 15
+        cv.layer.borderWidth = 0.7
+        cv.delegate = self
+        cv.dataSource = self
+        cv.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: "ImageCollectionViewCell")
+        cv.layer.borderColor = UIColor.dynamicColor(.secondaryBackground).cgColor
+        return cv
     }()
     
     let stackView:UIStackView = {
@@ -137,6 +161,7 @@ class HomeFeedCollectionViewCell: UICollectionViewCell {
         addSubview(userProfileImage)
         addSubview(userInfo)
         addSubview(tweet)
+        addSubview(collectionView)
         addSubview(stackView)
         stackView.addArrangedSubview(commentView)
         commentView.addSubview(commentImage)
@@ -154,8 +179,6 @@ class HomeFeedCollectionViewCell: UICollectionViewCell {
         shareView.addSubview(shareImage)
         
         setUpConstraints()
-        
-        setUpAttributes("Full name", "username", "2h")
     }
     
     func setUpConstraints(){
@@ -173,7 +196,13 @@ class HomeFeedCollectionViewCell: UICollectionViewCell {
             tweet.topAnchor.constraint(equalTo: userInfo.bottomAnchor, constant: 5),
             tweet.leadingAnchor.constraint(equalTo: userProfileImage.trailingAnchor, constant: 10),
             tweet.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            tweet.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -10),
+            tweet.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -10),
+            
+            collectionView.leadingAnchor.constraint(equalTo: userProfileImage.trailingAnchor, constant: 10),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            collectionView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -10),
+            //Fixed Height of ratio 16:9 of a Width.
+            collectionView.heightAnchor.constraint(equalToConstant: (self.frame.width - 100) * (9/16)),
             
             stackView.leadingAnchor.constraint(equalTo: userProfileImage.trailingAnchor, constant: 10),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
@@ -211,27 +240,51 @@ class HomeFeedCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setUpAttributes( _ name:String, _ userName:String , _ time:String){
-        let attributedText = NSMutableAttributedString(string:"\(name) " , attributes:[NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Medium", size: 17)!, NSAttributedString.Key.foregroundColor: UIColor.dynamicColor(.textColor)])
-        
-        let font = UIFont.systemFont(ofSize: 16)
-        let verifiyImg = UIImage(named:"verify")
-        let verifiedImage = NSTextAttachment()
-        verifiedImage.image = verifiyImg
-        verifiedImage.bounds = CGRect(x: 0, y: (font.capHeight - 16).rounded() / 2, width: 16, height: 16)
-        verifiedImage.setImageHeight(height: 16)
-        let imgString = NSAttributedString(attachment: verifiedImage)
-        attributedText.append(imgString)
-        
-        attributedText.append(NSAttributedString(string: " @\(userName)" , attributes:[NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 17)! , NSAttributedString.Key.foregroundColor: CustomColors.appDarkGray]))
-        
-        attributedText.append(NSAttributedString(string: " • \(time)" , attributes:[NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 17)!, NSAttributedString.Key.foregroundColor: CustomColors.appDarkGray]))
-        
-        userInfo.attributedText = attributedText
+    func manageData(){
+        guard let data = data else {return}
+        userInfo.attributedText = setUserInfoAttributes(data.name, data.screen_name, data.time, data.isVerified)
+        tweet.text = data.tweet
+        commentLabel.text = data.comments
+        retweetLabel.text = data.retweets
+        likeLabel.text = data.likes
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension PostWithImagesCollectionViewCell:UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return (data?.media.count)!
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionViewCell", for: indexPath) as! ImageCollectionViewCell
+        cell.data = data?.media[indexPath.row]
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if (data?.media.count) == 1 {
+          return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+        }
+        if (data?.media.count) == 2 || (data?.media.count) == 3 {
+          return CGSize(width: ((collectionView.frame.width / 2) - 1), height: collectionView.frame.height)
+        }
+        if (data?.media.count) == 4{
+            return CGSize(width: ((collectionView.frame.width / 2) - 1), height: ((collectionView.frame.height / 2) - 1))
+        }
+        return CGSize()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 2
     }
     
 }
