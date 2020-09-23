@@ -18,7 +18,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = LoginViewController()
+        
+        let userDefaults = UserDefaults.standard
+        if userDefaults.bool(forKey: "LoggedIn") {
+            window?.rootViewController = CustomTabBarController()
+        } else {
+            window?.rootViewController = LoginViewController()
+        }
+        
         window?.makeKeyAndVisible()
     }
     

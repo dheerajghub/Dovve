@@ -8,6 +8,9 @@
 
 import UIKit
 import TwitterKit
+import Alamofire
+import SwiftKeychainWrapper
+import SwiftyJSON
 
 class LoginViewController: UIViewController {
 
@@ -92,9 +95,18 @@ class LoginViewController: UIViewController {
         loginCardView.loginBtn.touchAnimation(s: loginCardView.loginBtn)
         TWTRTwitter.sharedInstance().logIn { (session, err) in
             if session != nil {
-                print("Login Succefully")
-                print(session?.authToken)
-                print(session?.authTokenSecret)
+                let authToken = session?.authToken
+                let authTokenSecret = session?.authTokenSecret
+                
+                // Storing the sensitive data to the Keychain
+                let _: Bool = KeychainWrapper.standard.set(authToken!, forKey: "authToken")
+                let _: Bool = KeychainWrapper.standard.set(authTokenSecret!, forKey: "authTokenSecret")
+                
+                // storing the firstLaunch in user defaults
+                let userDefault = UserDefaults.standard
+                userDefault.set(true, forKey: "LoggedIn")
+                userDefault.synchronize()
+                
                 let VC = CustomTabBarController()
                 VC.modalPresentationStyle = .fullScreen
                 self.present(VC, animated: true, completion: nil)
