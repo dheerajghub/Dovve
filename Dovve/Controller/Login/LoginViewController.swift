@@ -90,21 +90,18 @@ class LoginViewController: UIViewController {
     
     @objc func loginBtnPressed(){
         loginCardView.loginBtn.touchAnimation(s: loginCardView.loginBtn)
-        let VC = CustomTabBarController()
-        VC.modalPresentationStyle = .fullScreen
-        self.present(VC, animated: true, completion: nil)
-//        TWTRTwitter.sharedInstance().logIn { (session, err) in
-//            if session != nil {
-//                print("Login Succefully")
-//                print(session?.authToken)
-//                print(session?.authTokenSecret)
-//                let VC = HomeViewController()
-//                VC.modalPresentationStyle = .fullScreen
-//                self.present(VC, animated: true, completion: nil)
-//            } else {
-//                print(err.debugDescription)
-//            }
-//        }
+        TWTRTwitter.sharedInstance().logIn { (session, err) in
+            if session != nil {
+                print("Login Succefully")
+                print(session?.authToken)
+                print(session?.authTokenSecret)
+                let VC = CustomTabBarController()
+                VC.modalPresentationStyle = .fullScreen
+                self.present(VC, animated: true, completion: nil)
+            } else {
+                print(err.debugDescription)
+            }
+        }
     }
 
 }

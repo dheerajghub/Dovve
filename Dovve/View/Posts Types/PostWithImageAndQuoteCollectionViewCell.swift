@@ -65,7 +65,7 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
         v.translatesAutoresizingMaskIntoConstraints = false
         v.layer.cornerRadius = 15
         v.layer.borderColor = UIColor.dynamicColor(.secondaryBackground).cgColor
-        v.layer.borderWidth = 1
+        v.layer.borderWidth = 0.7
         return v
     }()
     
