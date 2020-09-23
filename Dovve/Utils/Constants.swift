@@ -8,9 +8,10 @@
 
 import UIKit
 
-enum AppKeys:String {
+enum Constants:String {
     case CONSUMER_KEY = "tzhUIRN0hrV6lCGW0r5taqYyV" //ADD YOUR CONSUMER KEY HERE
     case CONSUMER_SECRET = "ZEclCX6OT2nXWzTp8R1SgIYAtLO1arh6bnL6yVtx2lKj70RCOG" //ADD YOUR CONSUMER SECRET HERE.
+    case BASE_URL = "https://api.twitter.com"
 }
 
 struct CustomColors {

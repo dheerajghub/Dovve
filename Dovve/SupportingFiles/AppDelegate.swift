@@ -13,7 +13,7 @@ import TwitterKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        TWTRTwitter.sharedInstance().start(withConsumerKey:"\(AppKeys.CONSUMER_KEY.rawValue)", consumerSecret:"\(AppKeys.CONSUMER_SECRET.rawValue)")
+        TWTRTwitter.sharedInstance().start(withConsumerKey:"\(Constants.CONSUMER_KEY.rawValue)", consumerSecret:"\(Constants.CONSUMER_SECRET.rawValue)")
         return true
     }
 

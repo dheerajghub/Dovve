@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
+import SwiftKeychainWrapper
 
 class HomeViewController: UIViewController {
 
@@ -33,6 +36,9 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        fetchData()
+        
         view.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
         view.addSubview(collectionView)
         collectionView.pin(to: view)
@@ -151,6 +157,81 @@ extension HomeViewController:UICollectionViewDelegate , UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0.7
+    }
+    
+}
+
+extension HomeViewController{
+    
+    func fetchData(){
+        
+        let url = "\(Constants.BASE_URL.rawValue)/1.1/statuses/home_timeline.json"
+//        let url = "https://bb08dc8de14dbb0fda369a65b0aa4650.m.pipedream.net"
+        let authToken: String? = KeychainWrapper.standard.string(forKey: "authToken")
+        let authTokenSecret:String? = KeychainWrapper.standard.string(forKey: "authTokenSecret")
+        
+        let nonce = generateNonce(lenght: 32)
+        
+        let signature = generateSignature(request: "GET", timeStamp: Int(NSDate().timeIntervalSince1970), nonce: nonce, signatureMethod: "HMAC-SHA1", consumerKey: Constants.CONSUMER_KEY.rawValue, url: url, version: "1.0", consumerSecret: Constants.CONSUMER_SECRET.rawValue, tokenSecret: authTokenSecret!).addingPercentEncoding(withAllowedCharacters: .alphanumerics)
+        print(signature)
+        
+        let headers:HTTPHeaders = [
+            "Authorization":"OAuth oauth_consumer_key=\"\(Constants.CONSUMER_KEY.rawValue)\",oauth_token=\"\(authToken ?? "")\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"\(Int(NSDate().timeIntervalSince1970))\",oauth_nonce=\"\(nonce)\",oauth_version=\"1.0\",oauth_signature=\"\(signature ?? "")\"",
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+        
+        print(headers)
+        
+        let method: HTTPMethod = .get
+        
+        AF.request(url, method: method , encoding: URLEncoding.httpBody, headers: headers).responseJSON { response in
+            switch(response.result){
+            case .success(_):
+                print(JSON(response.value!))
+            case .failure(_):
+                print("error")
+            }
+        }
+        
+    }
+    
+    func generateNonce(lenght: Int) -> String{
+        let nonce = NSMutableData(length: lenght)
+        let result = SecRandomCopyBytes(kSecRandomDefault, nonce!.length, nonce!.mutableBytes)
+        let base64str = nonce!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+        return "\(base64str.removeSpecialCharsFromString())"
+    }
+    
+    func generateSignature(request:String , timeStamp:Int , nonce:String , signatureMethod:String, consumerKey:String , url:String , version:String , consumerSecret:String , tokenSecret:String) -> String {
+        
+        let urlEncoded = url.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+        
+        let remainingString = "oauth_consumer_key=\(consumerKey)&oauth_nonce=\(nonce)&oauth_signature_method=\(signatureMethod)&oauth_timestamp=\(timeStamp)&oauth_version=\(version)"
+        
+        print(nonce)
+        print(urlEncoded)
+        
+        let remainingStringEncoded = remainingString.stringByAddingPercentEncodingForRFC3986()
+        
+        print(remainingStringEncoded)
+        
+        let base = "\(request)&\(urlEncoded ?? "")&\(remainingStringEncoded ?? "")"
+        
+        print(base)
+        
+        let consumerSecret = consumerSecret.addingPercentEncoding(withAllowedCharacters: .alphanumerics)
+        let tokenSecret = tokenSecret.addingPercentEncoding(withAllowedCharacters: .alphanumerics)
+        
+        let key = "\(consumerSecret ?? "")&\(tokenSecret ?? "")"
+        
+        print(key)
+        
+//        let result = base.hmac(algorithm: .SHA1, key: key)
+        let result = HMAC.sha1(key: key.data, message: base.data)
+        guard let signatureString = result?.base64EncodedString() else {
+          fatalError("Error making signature")
+        }
+        return signatureString
     }
     
 }

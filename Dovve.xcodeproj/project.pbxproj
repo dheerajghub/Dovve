@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4431C946251B7A4D00CC1CB6 /* TwitterOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4431C945251B7A4D00CC1CB6 /* TwitterOAuth.swift */; };
 		446DA6772519E027004A818E /* PostWithImageAndQuoteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DA6762519E027004A818E /* PostWithImageAndQuoteCollectionViewCell.swift */; };
 		446DA6792519E786004A818E /* PostWithImageAndQuotedImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DA6782519E786004A818E /* PostWithImageAndQuotedImageCollectionViewCell.swift */; };
+		446DA67B251B0E68004A818E /* Oauth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DA67A251B0E68004A818E /* Oauth.swift */; };
+		446DA67E251B6C43004A818E /* HomeTimeLineData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DA67D251B6C43004A818E /* HomeTimeLineData.swift */; };
 		44FAE82B2514ADEC006D6867 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FAE82A2514ADEC006D6867 /* AppDelegate.swift */; };
 		44FAE82D2514ADEC006D6867 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FAE82C2514ADEC006D6867 /* SceneDelegate.swift */; };
 		44FAE8342514ADF3006D6867 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44FAE8332514ADF3006D6867 /* Assets.xcassets */; };
@@ -43,8 +46,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4431C945251B7A4D00CC1CB6 /* TwitterOAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterOAuth.swift; sourceTree = "<group>"; };
 		446DA6762519E027004A818E /* PostWithImageAndQuoteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostWithImageAndQuoteCollectionViewCell.swift; sourceTree = "<group>"; };
 		446DA6782519E786004A818E /* PostWithImageAndQuotedImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostWithImageAndQuotedImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		446DA67A251B0E68004A818E /* Oauth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oauth.swift; sourceTree = "<group>"; };
+		446DA67C251B1045004A818E /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Bridging-Header.h"; path = "Dovve/Utils/Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		446DA67D251B6C43004A818E /* HomeTimeLineData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTimeLineData.swift; sourceTree = "<group>"; };
 		44FAE8272514ADEC006D6867 /* Dovve.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dovve.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44FAE82A2514ADEC006D6867 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44FAE82C2514ADEC006D6867 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -181,6 +188,9 @@
 				44FE6A9C2518433E00284738 /* ColorTheme.swift */,
 				44FE6AA325189BD800284738 /* UIString.swift */,
 				44FE6AAD2519B38200284738 /* NSAttributedString.swift */,
+				446DA67A251B0E68004A818E /* Oauth.swift */,
+				446DA67C251B1045004A818E /* Bridging-Header.h */,
+				4431C945251B7A4D00CC1CB6 /* TwitterOAuth.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -224,6 +234,7 @@
 				44FE6A842515FEAB00284738 /* HomeViewController.swift */,
 				44FE6A8C251741E600284738 /* MentionsViewController.swift */,
 				44FE6A902517482800284738 /* ProfileViewController.swift */,
+				446DA67D251B6C43004A818E /* HomeTimeLineData.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -384,12 +395,15 @@
 				44FE6A8D251741E600284738 /* MentionsViewController.swift in Sources */,
 				44FAE82D2514ADEC006D6867 /* SceneDelegate.swift in Sources */,
 				44FAE84E2514C950006D6867 /* LoginCardView.swift in Sources */,
+				446DA67E251B6C43004A818E /* HomeTimeLineData.swift in Sources */,
 				44FE6AB02519B97600284738 /* QuotedPostWithImageCollectionViewCell.swift in Sources */,
 				44FAE84B2514C704006D6867 /* Constants.swift in Sources */,
 				44FE6AAE2519B38200284738 /* NSAttributedString.swift in Sources */,
+				4431C946251B7A4D00CC1CB6 /* TwitterOAuth.swift in Sources */,
 				44FE6A9D2518433E00284738 /* ColorTheme.swift in Sources */,
 				44FE6AAC2518D8F800284738 /* CustomQuotedView.swift in Sources */,
 				44FE6A95251751E700284738 /* ProfileStrechyHeader.swift in Sources */,
+				446DA67B251B0E68004A818E /* Oauth.swift in Sources */,
 				44FE6AA425189BD800284738 /* UIString.swift in Sources */,
 				44FE6A99251755B900284738 /* CustomProfileNavBar.swift in Sources */,
 				44FE6AA62518A46300284738 /* PostWithImagesCollectionViewCell.swift in Sources */,
@@ -548,6 +562,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = dheerajdev.Dovve;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Dovve/Utils/Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -567,6 +582,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = dheerajdev.Dovve;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Dovve/Utils/Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
