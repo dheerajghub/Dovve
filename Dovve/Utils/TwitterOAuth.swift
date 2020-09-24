@@ -10,26 +10,27 @@ import Foundation
 import Alamofire
 
 public struct TwitterSignatureParameters {
-  let includeEntities: Bool
-  let oauthConsumerKey: String
-  let oauthSignatureMethod: String
-  let oauthTimestamp: String
-  let oauthToken: String
-  let oauthVersion: String
-  let oauthNonce: String
-  let urlString: String
+    let includeEntities: Bool
+    let oauthConsumerKey: String
+    let oauthSignatureMethod: String
+    let oauthTimestamp: String
+    let oauthToken: String
+    let oauthVersion: String
+    let oauthNonce: String
+    let urlString: String
+    let params:String
 
-  var parameterString: String {
+    var parameterString: String {
     var string: String = ""
-    // string.append("include_entities=true&")
-    string.append("oauth_consumer_key=\(oauthConsumerKey.percentEscaped)&")
-    string.append("oauth_nonce=\(oauthNonce.percentEscaped)&")
-    string.append("oauth_signature_method=\(oauthSignatureMethod.percentEscaped)&")
-    string.append("oauth_timestamp=\(oauthTimestamp.percentEscaped)&")
-    string.append("oauth_token=\(oauthToken.percentEscaped)&")
-    string.append("oauth_version=1.0")
-    return string
-  }
+        string.append("oauth_consumer_key=\(oauthConsumerKey.percentEscaped)&")
+        string.append("oauth_nonce=\(oauthNonce.percentEscaped)&")
+        string.append("oauth_signature_method=\(oauthSignatureMethod.percentEscaped)&")
+        string.append("oauth_timestamp=\(oauthTimestamp.percentEscaped)&")
+        string.append("oauth_token=\(oauthToken.percentEscaped)&")
+        string.append("oauth_version=1.0")
+        string.append("\(params)")
+        return string
+    }
 }
 
 class TwitterSwiftLite {

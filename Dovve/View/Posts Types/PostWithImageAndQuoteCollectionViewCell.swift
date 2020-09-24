@@ -10,7 +10,7 @@ import UIKit
 
 class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
    
-    var data:SimpleTextedPost?{
+    var data:TweetData?{
         didSet{
             manageData()
         }
@@ -18,13 +18,21 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
     
     var quotedViewHeightContraints:NSLayoutConstraint?
     
-    let userProfileImage:UIImageView = {
-        let img = UIImageView()
+    let userProfileImage:CustomImageView = {
+        let img = CustomImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFill
         img.backgroundColor = .lightGray
         img.layer.cornerRadius = 25
         return img
+    }()
+    
+    let userBackImageView:UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
+        v.layer.cornerRadius = 25
+        return v
     }()
     
     let userInfo:UILabel = {
@@ -169,6 +177,7 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         backgroundColor = UIColor.dynamicColor(.appBackground)
         addSubview(userProfileImage)
+        addSubview(userBackImageView)
         addSubview(userInfo)
         addSubview(tweet)
         addSubview(collectionView)
@@ -199,6 +208,11 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
             userProfileImage.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             userProfileImage.widthAnchor.constraint(equalToConstant: 50),
             userProfileImage.heightAnchor.constraint(equalToConstant: 50),
+            
+            userBackImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            userBackImageView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            userBackImageView.widthAnchor.constraint(equalToConstant: 50),
+            userBackImageView.heightAnchor.constraint(equalToConstant: 50),
             
             userInfo.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             userInfo.leadingAnchor.constraint(equalTo: userProfileImage.trailingAnchor , constant: 10),
@@ -258,19 +272,20 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
     
     func manageData(){
         guard let data = data else {return}
-        userInfo.attributedText = setUserInfoAttributes(data.name, data.screen_name, data.time, data.isVerified)
-        tweet.text = data.tweet
-        commentLabel.text = data.comments
-        retweetLabel.text = data.retweets
-        likeLabel.text = data.likes
+        userInfo.attributedText = setUserInfoAttributes(data.user.name, data.user.screenName, data.createdAt, data.user.isVerified)
+        tweet.text = data.text
+        userProfileImage.cacheImageWithLoader(withURL: data.user.profileImage, view: userBackImageView)
+//        commentLabel.text = data.comments
+        retweetLabel.text = "\(data.retweetCount ?? 0)"
+        likeLabel.text = "\(data.favoriteCount ?? 0)"
         
         //Quoted View data
-        quotedView.profileImageView.image = UIImage(named: data.quotedStatus.profileImage)
-        quotedView.userInfo.attributedText = setUserInfoAttributes(data.quotedStatus.name, data.quotedStatus.screen_name, data.quotedStatus.time, data.quotedStatus.isVerified)
-        quotedView.tweet.text = data.quotedStatus.tweet
+        quotedView.profileImageView.cacheImageWithLoader(withURL: data.tweetQuotedStatus.user.profileImage, view: quotedView.profileBackImageView)
+        quotedView.userInfo.attributedText = setUserInfoAttributes(data.tweetQuotedStatus.user.name, data.tweetQuotedStatus.user.screenName, data.tweetQuotedStatus.createdAt, data.tweetQuotedStatus.user.isVerified)
+        quotedView.tweet.text = data.tweetQuotedStatus.text
         
         let font = UIFont(name: CustomFonts.appFont, size: 17)!
-        let estimatedH = data.quotedStatus.tweet.height(withWidth: ((self.frame.width - 100) - 30), font: font)
+        let estimatedH = data.tweetQuotedStatus.text.height(withWidth: ((self.frame.width - 100) - 30), font: font)
         quotedViewHeightContraints = quotedView.heightAnchor.constraint(equalToConstant: estimatedH + 60)
         quotedViewHeightContraints?.isActive = true
     }

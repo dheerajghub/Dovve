@@ -13,14 +13,22 @@ class CustomQuotedView: UIView {
     var delegate:QuotedPostCollectionViewCell?
     var delegate2:PostWithImageAndQuoteCollectionViewCell?
     
-    let profileImageView:UIImageView = {
-        let img = UIImageView()
+    let profileImageView:CustomImageView = {
+        let img = CustomImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFill
         img.image = UIImage(named: "demo")
         img.clipsToBounds = true
         img.layer.cornerRadius = 12.5
         return img
+    }()
+    
+    let profileBackImageView:UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
+        v.layer.cornerRadius = 12.5
+        return v
     }()
     
     let userInfo:UILabel = {
@@ -42,6 +50,7 @@ class CustomQuotedView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(profileImageView)
+        addSubview(profileBackImageView)
         addSubview(userInfo)
         addSubview(tweet)
         setUpConstraints()
@@ -55,6 +64,11 @@ class CustomQuotedView: UIView {
             profileImageView.widthAnchor.constraint(equalToConstant: 25),
             profileImageView.heightAnchor.constraint(equalToConstant: 25),
             profileImageView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            
+            profileBackImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            profileBackImageView.widthAnchor.constraint(equalToConstant: 25),
+            profileBackImageView.heightAnchor.constraint(equalToConstant: 25),
+            profileBackImageView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             
             userInfo.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
             userInfo.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),

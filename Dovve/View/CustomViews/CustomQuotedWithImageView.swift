@@ -15,14 +15,22 @@ class CustomQuotedWithImageView: UIView {
     var delegate:QuotedPostWithImageCollectionViewCell?
     var delegate2:PostWithImageAndQuotedImageCollectionViewCell?
     
-    let profileImageView:UIImageView = {
-        let img = UIImageView()
+    let profileImageView:CustomImageView = {
+        let img = CustomImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFill
         img.image = UIImage(named: "demo")
         img.clipsToBounds = true
         img.layer.cornerRadius = 12.5
         return img
+    }()
+    
+    let profileBackImageView:UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
+        v.layer.cornerRadius = 12.5
+        return v
     }()
     
     let userInfo:UILabel = {
@@ -58,6 +66,7 @@ class CustomQuotedWithImageView: UIView {
         super.init(frame: frame)
         layer.masksToBounds = true
         addSubview(profileImageView)
+        addSubview(profileBackImageView)
         addSubview(userInfo)
         addSubview(tweet)
         addSubview(collectionView)
@@ -71,6 +80,11 @@ class CustomQuotedWithImageView: UIView {
             profileImageView.widthAnchor.constraint(equalToConstant: 25),
             profileImageView.heightAnchor.constraint(equalToConstant: 25),
             profileImageView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            
+            profileBackImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            profileBackImageView.widthAnchor.constraint(equalToConstant: 25),
+            profileBackImageView.heightAnchor.constraint(equalToConstant: 25),
+            profileBackImageView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             
             userInfo.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
             userInfo.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),

@@ -9,8 +9,6 @@
 import Foundation
 
 struct SimpleTextedPost {
-    
-    //Must
     let profileImage:String!
     let name:String!
     let screen_name:String!
@@ -18,7 +16,6 @@ struct SimpleTextedPost {
     let time:String!
     let media:[String]!
     
-    //Extras
     let tweet:String!
     let comments:String!
     let retweets:String!
@@ -36,4 +33,35 @@ struct QuotedStatus {
     let isVerified:Bool!
     let tweet:String!
     let media:[String]!
+}
+
+//
+
+struct TweetQuotedStatus {
+    let createdAt:String!
+    let user:TweetUser!
+    let text:String!
+    let media:[String]!
+}
+
+struct TweetUser {
+    let userId:String!
+    let name:String!
+    let screenName:String!
+    let profileImage:String!
+    let isVerified:Bool!
+}
+
+struct TweetData {
+    let createdAt:String!
+    let id:String!
+    let text:String!
+    let user:TweetUser!
+    let media:[String]!
+    let isQuotedStatus:Bool!
+    let tweetQuotedStatus:TweetQuotedStatus!
+    let retweetCount:Int!
+    let favoriteCount:Int!
+    let favorited:Bool!
+    let retweeted:Bool!
 }

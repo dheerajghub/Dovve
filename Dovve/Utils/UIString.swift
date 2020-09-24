@@ -44,4 +44,8 @@ extension String {
       }
       return escapedString
     }
+    
+    func removeLastLink() -> String {
+        return self.components(separatedBy: " ").dropLast().joined(separator: " ")
+    }
 }

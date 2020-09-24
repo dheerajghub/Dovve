@@ -21,8 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let userDefaults = UserDefaults.standard
         if userDefaults.bool(forKey: "LoggedIn") {
-//            window?.rootViewController = CustomTabBarController()
-            window?.rootViewController = HomeTimeLineData()
+            window?.rootViewController = CustomTabBarController()
+//            window?.rootViewController = HomeTimeLineData()
         } else {
             window?.rootViewController = LoginViewController()
         }

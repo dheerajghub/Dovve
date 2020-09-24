@@ -10,21 +10,27 @@ import UIKit
 
 class PostWithImagesCollectionViewCell: UICollectionViewCell {
     
-    let imageCount = 4
-    
-    var data:SimpleTextedPost?{
+    var data:TweetData?{
         didSet{
             manageData()
         }
     }
     
-    let userProfileImage:UIImageView = {
-        let img = UIImageView()
+    let userProfileImage:CustomImageView = {
+        let img = CustomImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFill
         img.backgroundColor = .lightGray
         img.layer.cornerRadius = 25
         return img
+    }()
+    
+    let userBackImageView:UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
+        v.layer.cornerRadius = 25
+        return v
     }()
     
     let userInfo:UILabel = {
@@ -159,6 +165,7 @@ class PostWithImagesCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         backgroundColor = UIColor.dynamicColor(.appBackground)
         addSubview(userProfileImage)
+        addSubview(userBackImageView)
         addSubview(userInfo)
         addSubview(tweet)
         addSubview(collectionView)
@@ -187,6 +194,11 @@ class PostWithImagesCollectionViewCell: UICollectionViewCell {
             userProfileImage.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             userProfileImage.widthAnchor.constraint(equalToConstant: 50),
             userProfileImage.heightAnchor.constraint(equalToConstant: 50),
+            
+            userBackImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            userBackImageView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            userBackImageView.widthAnchor.constraint(equalToConstant: 50),
+            userBackImageView.heightAnchor.constraint(equalToConstant: 50),
             
             userInfo.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             userInfo.leadingAnchor.constraint(equalTo: userProfileImage.trailingAnchor , constant: 10),
@@ -242,11 +254,12 @@ class PostWithImagesCollectionViewCell: UICollectionViewCell {
     
     func manageData(){
         guard let data = data else {return}
-        userInfo.attributedText = setUserInfoAttributes(data.name, data.screen_name, data.time, data.isVerified)
-        tweet.text = data.tweet
-        commentLabel.text = data.comments
-        retweetLabel.text = data.retweets
-        likeLabel.text = data.likes
+        userInfo.attributedText = setUserInfoAttributes(data.user.name, data.user.screenName, data.createdAt, data.user.isVerified)
+        userProfileImage.cacheImageWithLoader(withURL: data.user.profileImage, view: userBackImageView)
+        tweet.text = data.text
+        commentLabel.text = ""
+        retweetLabel.text = "\(data.retweetCount ?? 0)"
+        likeLabel.text = "\(data.favoriteCount ?? 0)"
     }
     
     required init?(coder: NSCoder) {
