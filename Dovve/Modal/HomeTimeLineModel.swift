@@ -26,6 +26,11 @@ class QuotedViewStatus {
     var media:[String]!
 }
 
+class RetweetedData {
+    var userProfileImage:String!
+    var userID:String!
+}
+
 class HomeTimeLineModel:NSObject{
     
     var createdAt:String!
@@ -34,6 +39,8 @@ class HomeTimeLineModel:NSObject{
     var user:User!
     var media:[String]!
     var isQuotedStatus:Bool!
+    var isRetweetedStatus:Bool!
+    var retweetedBy:RetweetedData!
     var quotedStatus:QuotedViewStatus!
     var retweetCount:Int!
     var favoriteCount:Int!
@@ -44,7 +51,6 @@ class HomeTimeLineModel:NSObject{
         
         let url = "\(Constants.BASE_URL.rawValue)/1.1/statuses/home_timeline.json?tweet_mode=extended"
         let urlS = "\(Constants.BASE_URL.rawValue)/1.1/statuses/home_timeline.json"
-//        let url = "https://bb08dc8de14dbb0fda369a65b0aa4650.m.pipedream.net?tweet_mode=extended"
         let authToken: String? = KeychainWrapper.standard.string(forKey: "authToken")
         let authTokenSecret:String? = KeychainWrapper.standard.string(forKey: "authTokenSecret")
         
@@ -58,7 +64,6 @@ class HomeTimeLineModel:NSObject{
             oauthNonce: "\(UUID().uuidString)",
             urlString: urlS,
             params: "&tweet_mode=extended"
-//            params:""
         )
         
         let twitterOAuth = TwitterSwiftLite()
@@ -69,75 +74,153 @@ class HomeTimeLineModel:NSObject{
             switch(response.result){
             case .success(_):
                 let data = JSON(response.value!)
+                print(data)
                 var homeTimeLineModel = [HomeTimeLineModel]()
                 let dataCount = data.count
                 for i in 0..<dataCount{
                     let homeModel = HomeTimeLineModel()
-                    homeModel.createdAt = data[i]["created_at"].string ?? ""
-                    homeModel.id = data[i]["id_str"].string ?? ""
-                    homeModel.text = data[i]["full_text"].string ?? ""
-                    
-                    let user = User()
-                    let userData = data[i]["user"]
-                    user.userId = userData["id_str"].string ?? ""
-                    user.name = userData["name"].string ?? ""
-                    user.screen_name = userData["screen_name"].string ?? ""
-                    user.profileImage = userData["profile_image_url_https"].string ?? ""
-                    //Default verification
-                    user.isVerified = false
-                    
-                    homeModel.user = user
-                    let mediaData = data[i]["entities"]["media"].array
-                    if mediaData == nil {
-                        homeModel.media = nil
-                    } else {
-                        let mediaData = data[i]["entities"]["media"]
-                        var mediaArr = [String]()
-                        for i in 0..<mediaData.count{
-                            mediaArr.append(mediaData[i]["media_url_https"].string ?? "")
-                        }
-                        homeModel.media = mediaArr
-                    }
-                    
-                    homeModel.isQuotedStatus = data[i]["is_quote_status"].bool
-                    if data[i]["is_quote_status"] == true {
-                        let quoteView = QuotedViewStatus()
-                        let quoteData = data[i]["quoted_status"]
-                        quoteView.createdAt = quoteData["created_at"].string ?? ""
+                    let retweetedStatus = data[i]["retweeted_status"]["created_at"].string
+                    if retweetedStatus == nil {
+                        homeModel.createdAt = data[i]["created_at"].string ?? ""
+                        homeModel.id = data[i]["id_str"].string ?? ""
+                        homeModel.text = data[i]["full_text"].string ?? ""
                         
-                        let mediaData = quoteData["entities"]["media"].array
+                        let user = User()
+                        let userData = data[i]["user"]
+                        user.userId = userData["id_str"].string ?? ""
+                        user.name = userData["name"].string ?? ""
+                        user.screen_name = userData["screen_name"].string ?? ""
+                        user.profileImage = userData["profile_image_url_https"].string ?? ""
+                        user.isVerified = userData["verified"].bool
+                        
+                        homeModel.user = user
+                        let mediaData = data[i]["entities"]["media"].array
                         if mediaData == nil {
-                            quoteView.media = nil
+                            homeModel.media = nil
                         } else {
-                            let mediaData = quoteData["entities"]["media"]
+                            let mediaData = data[i]["entities"]["media"]
                             var mediaArr = [String]()
                             for i in 0..<mediaData.count{
                                 mediaArr.append(mediaData[i]["media_url_https"].string ?? "")
                             }
-                            quoteView.media = mediaArr
+                            homeModel.media = mediaArr
                         }
-                        quoteView.text = quoteData["full_text"].string ?? ""
                         
-                        let quotedUser = User()
-                        let quotedUserData = quoteData["user"]
-                        quotedUser.userId = quotedUserData["id_str"].string ?? ""
-                        quotedUser.name = quotedUserData["name"].string ?? ""
-                        quotedUser.screen_name = quotedUserData["screen_name"].string ?? ""
-                        quotedUser.profileImage = quotedUserData["profile_image_url_https"].string ?? ""
-                        //Default verification
-                        quotedUser.isVerified = false
+                        homeModel.isRetweetedStatus = false
+                        homeModel.retweetedBy = nil
                         
-                        quoteView.user = quotedUser
-                        homeModel.quotedStatus = quoteView
+                        homeModel.isQuotedStatus = data[i]["is_quote_status"].bool
+                        if data[i]["is_quote_status"] == true {
+                            let quoteView = QuotedViewStatus()
+                            let quoteData = data[i]["quoted_status"]
+                            quoteView.createdAt = quoteData["created_at"].string ?? ""
+                            
+                            let mediaData = quoteData["entities"]["media"].array
+                            if mediaData == nil {
+                                quoteView.media = nil
+                            } else {
+                                let mediaData = quoteData["entities"]["media"]
+                                var mediaArr = [String]()
+                                for i in 0..<mediaData.count{
+                                    mediaArr.append(mediaData[i]["media_url_https"].string ?? "")
+                                }
+                                quoteView.media = mediaArr
+                            }
+                            quoteView.text = quoteData["full_text"].string ?? ""
+                            
+                            let quotedUser = User()
+                            let quotedUserData = quoteData["user"]
+                            quotedUser.userId = quotedUserData["id_str"].string ?? ""
+                            quotedUser.name = quotedUserData["name"].string ?? ""
+                            quotedUser.screen_name = quotedUserData["screen_name"].string ?? ""
+                            quotedUser.profileImage = quotedUserData["profile_image_url_https"].string ?? ""
+                            quotedUser.isVerified = quotedUserData["verified"].bool
+                            
+                            quoteView.user = quotedUser
+                            homeModel.quotedStatus = quoteView
+                        } else {
+                            homeModel.quotedStatus = nil
+                        }
+                        homeModel.retweetCount = data[i]["retweet_count"].int
+                        homeModel.favoriteCount = data[i]["favorite_count"].int
+                        homeModel.favorited = data[i]["favorited"].bool
+                        homeModel.retweeted = data[i]["retweeted"].bool
+                        
+                        homeTimeLineModel.append(homeModel)
+                        
                     } else {
-                        homeModel.quotedStatus = nil
+                        
+                        let retweetedData = data[i]["retweeted_status"]
+                        homeModel.createdAt = retweetedData["created_at"].string ?? ""
+                        homeModel.id = retweetedData["id_str"].string ?? ""
+                        homeModel.text = retweetedData["full_text"].string ?? ""
+                        let user = User()
+                        let userData = retweetedData["user"]
+                        user.userId = userData["id_str"].string ?? ""
+                        user.name = userData["name"].string ?? ""
+                        user.screen_name = userData["screen_name"].string ?? ""
+                        user.profileImage = userData["profile_image_url_https"].string ?? ""
+                        user.isVerified = userData["verified"].bool
+                        
+                        homeModel.user = user
+                        let mediaData = data[i]["entities"]["media"].array
+                        if mediaData == nil {
+                            homeModel.media = nil
+                        } else {
+                            let mediaData = data[i]["entities"]["media"]
+                            var mediaArr = [String]()
+                            for i in 0..<mediaData.count{
+                                mediaArr.append(mediaData[i]["media_url_https"].string ?? "")
+                            }
+                            homeModel.media = mediaArr
+                        }
+                        
+                        homeModel.isRetweetedStatus = true
+                        let retweetedByUserData = RetweetedData()
+                        retweetedByUserData.userID = data[i]["user"]["id_str"].string
+                        retweetedByUserData.userProfileImage = data[i]["user"]["profile_image_url_https"].string
+                        homeModel.retweetedBy = retweetedByUserData
+                        
+                        homeModel.isQuotedStatus = data[i]["is_quote_status"].bool
+                        if data[i]["is_quote_status"] == true {
+                            let quoteView = QuotedViewStatus()
+                            let quoteData = data[i]["quoted_status"]
+                            quoteView.createdAt = quoteData["created_at"].string ?? ""
+                            
+                            let mediaData = quoteData["entities"]["media"].array
+                            if mediaData == nil {
+                                quoteView.media = nil
+                            } else {
+                                let mediaData = quoteData["entities"]["media"]
+                                var mediaArr = [String]()
+                                for i in 0..<mediaData.count{
+                                    mediaArr.append(mediaData[i]["media_url_https"].string ?? "")
+                                }
+                                quoteView.media = mediaArr
+                            }
+                            quoteView.text = quoteData["full_text"].string ?? ""
+                            
+                            let quotedUser = User()
+                            let quotedUserData = quoteData["user"]
+                            quotedUser.userId = quotedUserData["id_str"].string ?? ""
+                            quotedUser.name = quotedUserData["name"].string ?? ""
+                            quotedUser.screen_name = quotedUserData["screen_name"].string ?? ""
+                            quotedUser.profileImage = quotedUserData["profile_image_url_https"].string ?? ""
+                            quotedUser.isVerified = quotedUserData["verified"].bool
+                            
+                            quoteView.user = quotedUser
+                            homeModel.quotedStatus = quoteView
+                        } else {
+                            homeModel.quotedStatus = nil
+                        }
+                        homeModel.retweetCount = data[i]["retweet_count"].int
+                        homeModel.favoriteCount = data[i]["favorite_count"].int
+                        homeModel.favorited = data[i]["favorited"].bool
+                        homeModel.retweeted = data[i]["retweeted"].bool
+                        
+                        homeTimeLineModel.append(homeModel)
                     }
-                    homeModel.retweetCount = data[i]["retweet_count"].int
-                    homeModel.favoriteCount = data[i]["favorite_count"].int
-                    homeModel.favorited = data[i]["favorited"].bool
-                    homeModel.retweeted = data[i]["retweeted"].bool
                     
-                    homeTimeLineModel.append(homeModel)
                 }
                 
                 DispatchQueue.main.async {

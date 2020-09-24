@@ -35,6 +35,25 @@ class QuotedPostCollectionViewCell: UICollectionViewCell {
         return v
     }()
     
+    let retweetedProfileImage:CustomImageView = {
+        let img = CustomImageView()
+        img.translatesAutoresizingMaskIntoConstraints = false
+        img.contentMode = .scaleAspectFill
+        img.layer.borderColor = UIColor.dynamicColor(.appBackground).cgColor
+        img.layer.borderWidth = 2
+        img.layer.cornerRadius = 15
+        return img
+    }()
+    
+    let retweetImageView:UIImageView = {
+        let img = UIImageView()
+        img.translatesAutoresizingMaskIntoConstraints = false
+        img.image = UIImage(named: "retweet")?.withRenderingMode(.alwaysTemplate)
+        img.tintColor = CustomColors.appBlue
+        img.contentMode = .scaleAspectFill
+        return img
+    }()
+    
     let userInfo:UILabel = {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
@@ -161,6 +180,8 @@ class QuotedPostCollectionViewCell: UICollectionViewCell {
         backgroundColor = UIColor.dynamicColor(.appBackground)
         addSubview(userProfileImage)
         addSubview(userBackImageView)
+        addSubview(retweetedProfileImage)
+        addSubview(retweetImageView)
         addSubview(userInfo)
         addSubview(tweet)
         addSubview(quotedView)
@@ -195,6 +216,16 @@ class QuotedPostCollectionViewCell: UICollectionViewCell {
             userBackImageView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             userBackImageView.widthAnchor.constraint(equalToConstant: 50),
             userBackImageView.heightAnchor.constraint(equalToConstant: 50),
+            
+            retweetedProfileImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
+            retweetedProfileImage.topAnchor.constraint(equalTo: topAnchor, constant: 50),
+            retweetedProfileImage.widthAnchor.constraint(equalToConstant: 30),
+            retweetedProfileImage.heightAnchor.constraint(equalToConstant: 30),
+            
+            retweetImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 35),
+            retweetImageView.topAnchor.constraint(equalTo: topAnchor, constant: 80),
+            retweetImageView.widthAnchor.constraint(equalToConstant: 20),
+            retweetImageView.heightAnchor.constraint(equalToConstant: 20),
             
             userInfo.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             userInfo.leadingAnchor.constraint(equalTo: userProfileImage.trailingAnchor , constant: 10),
@@ -264,6 +295,15 @@ class QuotedPostCollectionViewCell: UICollectionViewCell {
         let estimatedH = data.tweetQuotedStatus.text.height(withWidth: ((self.frame.width - 100) - 30), font: font)
         quotedViewHeightContraints = quotedView.heightAnchor.constraint(equalToConstant: estimatedH + 60)
         quotedViewHeightContraints?.isActive = true
+        
+        if data.isRetweetedStatus {
+            retweetedProfileImage.isHidden = false
+            retweetImageView.isHidden = false
+            retweetedProfileImage.cacheImageWithLoader(withURL: data.retweetedBy.userProfileImage, view: userBackImageView)
+        } else {
+            retweetedProfileImage.isHidden = true
+            retweetImageView.isHidden = true
+        }
     }
     
     required init?(coder: NSCoder) {
