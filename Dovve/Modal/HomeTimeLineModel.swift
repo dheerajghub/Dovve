@@ -87,7 +87,6 @@ class HomeTimeLineModel:NSObject{
                     user.isVerified = false
                     
                     homeModel.user = user
-                    //Default Media
                     let mediaData = data[i]["entities"]["media"].array
                     if mediaData == nil {
                         homeModel.media = nil
@@ -95,7 +94,7 @@ class HomeTimeLineModel:NSObject{
                         let mediaData = data[i]["entities"]["media"]
                         var mediaArr = [String]()
                         for i in 0..<mediaData.count{
-                            mediaArr.append(mediaData[i]["media_url_https"].string!)
+                            mediaArr.append(mediaData[i]["media_url_https"].string ?? "")
                         }
                         homeModel.media = mediaArr
                     }
@@ -105,8 +104,18 @@ class HomeTimeLineModel:NSObject{
                         let quoteView = QuotedViewStatus()
                         let quoteData = data[i]["quoted_status"]
                         quoteView.createdAt = quoteData["created_at"].string ?? ""
-                        //Default Media
-                        quoteView.media = nil
+                        
+                        let mediaData = quoteData["entities"]["media"].array
+                        if mediaData == nil {
+                            quoteView.media = nil
+                        } else {
+                            let mediaData = quoteData["entities"]["media"]
+                            var mediaArr = [String]()
+                            for i in 0..<mediaData.count{
+                                mediaArr.append(mediaData[i]["media_url_https"].string ?? "")
+                            }
+                            quoteView.media = mediaArr
+                        }
                         quoteView.text = quoteData["full_text"].string ?? ""
                         
                         let quotedUser = User()
