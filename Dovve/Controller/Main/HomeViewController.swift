@@ -16,10 +16,19 @@ class HomeViewController: UIViewController {
     var dataModel:[HomeTimeLineModel]?
     var dataList:[TweetData]?
     
+    private lazy var refresher: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = CustomColors.appBackground
+        refreshControl.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
+        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        return refreshControl
+    }()
+    
     lazy var collectionView:UICollectionView = {
         let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewLayout.init())
+        cv.refreshControl = refresher
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.showsVerticalScrollIndicator = false
         cv.register(SimpleTextPostCollectionViewCell.self, forCellWithReuseIdentifier: "SimpleTextPostCollectionViewCell")
@@ -42,12 +51,24 @@ class HomeViewController: UIViewController {
         collectionView.pin(to: view)
         setUpCustomNavBar()
         
-        HomeTimeLineModel.fetchHometimeLine { (dataModel) in
+        HomeTimeLineModel.fetchHometimeLine(view:self, max_id: "" , params:"") {(dataModel) in
             self.dataModel = dataModel
             self.dataList?.removeAll()
             self.getDataListArray(dataModel)
             self.collectionView.reloadData()
         }
+        
+        
+    }
+    
+    @objc func pullToRefresh(){
+        HomeTimeLineModel.fetchHometimeLine(view:self, max_id: "" , params:"") {(dataModel) in
+            self.dataModel = dataModel
+            self.dataList?.removeAll()
+            self.getDataListArray(dataModel)
+            self.collectionView.reloadData()
+        }
+        refresher.endRefreshing()
     }
     
     func setUpCustomNavBar(){
@@ -187,6 +208,21 @@ extension HomeViewController:UICollectionViewDelegate , UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0.7
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let loadMoreFrom = collectionView.contentSize.height - (collectionView.contentSize.height * 30/100)
+        if ((collectionView.contentOffset.y + collectionView.frame.size.height) >= loadMoreFrom){
+            if let dataList = dataList {
+                let totalPosts = dataList.count
+                let getLastId = Int(dataList[totalPosts - 1].id)
+                HomeTimeLineModel.fetchHometimeLine(view:self ,max_id: "max_id=\(getLastId ?? 0)&" , params:"&max_id=\(getLastId ?? 0)") {(dataModel) in
+                    self.dataList?.remove(at: totalPosts - 1)
+                    self.getDataListArray(dataModel)
+                    self.collectionView.reloadData()
+                }
+            }
+        }
     }
     
 }

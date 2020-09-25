@@ -9,6 +9,8 @@
 import UIKit
 
 extension String {
+    
+    
     func height(withWidth width: CGFloat, font: UIFont) -> CGFloat {
         let maxSize = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
         let actualSize = self.boundingRect(with: maxSize, options: [.usesLineFragmentOrigin], attributes: [.font : font], context: nil)
