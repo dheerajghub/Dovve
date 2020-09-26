@@ -10,7 +10,6 @@ import UIKit
 
 extension String {
     
-    
     func height(withWidth width: CGFloat, font: UIFont) -> CGFloat {
         let maxSize = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
         let actualSize = self.boundingRect(with: maxSize, options: [.usesLineFragmentOrigin], attributes: [.font : font], context: nil)
@@ -45,5 +44,34 @@ extension String {
         fatalError("Unable to encode string. My apologies.")
       }
       return escapedString
+    }
+    
+    func parseTwitterDate()->String?{
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
+        let indate = formatter.date(from: self)
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "hh:mm a dd:MM:yy"
+        var outputDate:String?
+        if let d = indate {
+            outputDate = outputFormatter.string(from: d)
+        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a dd:MM:yy"
+        guard let date = dateFormatter.date(from: outputDate!) else {return String()}
+        return date.getTimeAgoDisplay("short")
+    }
+    
+}
+
+extension Double {
+    var kmFormatted: String {
+        if self >= 10000, self <= 999999 {
+            return String(format: "%.1fK", locale: Locale.current,self/1000).replacingOccurrences(of: ".0", with: "")
+        }
+        if self > 999999 {
+            return String(format: "%.1fM", locale: Locale.current,self/1000000).replacingOccurrences(of: ".0", with: "")
+        }
+        return String(format: "%.0f", locale: Locale.current,self)
     }
 }

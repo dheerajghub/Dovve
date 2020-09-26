@@ -266,8 +266,18 @@ class SimpleTextPostCollectionViewCell: UICollectionViewCell {
         retweetedProfileImage.cacheImageWithLoader(withURL: data.user.profileImage, view: userBackImageView)
         tweet.text = data.text
         commentLabel.text = ""
-        retweetLabel.text = "\(data.retweetCount ?? 0)"
-        likeLabel.text = "\(data.favoriteCount ?? 0)"
+        
+        let retweetCount = "\(data.retweetCount ?? 0)"
+        retweetLabel.text = Double(retweetCount)?.kmFormatted
+        
+        let likeCount = "\(data.favoriteCount ?? 0)"
+        likeLabel.text = Double(likeCount)?.kmFormatted
+        
+        if data.favorited {
+            likeImage.image = UIImage(named:"favorited")
+        } else {
+            likeImage.image = UIImage(named:"heart")
+        }
         
         if data.isRetweetedStatus {
             retweetedProfileImage.isHidden = false

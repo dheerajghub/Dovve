@@ -308,8 +308,18 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
         tweet.text = data.text
         userProfileImage.cacheImageWithLoader(withURL: data.user.profileImage, view: userBackImageView)
 //        commentLabel.text = data.comments
-        retweetLabel.text = "\(data.retweetCount ?? 0)"
-        likeLabel.text = "\(data.favoriteCount ?? 0)"
+        
+        let retweetCount = "\(data.retweetCount ?? 0)"
+        retweetLabel.text = Double(retweetCount)?.kmFormatted
+        
+        let likeCount = "\(data.favoriteCount ?? 0)"
+        likeLabel.text = Double(likeCount)?.kmFormatted
+        
+        if data.favorited {
+            likeImage.image = UIImage(named:"favorited")
+        } else {
+            likeImage.image = UIImage(named:"heart")
+        }
         
         //Quoted View data
         quotedView.profileImageView.cacheImageWithLoader(withURL: data.tweetQuotedStatus.user.profileImage, view: quotedView.profileBackImageView)
