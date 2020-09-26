@@ -12,16 +12,28 @@ class CustomQuotedWithImageView: UIView {
 
     var data:[String]?
     var imageHeightContraints:NSLayoutConstraint?
-    var delegate:QuotedPostWithImageCollectionViewCell?
-    var delegate2:PostWithImageAndQuotedImageCollectionViewCell?
     
-    let profileImageView:CustomImageView = {
+    var delegate:QuotedPostWithImageCollectionViewCell? {
+        didSet {
+            tap.addTarget(delegate!, action: #selector(QuotedPostWithImageCollectionViewCell.quotedUserProfileSelected))
+        }
+    }
+    var delegate2:PostWithImageAndQuotedImageCollectionViewCell?{
+        didSet{
+            tap.addTarget(delegate2!, action: #selector(PostWithImageAndQuotedImageCollectionViewCell.quotedUserProfileSelected))
+        }
+    }
+    let tap = UITapGestureRecognizer()
+    lazy var profileImageView:CustomImageView = {
         let img = CustomImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFill
         img.image = UIImage(named: "demo")
         img.clipsToBounds = true
         img.layer.cornerRadius = 12.5
+        tap.numberOfTapsRequired = 1
+        img.addGestureRecognizer(tap)
+        img.isUserInteractionEnabled = true
         return img
     }()
     

@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol SimpleTextPostDelegate{
+    func didUserProfileTapped(for cell: SimpleTextPostCollectionViewCell , _ isRetweetedUser:Bool)
+}
+
 class SimpleTextPostCollectionViewCell: UICollectionViewCell {
     
     var data:TweetData?{
@@ -15,13 +19,18 @@ class SimpleTextPostCollectionViewCell: UICollectionViewCell {
             manageData()
         }
     }
+    var delegate:SimpleTextPostDelegate?
     
-    let userProfileImage:CustomImageView = {
+    lazy var userProfileImage:CustomImageView = {
         let img = CustomImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFill
         img.backgroundColor = .lightGray
         img.layer.cornerRadius = 25
+        let tap = UITapGestureRecognizer(target: self, action: #selector(userProfileSelected))
+        tap.numberOfTapsRequired = 1
+        img.addGestureRecognizer(tap)
+        img.isUserInteractionEnabled = true
         return img
     }()
     
@@ -33,13 +42,17 @@ class SimpleTextPostCollectionViewCell: UICollectionViewCell {
         return v
     }()
     
-    let retweetedProfileImage:CustomImageView = {
+    lazy var retweetedProfileImage:CustomImageView = {
         let img = CustomImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFill
         img.layer.borderColor = UIColor.dynamicColor(.appBackground).cgColor
         img.layer.borderWidth = 2
         img.layer.cornerRadius = 15
+        let tap = UITapGestureRecognizer(target: self, action: #selector(retweetedProfileSelected))
+        tap.numberOfTapsRequired = 1
+        img.addGestureRecognizer(tap)
+        img.isUserInteractionEnabled = true
         return img
     }()
     
@@ -94,7 +107,7 @@ class SimpleTextPostCollectionViewCell: UICollectionViewCell {
     let commentLabel:UILabel = {
         let l = UILabel()
         l.text = "34"
-        l.font = UIFont(name: "HelveticaNeue", size: 15)
+        l.font = UIFont(name: "HelveticaNeue", size: 14)
         l.textColor = CustomColors.appDarkGray
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -118,7 +131,7 @@ class SimpleTextPostCollectionViewCell: UICollectionViewCell {
     let retweetLabel:UILabel = {
         let l = UILabel()
         l.text = "34"
-        l.font = UIFont(name: "HelveticaNeue", size: 15)
+        l.font = UIFont(name: "HelveticaNeue", size: 14)
         l.textColor = CustomColors.appDarkGray
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -142,7 +155,7 @@ class SimpleTextPostCollectionViewCell: UICollectionViewCell {
     let likeLabel:UILabel = {
         let l = UILabel()
         l.text = "34"
-        l.font = UIFont(name: "HelveticaNeue", size: 15)
+        l.font = UIFont(name: "HelveticaNeue", size: 14)
         l.textColor = CustomColors.appDarkGray
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -291,6 +304,18 @@ class SimpleTextPostCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+extension SimpleTextPostCollectionViewCell {
+    
+    @objc func userProfileSelected(){
+        delegate?.didUserProfileTapped(for: self , false)
+    }
+    
+    @objc func retweetedProfileSelected(){
+       delegate?.didUserProfileTapped(for: self , true)
     }
     
 }

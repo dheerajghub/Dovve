@@ -10,16 +10,28 @@ import UIKit
 
 class CustomQuotedView: UIView {
     
-    var delegate:QuotedPostCollectionViewCell?
-    var delegate2:PostWithImageAndQuoteCollectionViewCell?
+    var delegate:QuotedPostCollectionViewCell? {
+        didSet {
+            tap.addTarget(delegate!, action: #selector(QuotedPostCollectionViewCell.quotedUserProfileSelected))
+        }
+    }
+    var delegate2:PostWithImageAndQuoteCollectionViewCell?{
+        didSet{
+            tap.addTarget(delegate2!, action: #selector(QuotedPostCollectionViewCell.quotedUserProfileSelected))
+        }
+    }
     
-    let profileImageView:CustomImageView = {
+    let tap = UITapGestureRecognizer()
+    lazy var profileImageView:CustomImageView = {
         let img = CustomImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFill
         img.image = UIImage(named: "demo")
         img.clipsToBounds = true
         img.layer.cornerRadius = 12.5
+        tap.numberOfTapsRequired = 1
+        img.addGestureRecognizer(tap)
+        img.isUserInteractionEnabled = true
         return img
     }()
     

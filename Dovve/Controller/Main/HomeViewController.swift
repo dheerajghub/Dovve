@@ -126,31 +126,37 @@ extension HomeViewController:UICollectionViewDelegate , UICollectionViewDataSour
             if dataList[indexPath.row].media == nil && dataList[indexPath.row].isQuotedStatus == false {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SimpleTextPostCollectionViewCell", for: indexPath) as! SimpleTextPostCollectionViewCell
                 cell.data = dataList[indexPath.row]
+                cell.delegate = self
                 return cell
             }
             if dataList[indexPath.row].media != nil &&  dataList[indexPath.row].isQuotedStatus == false {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostWithImagesCollectionViewCell", for: indexPath) as! PostWithImagesCollectionViewCell
                 cell.data = dataList[indexPath.row]
+                cell.delegate = self
                 return cell
             }
             if dataList[indexPath.row].media == nil && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media == nil {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "QuotedPostCollectionViewCell", for: indexPath) as! QuotedPostCollectionViewCell
                 cell.data = dataList[indexPath.row]
+                cell.delegate = self
                 return cell
             }
             if dataList[indexPath.row].media != nil && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media == nil {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostWithImageAndQuoteCollectionViewCell", for: indexPath) as! PostWithImageAndQuoteCollectionViewCell
                 cell.data = dataList[indexPath.row]
+                cell.delegate = self
                 return cell
             }
             if dataList[indexPath.row].media == nil && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media != nil {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "QuotedPostWithImageCollectionViewCell", for: indexPath) as! QuotedPostWithImageCollectionViewCell
                 cell.data = dataList[indexPath.row]
+                cell.delegate = self
                 return cell
             }
             if dataList[indexPath.row].media != nil && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media != nil {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostWithImageAndQuotedImageCollectionViewCell", for: indexPath) as! PostWithImageAndQuotedImageCollectionViewCell
                 cell.data = dataList[indexPath.row]
+                cell.delegate = self
                 return cell
             }
         }
@@ -224,5 +230,40 @@ extension HomeViewController:UICollectionViewDelegate , UICollectionViewDataSour
             }
         }
     }
+    
+}
+
+extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, QuotedPostDelegate, QuotedPostWithImageDelegate , PostWithImageAndQuoteDelegate , PostWithImageAndQuotedImageDelegate {
+    
+    //MARK:-SimpleTextPost Actions
+    func didUserProfileTapped(for cell: SimpleTextPostCollectionViewCell, _ isRetweetedUser: Bool) {
+        print("SimpleTextPost\(isRetweetedUser)")
+    }
+    
+    //MARK:-PostWithImages Actions
+    func didUserProfileTapped(for cell: PostWithImagesCollectionViewCell, _ isRetweetedUser: Bool) {
+        print("PostWithImages\(isRetweetedUser)")
+    }
+    
+    //MARK:-QuotedPost Actions
+    func didUserProfileTapped(for cell: QuotedPostCollectionViewCell, _ isQuotedUser: Bool, _ isRetweetedUser: Bool) {
+        print("QuotedPost\(isQuotedUser)re\(isRetweetedUser)")
+    }
+    
+    //MARK:-QuotedPostWithImage Actions
+    func didUserProfileTapped(for cell: QuotedPostWithImageCollectionViewCell, _ isQuotedUser: Bool, _ isRetweetedUser: Bool) {
+        print("QuotedPostWithImage\(isQuotedUser)re\(isRetweetedUser)")
+    }
+    
+    //MARK:-PostWithImageAndQuote Actions
+    func didUserProfileTapped(for cell: PostWithImageAndQuoteCollectionViewCell, _ isQuotedUser: Bool, _ isRetweetedUser: Bool) {
+        print("PostWithImageAndQuote\(isQuotedUser)re\(isRetweetedUser)")
+    }
+    
+    //MARK:-PostWithImageAndQuotedImage Actions
+    func didUserProfileTapped(for cell: PostWithImageAndQuotedImageCollectionViewCell, _ isQuotedUser: Bool , _ isRetweetedUser:Bool) {
+        print("PostWithImageAndQuotedImage\(isQuotedUser)re\(isRetweetedUser)")
+    }
+    
     
 }

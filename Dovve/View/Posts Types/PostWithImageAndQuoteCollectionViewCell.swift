@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol PostWithImageAndQuoteDelegate{
+    func didUserProfileTapped(for cell: PostWithImageAndQuoteCollectionViewCell , _ isQuotedUser:Bool , _ isRetweetedUser:Bool)
+}
+
 class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
    
     var data:TweetData?{
@@ -16,15 +20,20 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
             collectionView.reloadData()
         }
     }
+    var delegate:PostWithImageAndQuoteDelegate?
     
     var quotedViewHeightContraints:NSLayoutConstraint?
     
-    let userProfileImage:CustomImageView = {
+    lazy var userProfileImage:CustomImageView = {
         let img = CustomImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFill
         img.backgroundColor = .lightGray
         img.layer.cornerRadius = 25
+        let tap = UITapGestureRecognizer(target: self, action: #selector(userProfileSelected))
+        tap.numberOfTapsRequired = 1
+        img.addGestureRecognizer(tap)
+        img.isUserInteractionEnabled = true
         return img
     }()
     
@@ -43,6 +52,10 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
         img.layer.borderColor = UIColor.dynamicColor(.appBackground).cgColor
         img.layer.borderWidth = 2
         img.layer.cornerRadius = 15
+        let tap = UITapGestureRecognizer(target: self, action: #selector(retweetedProfileSelected))
+        tap.numberOfTapsRequired = 1
+        img.addGestureRecognizer(tap)
+        img.isUserInteractionEnabled = true
         return img
     }()
     
@@ -124,7 +137,7 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
     let commentLabel:UILabel = {
         let l = UILabel()
         l.text = "34"
-        l.font = UIFont(name: "HelveticaNeue", size: 15)
+        l.font = UIFont(name: "HelveticaNeue", size: 14)
         l.textColor = CustomColors.appDarkGray
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -148,7 +161,7 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
     let retweetLabel:UILabel = {
         let l = UILabel()
         l.text = "34"
-        l.font = UIFont(name: "HelveticaNeue", size: 15)
+        l.font = UIFont(name: "HelveticaNeue", size: 14)
         l.textColor = CustomColors.appDarkGray
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -172,7 +185,7 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
     let likeLabel:UILabel = {
         let l = UILabel()
         l.text = "34"
-        l.font = UIFont(name: "HelveticaNeue", size: 15)
+        l.font = UIFont(name: "HelveticaNeue", size: 14)
         l.textColor = CustomColors.appDarkGray
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -379,4 +392,19 @@ extension PostWithImageAndQuoteCollectionViewCell:UICollectionViewDelegate, UICo
         return 2
     }
     
+}
+
+extension PostWithImageAndQuoteCollectionViewCell {
+    
+    @objc func userProfileSelected(){
+        delegate?.didUserProfileTapped(for: self , false , false)
+    }
+    
+    @objc func quotedUserProfileSelected(){
+        delegate?.didUserProfileTapped(for: self , true , false)
+    }
+    
+    @objc func retweetedProfileSelected(){
+        delegate?.didUserProfileTapped(for: self , false, true)
+    }
 }
