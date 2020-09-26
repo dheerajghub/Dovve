@@ -6,6 +6,9 @@ Dovve is a twitter clone that I will build with Twitter API. As I'm creating thi
 ## My Motivation
 The reason I've started building this application is to share some advanced layouts, Network handling and much more concepts that is missing in my <a href="https://github.com/dheerajghub/Design_to_code" > Design to code </a> series these all concepts that I learned during my personal projects will sure help you! And believe me it is not that difficult. This project is for Intermediate iOS developers ( You need to know the basics! ). And I hope this app helps you to build something great!
 
+## Installation Guide
+For installation follow these steps: <a href="https://github.com/dheerajghub/Dovve/wiki/Installing-Dovve-app!">Installation Wiki!</a>
+
 ## Progress Glance
 <img src="https://imgur.com/ZcNirDr.png" height="500">
 
