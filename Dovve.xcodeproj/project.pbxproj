@@ -24,7 +24,6 @@
 		44FE6A852515FEAB00284738 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A842515FEAB00284738 /* HomeViewController.swift */; };
 		44FE6A872516041D00284738 /* CustomTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A862516041D00284738 /* CustomTabBarViewController.swift */; };
 		44FE6A892516301A00284738 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A882516301A00284738 /* UIView.swift */; };
-		44FE6A8B2516313800284738 /* HomeFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A8A2516313800284738 /* HomeFeedCollectionViewCell.swift */; };
 		44FE6A8D251741E600284738 /* MentionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A8C251741E600284738 /* MentionsViewController.swift */; };
 		44FE6A8F2517439000284738 /* NSTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A8E2517439000284738 /* NSTextAttachment.swift */; };
 		44FE6A912517482800284738 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE6A902517482800284738 /* ProfileViewController.swift */; };
@@ -66,7 +65,6 @@
 		44FE6A842515FEAB00284738 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		44FE6A862516041D00284738 /* CustomTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarViewController.swift; sourceTree = "<group>"; };
 		44FE6A882516301A00284738 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
-		44FE6A8A2516313800284738 /* HomeFeedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedCollectionViewCell.swift; sourceTree = "<group>"; };
 		44FE6A8C251741E600284738 /* MentionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionsViewController.swift; sourceTree = "<group>"; };
 		44FE6A8E2517439000284738 /* NSTextAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSTextAttachment.swift; sourceTree = "<group>"; };
 		44FE6A902517482800284738 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -173,7 +171,6 @@
 			children = (
 				44FE6A9E251894B900284738 /* Posts Types */,
 				44FAE84C2514C935006D6867 /* CustomViews */,
-				44FE6A8A2516313800284738 /* HomeFeedCollectionViewCell.swift */,
 				44FE6A9A25175C0D00284738 /* ProfileHeaderCollectionViewCell.swift */,
 				44FE6AA72518CA1A00284738 /* ImageCollectionViewCell.swift */,
 				4431C94B251C5C6F00CC1CB6 /* CustomImageView.swift */,
@@ -387,7 +384,6 @@
 			files = (
 				44FAE8472514AFBB006D6867 /* LoginViewController.swift in Sources */,
 				44FAE82B2514ADEC006D6867 /* AppDelegate.swift in Sources */,
-				44FE6A8B2516313800284738 /* HomeFeedCollectionViewCell.swift in Sources */,
 				44FE6A872516041D00284738 /* CustomTabBarViewController.swift in Sources */,
 				44FE6AAA2518D88100284738 /* QuotedPostCollectionViewCell.swift in Sources */,
 				44FE6AB22519B9ED00284738 /* CustomQuotedWithImageView.swift in Sources */,
