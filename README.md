@@ -10,7 +10,7 @@ The reason I've started building this application is to share some advanced layo
 For installation follow these steps: <a href="https://github.com/dheerajghub/Dovve/wiki/Installing-Dovve-app!">Installation Wiki!</a>
 
 ## Progress Glance
-<img src="https://imgur.com/ZcNirDr.png" height="500">
+<img src="https://imgur.com/ZcNirDr.png" height="600"> <img src="https://imgur.com/KFlW4SX.png" height="600">
 
 ## Stuck Somewhere or having trouble ?
 Drop me mail @ dheerajsh123456@gmail.com
