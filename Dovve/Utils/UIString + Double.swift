@@ -62,6 +62,18 @@ extension String {
         return date.getTimeAgoDisplay("short")
     }
     
+    func parseTwitterDateInFormat(_ format:String) -> String?{
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
+        let indate = formatter.date(from: self)
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = format
+        var outputDate:String?
+        guard let date = indate else {return String()}
+        outputDate = outputFormatter.string(from: date)
+        return outputDate
+    }
+    
 }
 
 extension Double {

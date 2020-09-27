@@ -78,7 +78,6 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
     let joinedLabel:UILabel = {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
-        l.text = "Joined August 2017"
         l.textColor = CustomColors.appDarkGray
         l.font = UIFont(name: CustomFonts.appFont, size: 15)
         return l
@@ -154,7 +153,8 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         customAttribute("\(Double(data.friends ?? 0).kmFormatted)", attr: "Following", btn:followingBtn)
         screenName.text = "\(data.screenName ?? "")"
         bioDetail.text = "\(data.bio ?? "")"
-        joinedLabel.text = "\(data.joiningDate ?? "")"
+        guard let joiningDate = data.joiningDate else {return}
+        joinedLabel.text = "Joined \(joiningDate.parseTwitterDateInFormat("MMMM yyyy") ?? "")"
         profileImgView.cacheImageWithLoader(withURL: "\(data.profileImage ?? "")", view: profileBackView)
         name.attributedText = setUserVerifiedNameAttribute("\(data.name ?? "")" , data.isVerified ?? false)
     }
