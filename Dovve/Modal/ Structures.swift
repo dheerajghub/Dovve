@@ -58,3 +58,12 @@ struct UserProfile {
     let backgroundImage:String!
     let website:String!
 }
+
+struct FollowDetail {
+    let id:String!
+    let name:String!
+    let screenName:String!
+    let bio:String!
+    let isVerified:Bool!
+    let profileImage:String!
+}

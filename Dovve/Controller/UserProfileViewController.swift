@@ -80,6 +80,10 @@ class UserProfileViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        setUpCustomNavBar()
+    }
+    
     @objc func pullToRefresh(){
         UserTimeLineModel.fetchUserTimeLine(view:self, params:"&user_id=\(userProfileId ?? "")") {(dataModel) in
             self.dataModel = dataModel
@@ -171,6 +175,7 @@ extension UserProfileViewController:UICollectionViewDelegate , UICollectionViewD
         if indexPath.row == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileHeaderCollectionViewCell", for: indexPath) as! ProfileHeaderCollectionViewCell
             cell.data = UserProfile(id:profileData?.id, name: profileData?.name, screenName: profileData?.screenName, bio: profileData?.bio, followers: profileData?.followers, friends: profileData?.friends, joiningDate: profileData?.joiningDate, tweetCount: profileData?.tweetCount, isVerified: profileData?.isVerified, profileImage: profileData?.profileImage, backgroundImage: profileData?.backgroundImage, website: profileData?.website)
+            cell.delegate = self
             return cell
         }
         if indexPath.row > 0 {
@@ -325,7 +330,25 @@ extension UserProfileViewController:UICollectionViewDelegate , UICollectionViewD
 
 }
 
-extension UserProfileViewController: SimpleTextPostDelegate, PostWithImagesDelegate, QuotedPostDelegate, QuotedPostWithImageDelegate , PostWithImageAndQuoteDelegate , PostWithImageAndQuotedImageDelegate {
+extension UserProfileViewController: SimpleTextPostDelegate, PostWithImagesDelegate, QuotedPostDelegate, QuotedPostWithImageDelegate , PostWithImageAndQuoteDelegate , PostWithImageAndQuotedImageDelegate,ButtonActionProtocol {
+    
+    func didFollowingTapped() {
+        guard let profileData = profileData else {return}
+        let VC = FollowDetailViewController()
+        VC.followType = "following"
+        VC.userId = profileData.id
+        VC.username = profileData.screenName
+        navigationController?.pushViewController(VC, animated: true)
+    }
+    
+    func didFollowerTapped() {
+        guard let profileData = profileData else {return}
+        let VC = FollowDetailViewController()
+        VC.followType = "follower"
+        VC.userId = profileData.id
+        VC.username = profileData.screenName
+        navigationController?.pushViewController(VC, animated: true)
+    }
     
     //MARK:-SimpleTextPost Actions
     func didUserProfileTapped(for cell: SimpleTextPostCollectionViewCell, _ isRetweetedUser: Bool) {

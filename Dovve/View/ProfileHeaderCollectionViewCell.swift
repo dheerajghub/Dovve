@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol ButtonActionProtocol {
+    func didFollowingTapped()
+    func didFollowerTapped()
+}
+
 class ProfileHeaderCollectionViewCell: UICollectionViewCell {
     
     var data:UserProfile?{
@@ -15,6 +20,7 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
             manageData()
         }
     }
+    var delegate:ButtonActionProtocol?
     
     let profileImgView:CustomImageView = {
         let img = CustomImageView()
@@ -61,17 +67,19 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
     
     //MARK:- Followings
     
-    let followingBtn:UIButton = {
+    lazy var followingBtn:UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.addTarget(self, action: #selector(followingBtnPressed), for: .touchUpInside)
         return btn
     }()
     
     //MARK:- Followers
     
-    let followerBtn:UIButton = {
+    lazy var followerBtn:UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.addTarget(self, action: #selector(followerBtnPressed), for: .touchUpInside)
         return btn
     }()
     
@@ -157,6 +165,14 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         joinedLabel.text = "Joined \(joiningDate.parseTwitterDateInFormat("MMMM yyyy") ?? "")"
         profileImgView.cacheImageWithLoader(withURL: "\(data.profileImage ?? "")", view: profileBackView)
         name.attributedText = setUserVerifiedNameAttribute("\(data.name ?? "")" , data.isVerified ?? false)
+    }
+    
+    @objc func followerBtnPressed(){
+        delegate?.didFollowerTapped()
+    }
+    
+    @objc func followingBtnPressed(){
+        delegate?.didFollowingTapped()
     }
     
     required init?(coder: NSCoder) {
