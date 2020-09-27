@@ -10,6 +10,7 @@ import UIKit
 
 protocol QuotedPostWithImageDelegate{
     func didUserProfileTapped(for cell: QuotedPostWithImageCollectionViewCell, _ isQuotedUser:Bool , _ isRetweetedUser:Bool)
+    func didImageTapped(for cell: QuotedPostWithImageCollectionViewCell, _ index:Int)
 }
 
 class QuotedPostWithImageCollectionViewCell: UICollectionViewCell {
@@ -86,6 +87,7 @@ class QuotedPostWithImageCollectionViewCell: UICollectionViewCell {
     lazy var quotedView:CustomQuotedWithImageView = {
         let v = CustomQuotedWithImageView()
         v.delegate = self
+        v.imgDelegate = self
         v.translatesAutoresizingMaskIntoConstraints = false
         v.layer.cornerRadius = 15
         v.layer.borderColor = UIColor.dynamicColor(.secondaryBackground).cgColor
@@ -340,7 +342,11 @@ class QuotedPostWithImageCollectionViewCell: UICollectionViewCell {
     
 }
 
-extension QuotedPostWithImageCollectionViewCell {
+extension QuotedPostWithImageCollectionViewCell: ImageSelectedProtocol {
+    
+    func didImageSelected(_ index: Int) {
+        delegate?.didImageTapped(for: self, index)
+    }
     
     @objc func userProfileSelected(){
         delegate?.didUserProfileTapped(for: self, false , false)

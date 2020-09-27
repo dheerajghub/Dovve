@@ -17,6 +17,7 @@
 		443EE2442520267D006B90DB /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443EE2432520267D006B90DB /* UserProfileViewController.swift */; };
 		443EE246252026F6006B90DB /* CustomUserProfileNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443EE245252026F5006B90DB /* CustomUserProfileNavBar.swift */; };
 		443EE24825202F0A006B90DB /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443EE24725202F0A006B90DB /* UIViewController.swift */; };
+		443EE24A25206739006B90DB /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443EE24925206739006B90DB /* ImageDetailViewController.swift */; };
 		446DA6772519E027004A818E /* PostWithImageAndQuoteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DA6762519E027004A818E /* PostWithImageAndQuoteCollectionViewCell.swift */; };
 		446DA6792519E786004A818E /* PostWithImageAndQuotedImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DA6782519E786004A818E /* PostWithImageAndQuotedImageCollectionViewCell.swift */; };
 		44FAE82B2514ADEC006D6867 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FAE82A2514ADEC006D6867 /* AppDelegate.swift */; };
@@ -62,6 +63,7 @@
 		443EE2432520267D006B90DB /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		443EE245252026F5006B90DB /* CustomUserProfileNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUserProfileNavBar.swift; sourceTree = "<group>"; };
 		443EE24725202F0A006B90DB /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		443EE24925206739006B90DB /* ImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewController.swift; sourceTree = "<group>"; };
 		446DA6762519E027004A818E /* PostWithImageAndQuoteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostWithImageAndQuoteCollectionViewCell.swift; sourceTree = "<group>"; };
 		446DA6782519E786004A818E /* PostWithImageAndQuotedImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostWithImageAndQuotedImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		44FAE8272514ADEC006D6867 /* Dovve.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dovve.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -166,6 +168,7 @@
 				44FAE8432514AF91006D6867 /* Login */,
 				44FE6A862516041D00284738 /* CustomTabBarViewController.swift */,
 				443EE2432520267D006B90DB /* UserProfileViewController.swift */,
+				443EE24925206739006B90DB /* ImageDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				446DA6772519E027004A818E /* PostWithImageAndQuoteCollectionViewCell.swift in Sources */,
 				44FAE8502514D0DE006D6867 /* UIButton.swift in Sources */,
 				44FE6AA0251894DB00284738 /* SimpleTextPostCollectionViewCell.swift in Sources */,
+				443EE24A25206739006B90DB /* ImageDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

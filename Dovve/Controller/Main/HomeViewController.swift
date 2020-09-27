@@ -272,6 +272,14 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         }
     }
     
+    func didImageTapped(for cell: PostWithImagesCollectionViewCell, _ index: Int) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            let media = dataList[indexPath.row].media
+            PushToImageDetailView(media ?? [""] , index)
+        }
+    }
+    
     //MARK:-QuotedPost Actions
     func didUserProfileTapped(for cell: QuotedPostCollectionViewCell, _ isQuotedUser: Bool, _ isRetweetedUser: Bool) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
@@ -306,6 +314,14 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         }
     }
     
+    func didImageTapped(for cell: QuotedPostWithImageCollectionViewCell, _ index: Int) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            let media = dataList[indexPath.row].tweetQuotedStatus.media
+            PushToImageDetailView(media ?? [""] , index)
+        }
+    }
+    
     //MARK:-PostWithImageAndQuote Actions
     func didUserProfileTapped(for cell: PostWithImageAndQuoteCollectionViewCell, _ isQuotedUser: Bool, _ isRetweetedUser: Bool) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
@@ -323,6 +339,14 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         }
     }
     
+    func didImageTapped(for cell: PostWithImageAndQuoteCollectionViewCell, _ index: Int) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            let media = dataList[indexPath.row].media
+            PushToImageDetailView(media ?? [""] , index)
+        }
+    }
+    
     //MARK:-PostWithImageAndQuotedImage Actions
     func didUserProfileTapped(for cell: PostWithImageAndQuotedImageCollectionViewCell, _ isQuotedUser: Bool , _ isRetweetedUser:Bool) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
@@ -336,6 +360,19 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
             } else {
                 let userId = dataList[indexPath.row].user.userId
                 PushToProfile(userId!)
+            }
+        }
+    }
+    
+    func didImageTapped(for cell: PostWithImageAndQuotedImageCollectionViewCell, _ index: Int, isPostImage: Bool, isQuoteImage: Bool) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if isPostImage {
+                let media = dataList[indexPath.row].media
+                PushToImageDetailView(media ?? [""] , index)
+            } else if isQuoteImage {
+                let media = dataList[indexPath.row].tweetQuotedStatus.media
+                PushToImageDetailView(media ?? [""] , index)
             }
         }
     }

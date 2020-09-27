@@ -10,6 +10,7 @@ import UIKit
 
 protocol PostWithImagesDelegate{
     func didUserProfileTapped(for cell: PostWithImagesCollectionViewCell , _ isRetweetedUser:Bool)
+    func didImageTapped(for cell:PostWithImagesCollectionViewCell , _ index:Int)
 }
 
 class PostWithImagesCollectionViewCell: UICollectionViewCell {
@@ -354,6 +355,10 @@ extension PostWithImagesCollectionViewCell:UICollectionViewDelegate, UICollectio
             return CGSize(width: ((collectionView.frame.width / 2) - 1), height: ((collectionView.frame.height / 2) - 1))
         }
         return CGSize()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.didImageTapped(for: self, indexPath.row)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

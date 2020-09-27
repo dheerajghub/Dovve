@@ -8,10 +8,15 @@
 
 import UIKit
 
+protocol ImageSelectedProtocol {
+    func didImageSelected(_ index:Int)
+}
+
 class CustomQuotedWithImageView: UIView {
 
     var data:[String]?
     var imageHeightContraints:NSLayoutConstraint?
+    var imgDelegate:ImageSelectedProtocol?
     
     var delegate:QuotedPostWithImageCollectionViewCell? {
         didSet {
@@ -165,6 +170,10 @@ extension CustomQuotedWithImageView:UICollectionViewDelegate, UICollectionViewDe
             return CGSize(width: ((collectionView.frame.width / 2) - 1), height: ((collectionView.frame.height / 2) - 1))
         }
         return CGSize()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        imgDelegate?.didImageSelected(indexPath.row)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

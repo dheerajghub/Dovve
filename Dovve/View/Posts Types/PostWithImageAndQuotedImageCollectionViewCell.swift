@@ -10,6 +10,7 @@ import UIKit
 
 protocol PostWithImageAndQuotedImageDelegate{
     func didUserProfileTapped(for cell: PostWithImageAndQuotedImageCollectionViewCell, _ isQuotedUser:Bool , _ isRetweeted:Bool)
+    func didImageTapped(for cell:PostWithImageAndQuotedImageCollectionViewCell , _ index:Int , isPostImage:Bool , isQuoteImage:Bool)
 }
 
 class PostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
@@ -103,6 +104,7 @@ class PostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
     lazy var quotedView:CustomQuotedWithImageView = {
         let v = CustomQuotedWithImageView()
         v.delegate2 = self
+        v.imgDelegate = self
         v.translatesAutoresizingMaskIntoConstraints = false
         v.layer.cornerRadius = 15
         v.layer.borderColor = UIColor.dynamicColor(.secondaryBackground).cgColor
@@ -388,6 +390,10 @@ extension PostWithImageAndQuotedImageCollectionViewCell:UICollectionViewDelegate
         return CGSize()
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.didImageTapped(for: self, indexPath.row , isPostImage: true , isQuoteImage: false)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 2
     }
@@ -399,7 +405,11 @@ extension PostWithImageAndQuotedImageCollectionViewCell:UICollectionViewDelegate
 }
 
 
-extension PostWithImageAndQuotedImageCollectionViewCell {
+extension PostWithImageAndQuotedImageCollectionViewCell:ImageSelectedProtocol {
+    
+    func didImageSelected(_ index: Int) {
+        delegate?.didImageTapped(for: self, index, isPostImage: false , isQuoteImage: true)
+    }
     
     @objc func userProfileSelected(){
         delegate?.didUserProfileTapped(for: self, false , false)
