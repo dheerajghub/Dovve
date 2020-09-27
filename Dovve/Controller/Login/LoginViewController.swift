@@ -97,8 +97,12 @@ class LoginViewController: UIViewController {
             if session != nil {
                 let authToken = session?.authToken
                 let authTokenSecret = session?.authTokenSecret
+                let screenName = session?.userName
+                let userId = session?.userID
                 
                 // Storing the sensitive data to the Keychain
+                let _: Bool = KeychainWrapper.standard.set(screenName!, forKey: "screenName")
+                let _: Bool = KeychainWrapper.standard.set(userId!, forKey: "userId")
                 let _: Bool = KeychainWrapper.standard.set(authToken!, forKey: "authToken")
                 let _: Bool = KeychainWrapper.standard.set(authTokenSecret!, forKey: "authTokenSecret")
                 

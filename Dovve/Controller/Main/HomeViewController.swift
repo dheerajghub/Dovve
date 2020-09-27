@@ -57,8 +57,6 @@ class HomeViewController: UIViewController {
             self.getDataListArray(dataModel)
             self.collectionView.reloadData()
         }
-        
-        
     }
     
     @objc func pullToRefresh(){
@@ -71,8 +69,19 @@ class HomeViewController: UIViewController {
         refresher.endRefreshing()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        setUpCustomNavBar()
+    }
+    
     func setUpCustomNavBar(){
         navigationController?.navigationBar.topItem?.title = "Home"
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 0.1)
+        navigationController?.navigationBar.layer.shadowColor = UIColor.dynamicColor(.secondaryBackground).cgColor
+        navigationController?.navigationBar.layer.shadowOpacity = 1
+        navigationController?.navigationBar.layer.shadowRadius = 0.5
+        
         navigationController?.navigationBar.barTintColor = UIColor.dynamicColor(.appBackground)
         navigationController?.navigationBar.isTranslucent = false
         self.navigationController!.navigationBar.titleTextAttributes = [
@@ -237,33 +246,98 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
     
     //MARK:-SimpleTextPost Actions
     func didUserProfileTapped(for cell: SimpleTextPostCollectionViewCell, _ isRetweetedUser: Bool) {
-        print("SimpleTextPost\(isRetweetedUser)")
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if isRetweetedUser {
+                let userId = dataList[indexPath.row].retweetedBy.userID
+                PushToProfile(userId!)
+            } else {
+                let userId = dataList[indexPath.row].user.userId
+                PushToProfile(userId!)
+            }
+        }
     }
     
     //MARK:-PostWithImages Actions
     func didUserProfileTapped(for cell: PostWithImagesCollectionViewCell, _ isRetweetedUser: Bool) {
-        print("PostWithImages\(isRetweetedUser)")
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if isRetweetedUser {
+                let userId = dataList[indexPath.row].retweetedBy.userID
+                PushToProfile(userId!)
+            } else {
+                let userId = dataList[indexPath.row].user.userId
+                PushToProfile(userId!)
+            }
+        }
     }
     
     //MARK:-QuotedPost Actions
     func didUserProfileTapped(for cell: QuotedPostCollectionViewCell, _ isQuotedUser: Bool, _ isRetweetedUser: Bool) {
-        print("QuotedPost\(isQuotedUser)re\(isRetweetedUser)")
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if isRetweetedUser {
+                let userId = dataList[indexPath.row].retweetedBy.userID
+                PushToProfile(userId!)
+            } else if isQuotedUser {
+                let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
+                PushToProfile(userId!)
+            } else {
+                let userId = dataList[indexPath.row].user.userId
+                PushToProfile(userId!)
+            }
+        }
     }
     
     //MARK:-QuotedPostWithImage Actions
     func didUserProfileTapped(for cell: QuotedPostWithImageCollectionViewCell, _ isQuotedUser: Bool, _ isRetweetedUser: Bool) {
-        print("QuotedPostWithImage\(isQuotedUser)re\(isRetweetedUser)")
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if isRetweetedUser {
+                let userId = dataList[indexPath.row].retweetedBy.userID
+                PushToProfile(userId!)
+            } else if isQuotedUser {
+                let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
+                PushToProfile(userId!)
+            } else {
+                let userId = dataList[indexPath.row].user.userId
+                PushToProfile(userId!)
+            }
+        }
     }
     
     //MARK:-PostWithImageAndQuote Actions
     func didUserProfileTapped(for cell: PostWithImageAndQuoteCollectionViewCell, _ isQuotedUser: Bool, _ isRetweetedUser: Bool) {
-        print("PostWithImageAndQuote\(isQuotedUser)re\(isRetweetedUser)")
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if isRetweetedUser {
+                let userId = dataList[indexPath.row].retweetedBy.userID
+                PushToProfile(userId!)
+            } else if isQuotedUser {
+                let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
+                PushToProfile(userId!)
+            } else {
+                let userId = dataList[indexPath.row].user.userId
+                PushToProfile(userId!)
+            }
+        }
     }
     
     //MARK:-PostWithImageAndQuotedImage Actions
     func didUserProfileTapped(for cell: PostWithImageAndQuotedImageCollectionViewCell, _ isQuotedUser: Bool , _ isRetweetedUser:Bool) {
-        print("PostWithImageAndQuotedImage\(isQuotedUser)re\(isRetweetedUser)")
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if isRetweetedUser {
+                let userId = dataList[indexPath.row].retweetedBy.userID
+                PushToProfile(userId!)
+            } else if isQuotedUser {
+                let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
+                PushToProfile(userId!)
+            } else {
+                let userId = dataList[indexPath.row].user.userId
+                PushToProfile(userId!)
+            }
+        }
     }
-    
     
 }

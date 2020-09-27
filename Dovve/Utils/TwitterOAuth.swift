@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 
 public struct TwitterSignatureParameters {
+    let user_id:String
     let max_id:String
     let oauthConsumerKey: String
     let oauthSignatureMethod: String
@@ -22,6 +23,7 @@ public struct TwitterSignatureParameters {
 
     var parameterString: String {
     var string: String = ""
+        string.append("\(user_id)")
         string.append("\(max_id)")
         string.append("oauth_consumer_key=\(oauthConsumerKey.percentEscaped)&")
         string.append("oauth_nonce=\(oauthNonce.percentEscaped)&")

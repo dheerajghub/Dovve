@@ -10,8 +10,14 @@ import UIKit
 
 class ProfileHeaderCollectionViewCell: UICollectionViewCell {
     
-    let profileImgView:UIImageView = {
-        let img = UIImageView()
+    var data:UserProfile?{
+        didSet {
+            manageData()
+        }
+    }
+    
+    let profileImgView:CustomImageView = {
+        let img = CustomImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.layer.cornerRadius = 30
         img.image = UIImage(named: "demo")
@@ -19,9 +25,16 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         return img
     }()
     
+    let profileBackView:UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
+        v.layer.cornerRadius = 30
+        return v
+    }()
+    
     let name:UILabel = {
         let l = UILabel()
-        l.text = "Dheeraj"
         l.textColor = UIColor.dynamicColor(.textColor)
         l.font = UIFont(name: CustomFonts.appFontBold, size: 22)
         l.translatesAutoresizingMaskIntoConstraints = false
@@ -39,10 +52,10 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
     
     let bioDetail:UILabel = {
         let l = UILabel()
-        l.text = "iOS Developer, XDian 😅"
         l.translatesAutoresizingMaskIntoConstraints = false
         l.textColor = UIColor.dynamicColor(.textColor)
         l.font = UIFont(name: CustomFonts.appFont, size: 17)
+        l.numberOfLines = 0
         return l
     }()
     
@@ -75,6 +88,7 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         backgroundColor = UIColor.dynamicColor(.appBackground)
         addSubview(profileImgView)
+        addSubview(profileBackView)
         addSubview(name)
         addSubview(screenName)
         addSubview(bioDetail)
@@ -83,9 +97,6 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         addSubview(followerBtn)
         
         setUpConstraints()
-        
-        customAttribute("4,334", attr: "Follower" , btn: followerBtn)
-        customAttribute("1,545", attr: "Following", btn:followingBtn)
     }
     
     func setUpConstraints(){
@@ -94,6 +105,11 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
             profileImgView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             profileImgView.widthAnchor.constraint(equalToConstant: 60),
             profileImgView.heightAnchor.constraint(equalToConstant: 60),
+            
+            profileBackView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            profileBackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            profileBackView.widthAnchor.constraint(equalToConstant: 60),
+            profileBackView.heightAnchor.constraint(equalToConstant: 60),
             
             name.topAnchor.constraint(equalTo: profileImgView.bottomAnchor , constant: 5),
             name.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
@@ -130,6 +146,17 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         attributedText.append(NSAttributedString(string: " \(attr)" , attributes:[NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 15)! , NSAttributedString.Key.foregroundColor: CustomColors.appDarkGray]))
         
         btn.setAttributedTitle(attributedText, for: .normal)
+    }
+    
+    func manageData(){
+        guard let data = data else { return }
+        customAttribute("\(Double(data.followers ?? 0).kmFormatted)", attr: "Follower" , btn: followerBtn)
+        customAttribute("\(Double(data.friends ?? 0).kmFormatted)", attr: "Following", btn:followingBtn)
+        screenName.text = "\(data.screenName ?? "")"
+        bioDetail.text = "\(data.bio ?? "")"
+        joinedLabel.text = "\(data.joiningDate ?? "")"
+        profileImgView.cacheImageWithLoader(withURL: "\(data.profileImage ?? "")", view: profileBackView)
+        name.attributedText = setUserVerifiedNameAttribute("\(data.name ?? "")" , data.isVerified ?? false)
     }
     
     required init?(coder: NSCoder) {

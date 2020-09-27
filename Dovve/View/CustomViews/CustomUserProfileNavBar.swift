@@ -1,17 +1,17 @@
 //
-//  CustomProfileNavBar.swift
+//  CustomUserProfileNavBar.swift
 //  Dovve
 //
-//  Created by Dheeraj Kumar Sharma on 20/09/20.
+//  Created by Dheeraj Kumar Sharma on 27/09/20.
 //  Copyright © 2020 Dheeraj Kumar Sharma. All rights reserved.
 //
 
 import UIKit
 
-class CustomProfileNavBar: UIView {
+class CustomUserProfileNavBar: UIView {
 
-    var controller:ProfileViewController?
-    
+     var controller:UserProfileViewController?
+        
     let textOverlayView:UIView = {
         let v = UIView()
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -39,6 +39,7 @@ class CustomProfileNavBar: UIView {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.numberOfLines = 0
+        l.textAlignment = .center
         return l
     }()
 
@@ -87,5 +88,4 @@ class CustomProfileNavBar: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }

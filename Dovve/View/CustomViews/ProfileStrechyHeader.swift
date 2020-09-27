@@ -10,7 +10,13 @@ import UIKit
 
 class ProfileStrechyHeader: UICollectionReusableView {
        
-    var imageView: UIImageView!
+    var imageView: CustomImageView!
+    var imageBackView:UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
+        return v
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,10 +29,11 @@ class ProfileStrechyHeader: UICollectionReusableView {
     }
     
     func createViews() {
-        imageView = UIImageView()
+        imageView = CustomImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         self.addSubview(imageView)
+        self.addSubview(imageBackView)
     }
     
     func setViewConstraints() {
@@ -35,7 +42,12 @@ class ProfileStrechyHeader: UICollectionReusableView {
             self.imageView.topAnchor.constraint(equalTo: self.topAnchor),
             self.imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             self.imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            self.imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            imageBackView.topAnchor.constraint(equalTo: self.topAnchor),
+            imageBackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            imageBackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            imageBackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
         ])
     }
 

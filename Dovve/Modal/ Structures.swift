@@ -43,3 +43,18 @@ struct TweetData {
     let favorited:Bool!
     let retweeted:Bool!
 }
+
+struct UserProfile {
+    let id:String!
+    let name:String!
+    let screenName:String!
+    let bio:String!
+    let followers:Int!
+    let friends:Int!
+    let joiningDate:String!
+    let tweetCount:Int!
+    let isVerified:Bool!
+    let profileImage:String!
+    let backgroundImage:String!
+    let website:String!
+}

@@ -1,21 +1,19 @@
 //
-//  ProfileViewController.swift
+//  UserProfileViewController.swift
 //  Dovve
 //
-//  Created by Dheeraj Kumar Sharma on 20/09/20.
+//  Created by Dheeraj Kumar Sharma on 27/09/20.
 //  Copyright © 2020 Dheeraj Kumar Sharma. All rights reserved.
 //
 
 import UIKit
-import SwiftKeychainWrapper
 
-class ProfileViewController: UIViewController {
-    
+class UserProfileViewController: UIViewController {
+
     var profileData:UserProfileModel?
     var dataModel:[UserTimeLineModel]?
     var dataList:[TweetData]?
-    
-    let userProfileId:String? = KeychainWrapper.standard.string(forKey: "userId")
+    var userProfileId:String?
     
     private lazy var refresher: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -25,8 +23,8 @@ class ProfileViewController: UIViewController {
         return refreshControl
     }()
     
-    lazy var navBar:CustomProfileNavBar = {
-        let v = CustomProfileNavBar()
+    lazy var navBar:CustomUserProfileNavBar = {
+        let v = CustomUserProfileNavBar()
         v.controller = self
         v.translatesAutoresizingMaskIntoConstraints = false
         v.backgroundColor = .white
@@ -69,7 +67,7 @@ class ProfileViewController: UIViewController {
         
         UserProfileModel.fetchUserProfile(view: self, userId: "\(userProfileId ?? "")") { (profileData) in
             self.profileData = profileData
-            self.navBar.setAttributedText(profileData.name ?? "", tweetCount: "\(profileData.tweetCount ?? 0)")
+            self.navBar.setAttributedText(profileData.name ?? "", tweetCount: "\(Double(profileData.tweetCount).kmFormatted)")
             self.navBar.cardImageView.cacheImageWithLoader(withURL: profileData.backgroundImage ?? "", view: self.navBar.cardBackView)
             self.collectionView.reloadData()
         }
@@ -105,6 +103,16 @@ class ProfileViewController: UIViewController {
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        
+        let backButton = UIButton(type: .system)
+        backButton.setBackgroundImage(UIImage(named: "back")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        backButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        
+        let leftBarButtonItem = UIBarButtonItem()
+        leftBarButtonItem.customView = backButton
+        navigationItem.setLeftBarButton(leftBarButtonItem, animated: false)
     }
     
     func getDataListArray(_ data:[UserTimeLineModel]){
@@ -135,10 +143,14 @@ class ProfileViewController: UIViewController {
             dataList?.append(contentsOf: tweets)
         }
     }
+    
+    @objc func backButtonPressed(){
+        navigationController?.popViewController(animated: true)
+    }
 
 }
 
-extension ProfileViewController:UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension UserProfileViewController:UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let dataList = dataList {
@@ -313,7 +325,7 @@ extension ProfileViewController:UICollectionViewDelegate , UICollectionViewDataS
 
 }
 
-extension ProfileViewController: SimpleTextPostDelegate, PostWithImagesDelegate, QuotedPostDelegate, QuotedPostWithImageDelegate , PostWithImageAndQuoteDelegate , PostWithImageAndQuotedImageDelegate {
+extension UserProfileViewController: SimpleTextPostDelegate, PostWithImagesDelegate, QuotedPostDelegate, QuotedPostWithImageDelegate , PostWithImageAndQuoteDelegate , PostWithImageAndQuotedImageDelegate {
     
     //MARK:-SimpleTextPost Actions
     func didUserProfileTapped(for cell: SimpleTextPostCollectionViewCell, _ isRetweetedUser: Bool) {
@@ -412,4 +424,3 @@ extension ProfileViewController: SimpleTextPostDelegate, PostWithImagesDelegate,
     }
     
 }
-

@@ -264,7 +264,7 @@ class QuotedPostCollectionViewCell: UICollectionViewCell {
             commentImage.widthAnchor.constraint(equalToConstant: 20),
             commentImage.heightAnchor.constraint(equalToConstant: 20),
             
-            commentLabel.leadingAnchor.constraint(equalTo: commentImage.trailingAnchor, constant: 6),
+            commentLabel.leadingAnchor.constraint(equalTo: commentImage.trailingAnchor, constant: 4),
             commentLabel.centerYAnchor.constraint(equalTo: commentView.centerYAnchor),
             
             retweetImage.leadingAnchor.constraint(equalTo: retweetView.leadingAnchor),
@@ -272,7 +272,7 @@ class QuotedPostCollectionViewCell: UICollectionViewCell {
             retweetImage.widthAnchor.constraint(equalToConstant: 20),
             retweetImage.heightAnchor.constraint(equalToConstant: 20),
             
-            retweetLabel.leadingAnchor.constraint(equalTo: retweetImage.trailingAnchor, constant: 6),
+            retweetLabel.leadingAnchor.constraint(equalTo: retweetImage.trailingAnchor, constant: 4),
             retweetLabel.centerYAnchor.constraint(equalTo: retweetView.centerYAnchor),
             
             likeImage.leadingAnchor.constraint(equalTo: likeView.leadingAnchor),
@@ -280,7 +280,7 @@ class QuotedPostCollectionViewCell: UICollectionViewCell {
             likeImage.widthAnchor.constraint(equalToConstant: 20),
             likeImage.heightAnchor.constraint(equalToConstant: 20),
             
-            likeLabel.leadingAnchor.constraint(equalTo: likeImage.trailingAnchor, constant: 6),
+            likeLabel.leadingAnchor.constraint(equalTo: likeImage.trailingAnchor, constant: 4),
             likeLabel.centerYAnchor.constraint(equalTo: likeView.centerYAnchor),
             
             shareImage.leadingAnchor.constraint(equalTo: shareView.leadingAnchor),
