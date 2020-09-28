@@ -30,16 +30,16 @@ func setUserInfoAttributes( _ name:String, _ userName:String , _ time:String, _ 
     return attributedText
 }
 
-func setUserVerifiedNameAttribute( _ name:String , _ isVerified:Bool) -> NSAttributedString{
-    let attributedText = NSMutableAttributedString(string:"\(name) " , attributes:[NSAttributedString.Key.font: UIFont(name: CustomFonts.appFontBold, size: 22)!, NSAttributedString.Key.foregroundColor: UIColor.dynamicColor(.textColor)])
+func setUserVerifiedNameAttribute( _ name:String , _ isVerified:Bool, _ fontSize:CGFloat) -> NSAttributedString{
+    let attributedText = NSMutableAttributedString(string:"\(name) " , attributes:[NSAttributedString.Key.font: UIFont(name: CustomFonts.appFontBold, size: fontSize)!, NSAttributedString.Key.foregroundColor: UIColor.dynamicColor(.textColor)])
     
     if isVerified {
-        let font = UIFont.systemFont(ofSize: 22)
+        let font = UIFont.systemFont(ofSize: fontSize)
         let verifiyImg = UIImage(named:"verify")
         let verifiedImage = NSTextAttachment()
         verifiedImage.image = verifiyImg
-        verifiedImage.bounds = CGRect(x: 0, y: (font.capHeight - 22).rounded() / 2, width: 22, height: 22)
-        verifiedImage.setImageHeight(height: 22)
+        verifiedImage.bounds = CGRect(x: 0, y: (font.capHeight - fontSize).rounded() / 2, width: fontSize, height: fontSize)
+        verifiedImage.setImageHeight(height: fontSize)
         let imgString = NSAttributedString(attachment: verifiedImage)
         attributedText.append(imgString)
     }

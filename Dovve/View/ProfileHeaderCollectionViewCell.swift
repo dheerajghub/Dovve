@@ -65,6 +65,18 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         return l
     }()
     
+    let followBtn:UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("Follow", for: .normal)
+        btn.setTitleColor(CustomColors.appBlue, for: .normal)
+        btn.layer.cornerRadius = 17.5
+        btn.layer.borderColor = CustomColors.appBlue.cgColor
+        btn.layer.borderWidth = 1.5
+        btn.titleLabel?.font = UIFont(name: CustomFonts.appFontBold, size: 15)
+        return btn
+    }()
+    
     //MARK:- Followings
     
     lazy var followingBtn:UIButton = {
@@ -96,6 +108,7 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         backgroundColor = UIColor.dynamicColor(.appBackground)
         addSubview(profileImgView)
         addSubview(profileBackView)
+        addSubview(followBtn)
         addSubview(name)
         addSubview(screenName)
         addSubview(bioDetail)
@@ -143,7 +156,12 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
             bioDetail.topAnchor.constraint(equalTo: screenName.bottomAnchor, constant: 5),
             bioDetail.bottomAnchor.constraint(equalTo: joinedLabel.topAnchor, constant: -5),
             bioDetail.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            bioDetail.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+            bioDetail.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            
+            followBtn.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            followBtn.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            followBtn.widthAnchor.constraint(equalToConstant: 90),
+            followBtn.heightAnchor.constraint(equalToConstant: 35)
         ])
     }
     
@@ -159,12 +177,24 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         guard let data = data else { return }
         customAttribute("\(Double(data.followers ?? 0).kmFormatted)", attr: "Follower" , btn: followerBtn)
         customAttribute("\(Double(data.friends ?? 0).kmFormatted)", attr: "Following", btn:followingBtn)
-        screenName.text = "\(data.screenName ?? "")"
+        screenName.text = "@\(data.screenName ?? "")"
         bioDetail.text = "\(data.bio ?? "")"
         guard let joiningDate = data.joiningDate else {return}
         joinedLabel.text = "Joined \(joiningDate.parseTwitterDateInFormat("MMMM yyyy") ?? "")"
         profileImgView.cacheImageWithLoader(withURL: "\(data.profileImage ?? "")", view: profileBackView)
-        name.attributedText = setUserVerifiedNameAttribute("\(data.name ?? "")" , data.isVerified ?? false)
+        name.attributedText = setUserVerifiedNameAttribute("\(data.name ?? "")" , data.isVerified ?? false , 22)
+        
+//        GetFollowingStatus.fetchFollowingStatus(source_id: "893827304358424576", target_id: (data.id)!) { (followStatus) in
+//            if followStatus.isFollowing {
+//                self.followBtn.setTitle("Following", for: .normal)
+//                self.followBtn.backgroundColor = CustomColors.appBlue
+//                self.followBtn.setTitleColor(.white, for: .normal)
+//            } else {
+//                self.followBtn.setTitle("Follow", for: .normal)
+//                self.followBtn.backgroundColor = UIColor.clear
+//                self.followBtn.setTitleColor(CustomColors.appBlue, for: .normal)
+//            }
+//        }
     }
     
     @objc func followerBtnPressed(){

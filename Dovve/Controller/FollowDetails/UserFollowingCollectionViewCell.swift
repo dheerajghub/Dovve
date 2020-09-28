@@ -8,10 +8,15 @@
 
 import UIKit
 
+protocol FollowDetailActionProtocol {
+    func didUsertapped(_ userId:String)
+}
+
 class UserFollowingCollectionViewCell: UICollectionViewCell {
     
     var followingData:FollowingListModel?
     var followingPostList:[FollowDetail]?
+    var delegate:FollowDetailActionProtocol?
     
     var userId:String?{
         didSet{
@@ -118,6 +123,28 @@ extension UserFollowingCollectionViewCell:UICollectionViewDelegateFlowLayout , U
         let font = UIFont(name: CustomFonts.appFont, size: 16)!
         let estimatedH = followingPostList?[indexPath.row].bio.height(withWidth: (collectionView.frame.width - 100), font: font)
         return CGSize(width: collectionView.frame.width, height: estimatedH! + 70)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.didUsertapped(followingPostList![indexPath.row].id)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+            if let cell = collectionView.cellForItem(at: indexPath) as? FollowDetailCollectionViewCell {
+                cell.contentView.backgroundColor = UIColor(white: 0, alpha: 0.2)
+            }
+        }, completion: { _ in
+        })
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+            if let cell = collectionView.cellForItem(at: indexPath) as? FollowDetailCollectionViewCell {
+                cell.contentView.backgroundColor = .clear
+            }
+        }, completion: { _ in
+        })
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

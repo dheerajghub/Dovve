@@ -337,7 +337,7 @@ extension UserProfileViewController: SimpleTextPostDelegate, PostWithImagesDeleg
         let VC = FollowDetailViewController()
         VC.followType = "following"
         VC.userId = profileData.id
-        VC.username = profileData.screenName
+        VC.username = profileData.name
         navigationController?.pushViewController(VC, animated: true)
     }
     
@@ -346,7 +346,7 @@ extension UserProfileViewController: SimpleTextPostDelegate, PostWithImagesDeleg
         let VC = FollowDetailViewController()
         VC.followType = "follower"
         VC.userId = profileData.id
-        VC.username = profileData.screenName
+        VC.username = profileData.name
         navigationController?.pushViewController(VC, animated: true)
     }
     

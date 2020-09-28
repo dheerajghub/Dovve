@@ -57,14 +57,14 @@ class MenuBar:UIView {
             seperatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             seperatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             seperatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            seperatorView.heightAnchor.constraint(equalToConstant: 2)
+            seperatorView.heightAnchor.constraint(equalToConstant: 1)
         ])
         
         horizontalBarLeadingAnchorConstraints = selectedBarView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
         horizontalBarLeadingAnchorConstraints?.isActive = true
         selectedBarView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         selectedBarView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/2).isActive = true
-        selectedBarView.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        selectedBarView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
     
     required init?(coder: NSCoder) {

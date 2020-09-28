@@ -67,6 +67,7 @@ class FollowDetailViewController: UIViewController {
         navigationItem.title = "\(username)"
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.layer.shadowOpacity = 0
         navigationController?.navigationBar.barTintColor = UIColor.dynamicColor(.appBackground)
         navigationController?.navigationBar.isTranslucent = false
         self.navigationController!.navigationBar.titleTextAttributes = [
@@ -111,7 +112,11 @@ class FollowDetailViewController: UIViewController {
    
 }
 
-extension FollowDetailViewController:UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension FollowDetailViewController:UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FollowDetailActionProtocol {
+    
+    func didUsertapped(_ userId: String) {
+        PushToProfile(userId)
+    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         menuBar.horizontalBarLeadingAnchorConstraints?.constant = scrollView.contentOffset.x / 2
@@ -131,11 +136,13 @@ extension FollowDetailViewController:UICollectionViewDelegate, UICollectionViewD
         if indexPath.row == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserFollowersCollectionViewCell", for: indexPath) as! UserFollowersCollectionViewCell
             cell.userId = userId
+            cell.delegate = self
             return cell
         }
         if indexPath.row == 1{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserFollowingCollectionViewCell", for: indexPath) as! UserFollowingCollectionViewCell
             cell.userId = userId
+            cell.delegate = self
             return cell
         }
         return UICollectionViewCell()

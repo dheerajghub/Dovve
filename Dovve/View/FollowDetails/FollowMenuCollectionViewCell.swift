@@ -12,13 +12,13 @@ class FollowMenuCollectionViewCell: UICollectionViewCell {
     
     override var isHighlighted: Bool{
         didSet{
-            followLabel.textColor = isHighlighted ? CustomColors.appBlue : UIColor.lightGray
+            followLabel.textColor = isHighlighted ? CustomColors.appBlue : CustomColors.appDarkGray
         }
     }
     
     override var isSelected: Bool{
         didSet{
-            followLabel.textColor = isSelected ? CustomColors.appBlue : UIColor.lightGray
+            followLabel.textColor = isSelected ? CustomColors.appBlue : CustomColors.appDarkGray
         }
     }
     
@@ -27,7 +27,7 @@ class FollowMenuCollectionViewCell: UICollectionViewCell {
         l.translatesAutoresizingMaskIntoConstraints = false
         l.font = UIFont(name: CustomFonts.appFontBold, size: 15)
         l.text = "Followers"
-        l.textColor = UIColor.dynamicColor(.secondaryBackground)
+        l.textColor = CustomColors.appDarkGray
         return l
     }()
     

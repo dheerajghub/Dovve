@@ -10,6 +10,7 @@ import UIKit
 
 class FollowDetailCollectionViewCell: UICollectionViewCell {
     
+    var followStatus:GetFollowingStatus?
     var data:FollowDetail?{
         didSet{
             manageData()
@@ -36,16 +37,13 @@ class FollowDetailCollectionViewCell: UICollectionViewCell {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.textColor = UIColor.dynamicColor(.textColor)
-        l.text = "Venkatesh"
-        l.font = UIFont(name: CustomFonts.appFontMedium, size: 16)
         return l
     }()
     
     let screenName:UILabel = {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
-        l.textColor = CustomColors.appLightGray
-        l.text = "@sam_flyn00712"
+        l.textColor = CustomColors.appDarkGray
         l.font = UIFont(name: CustomFonts.appFont, size: 16)
         return l
     }()
@@ -65,7 +63,6 @@ class FollowDetailCollectionViewCell: UICollectionViewCell {
     let bioDetail:UILabel = {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
-        l.text = "This is test test test test This is test test test test This is test test test test"
         l.numberOfLines = 0
         l.font = UIFont(name: CustomFonts.appFont, size: 16)
         l.textColor = UIColor.dynamicColor(.textColor)
@@ -121,9 +118,23 @@ class FollowDetailCollectionViewCell: UICollectionViewCell {
     func manageData(){
         guard let data = data else {return}
         profileImage.cacheImageWithLoader(withURL: data.profileImage, view: profileBackView)
-        screenName.text = data.screenName
-        name.text = data.name
+        screenName.text = "@\(data.screenName ?? "")"
+        name.attributedText = setUserVerifiedNameAttribute("\(data.name ?? "")" , data.isVerified ?? false , 16)
         bioDetail.text = data.bio
+        
+//        GetFollowingStatus.fetchFollowingStatus(source_id: "893827304358424576", target_id: (data.id)!) { (followStatus) in
+//            self.followStatus = followStatus
+//        }
+//        guard let followStatus = followStatus else {return}
+//        if followStatus.isFollowing {
+//            self.followBtn.setTitle("Following", for: .normal)
+//            self.followBtn.backgroundColor = CustomColors.appBlue
+//            self.followBtn.setTitleColor(.white, for: .normal)
+//        } else {
+//            self.followBtn.setTitle("Follow", for: .normal)
+//            self.followBtn.backgroundColor = UIColor.clear
+//            self.followBtn.setTitleColor(CustomColors.appBlue, for: .normal)
+//        }
     }
     
     required init?(coder: NSCoder) {
