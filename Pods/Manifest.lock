@@ -1,0 +1,36 @@
+PODS:
+  - Alamofire (5.0.5)
+  - GSMessages (1.7.3)
+  - SwiftKeychainWrapper (3.4.0)
+  - SwiftyJSON (5.0.0)
+  - TwitterCore (3.2.0)
+  - TwitterKit (3.4.2):
+    - TwitterCore (>= 3.2.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - GSMessages
+  - SwiftKeychainWrapper
+  - SwiftyJSON
+  - TwitterKit
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - GSMessages
+    - SwiftKeychainWrapper
+    - SwiftyJSON
+    - TwitterCore
+    - TwitterKit
+
+SPEC CHECKSUMS:
+  Alamofire: df2f8f826963b08b9a870791ad48e07a10090b2e
+  GSMessages: b9bcf210247426ae113ff22eac1d8f03ad5dee53
+  SwiftKeychainWrapper: 6fc49fbf7d4a6b0772917acb0e53a1639f6078d6
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+  TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
+  TwitterKit: 5e4f41d70b9abdb41df5467f52d7aa2c0fd26ebb
+
+PODFILE CHECKSUM: 757a8fd805bf889400e8dcc4af7daa727a1529a6
+
+COCOAPODS: 1.8.3
