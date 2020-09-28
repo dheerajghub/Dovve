@@ -77,11 +77,11 @@ class CustomUserProfileNavBar: UIView {
         ])
     }
     
-    func setAttributedText(_ name:String , tweetCount:String) {
-        let attributedText = NSMutableAttributedString(string:"\(name)\n" , attributes:[NSAttributedString.Key.font: UIFont(name: CustomFonts.appFontBold, size: 18)!, NSAttributedString.Key.foregroundColor: UIColor.white])
-        
-        attributedText.append(NSAttributedString(string: "\(tweetCount) Tweets" , attributes:[NSAttributedString.Key.font: UIFont(name: CustomFonts.appFont, size: 16)! , NSAttributedString.Key.foregroundColor: CustomColors.appExtraLightGray]))
-        
+    func setAttributedText(_ name:String , tweetCount:String , isProtected:Bool) {
+        let attributedText = NSMutableAttributedString(string:"\(name)" , attributes:[NSAttributedString.Key.font: UIFont(name: CustomFonts.appFontBold, size: 18)!, NSAttributedString.Key.foregroundColor: UIColor.white])
+        if isProtected == false {
+            attributedText.append(NSAttributedString(string: "\n\(tweetCount) Tweets" , attributes:[NSAttributedString.Key.font: UIFont(name: CustomFonts.appFont, size: 16)! , NSAttributedString.Key.foregroundColor: CustomColors.appExtraLightGray]))
+        }
         titleLabel.attributedText = attributedText
     }
     

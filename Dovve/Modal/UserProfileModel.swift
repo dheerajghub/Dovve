@@ -26,6 +26,7 @@ class UserProfileModel:NSObject{
     var profileImage:String!
     var backgroundImage:String!
     var website:String!
+    var isProtected:Bool!
     
     static func fetchUserProfile(view:UIViewController , userId:String, completionHandler: @escaping (UserProfileModel) -> ()){
         let url = "\(Constants.BASE_URL.rawValue)/1.1/users/show.json?user_id=\(userId)"
@@ -52,6 +53,7 @@ class UserProfileModel:NSObject{
                 profileModel.profileImage = data["profile_image_url_https"].string
                 profileModel.backgroundImage = data["profile_banner_url"].string
                 profileModel.website = data["url"].string
+                profileModel.isProtected = data["protected"].bool
                 
                 DispatchQueue.main.async {
                     completionHandler(profileModel)

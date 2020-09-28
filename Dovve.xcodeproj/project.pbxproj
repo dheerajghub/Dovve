@@ -30,6 +30,7 @@
 		443EE2612520DD4A006B90DB /* GetFollowingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443EE2602520DD4A006B90DB /* GetFollowingStatus.swift */; };
 		446DA6772519E027004A818E /* PostWithImageAndQuoteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DA6762519E027004A818E /* PostWithImageAndQuoteCollectionViewCell.swift */; };
 		446DA6792519E786004A818E /* PostWithImageAndQuotedImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DA6782519E786004A818E /* PostWithImageAndQuotedImageCollectionViewCell.swift */; };
+		44B7D2C72521D69D00939EE5 /* DefaultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B7D2C62521D69D00939EE5 /* DefaultCollectionViewCell.swift */; };
 		44FAE82B2514ADEC006D6867 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FAE82A2514ADEC006D6867 /* AppDelegate.swift */; };
 		44FAE82D2514ADEC006D6867 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FAE82C2514ADEC006D6867 /* SceneDelegate.swift */; };
 		44FAE8342514ADF3006D6867 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44FAE8332514ADF3006D6867 /* Assets.xcassets */; };
@@ -86,6 +87,7 @@
 		443EE2602520DD4A006B90DB /* GetFollowingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFollowingStatus.swift; sourceTree = "<group>"; };
 		446DA6762519E027004A818E /* PostWithImageAndQuoteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostWithImageAndQuoteCollectionViewCell.swift; sourceTree = "<group>"; };
 		446DA6782519E786004A818E /* PostWithImageAndQuotedImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostWithImageAndQuotedImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		44B7D2C62521D69D00939EE5 /* DefaultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCollectionViewCell.swift; sourceTree = "<group>"; };
 		44FAE8272514ADEC006D6867 /* Dovve.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dovve.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44FAE82A2514ADEC006D6867 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44FAE82C2514ADEC006D6867 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				44FE6A9A25175C0D00284738 /* ProfileHeaderCollectionViewCell.swift */,
 				44FE6AA72518CA1A00284738 /* ImageCollectionViewCell.swift */,
 				4431C94B251C5C6F00CC1CB6 /* CustomImageView.swift */,
+				44B7D2C62521D69D00939EE5 /* DefaultCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -493,6 +496,7 @@
 				443EE2572520A220006B90DB /* UserFollowersCollectionViewCell.swift in Sources */,
 				443EE24C25209FC1006B90DB /* FollowDetailViewController.swift in Sources */,
 				44FE6A972517524400284738 /* StretchyCollectionViewFlowLayout.swift in Sources */,
+				44B7D2C72521D69D00939EE5 /* DefaultCollectionViewCell.swift in Sources */,
 				446DA6792519E786004A818E /* PostWithImageAndQuotedImageCollectionViewCell.swift in Sources */,
 				4431C948251B816F00CC1CB6 /* OAuthCrypto.swift in Sources */,
 				446DA6772519E027004A818E /* PostWithImageAndQuoteCollectionViewCell.swift in Sources */,

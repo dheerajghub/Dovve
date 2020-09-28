@@ -122,19 +122,19 @@ class FollowDetailCollectionViewCell: UICollectionViewCell {
         name.attributedText = setUserVerifiedNameAttribute("\(data.name ?? "")" , data.isVerified ?? false , 16)
         bioDetail.text = data.bio
         
-//        GetFollowingStatus.fetchFollowingStatus(source_id: "893827304358424576", target_id: (data.id)!) { (followStatus) in
-//            self.followStatus = followStatus
-//        }
-//        guard let followStatus = followStatus else {return}
-//        if followStatus.isFollowing {
-//            self.followBtn.setTitle("Following", for: .normal)
-//            self.followBtn.backgroundColor = CustomColors.appBlue
-//            self.followBtn.setTitleColor(.white, for: .normal)
-//        } else {
-//            self.followBtn.setTitle("Follow", for: .normal)
-//            self.followBtn.backgroundColor = UIColor.clear
-//            self.followBtn.setTitleColor(CustomColors.appBlue, for: .normal)
-//        }
+        GetFollowingStatus.fetchFollowingStatus(source_id: "893827304358424576", target_id: (data.id)!) { (followStatus) in
+            self.followStatus = followStatus
+        }
+        guard let followStatus = followStatus else {return}
+        if followStatus.isFollowing {
+            self.followBtn.setTitle("Following", for: .normal)
+            self.followBtn.backgroundColor = CustomColors.appBlue
+            self.followBtn.setTitleColor(.white, for: .normal)
+        } else {
+            self.followBtn.setTitle("Follow", for: .normal)
+            self.followBtn.backgroundColor = UIColor.clear
+            self.followBtn.setTitleColor(CustomColors.appBlue, for: .normal)
+        }
     }
     
     required init?(coder: NSCoder) {

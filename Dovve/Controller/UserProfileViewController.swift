@@ -49,6 +49,7 @@ class UserProfileViewController: UIViewController {
         cv.register(PostWithImageAndQuotedImageCollectionViewCell.self, forCellWithReuseIdentifier: "PostWithImageAndQuotedImageCollectionViewCell")
         cv.register(ProfileStrechyHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileStrechyHeader")
         cv.register(ProfileHeaderCollectionViewCell.self, forCellWithReuseIdentifier: "ProfileHeaderCollectionViewCell")
+        cv.register(DefaultCollectionViewCell.self, forCellWithReuseIdentifier: "DefaultCollectionViewCell")
         cv.setCollectionViewLayout(layout, animated: false)
         cv.delegate = self
         cv.dataSource = self
@@ -67,7 +68,7 @@ class UserProfileViewController: UIViewController {
         
         UserProfileModel.fetchUserProfile(view: self, userId: "\(userProfileId ?? "")") { (profileData) in
             self.profileData = profileData
-            self.navBar.setAttributedText(profileData.name ?? "", tweetCount: "\(Double(profileData.tweetCount).kmFormatted)")
+            self.navBar.setAttributedText(profileData.name ?? "", tweetCount: "\(Double(profileData.tweetCount).kmFormatted)", isProtected: profileData.isProtected)
             self.navBar.cardImageView.cacheImageWithLoader(withURL: profileData.backgroundImage ?? "", view: self.navBar.cardBackView)
             self.collectionView.reloadData()
         }
@@ -85,6 +86,14 @@ class UserProfileViewController: UIViewController {
     }
     
     @objc func pullToRefresh(){
+        
+        UserProfileModel.fetchUserProfile(view: self, userId: "\(userProfileId ?? "")") { (profileData) in
+            self.profileData = profileData
+            self.navBar.setAttributedText(profileData.name ?? "", tweetCount: "\(Double(profileData.tweetCount).kmFormatted)", isProtected: profileData.isProtected)
+            self.navBar.cardImageView.cacheImageWithLoader(withURL: profileData.backgroundImage ?? "", view: self.navBar.cardBackView)
+            self.collectionView.reloadData()
+        }
+        
         UserTimeLineModel.fetchUserTimeLine(view:self, params:"&user_id=\(userProfileId ?? "")") {(dataModel) in
             self.dataModel = dataModel
             self.dataList?.removeAll()
@@ -157,8 +166,14 @@ class UserProfileViewController: UIViewController {
 extension UserProfileViewController:UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let dataList = dataList {
-            return dataList.count + 1
+        if let profileData = profileData {
+            if profileData.isProtected {
+                return 2
+            } else {
+                if let dataList = dataList {
+                    return dataList.count + 1
+                }
+            }
         }
         return 1
     }
@@ -179,42 +194,51 @@ extension UserProfileViewController:UICollectionViewDelegate , UICollectionViewD
             return cell
         }
         if indexPath.row > 0 {
-            if let dataList = dataList {
-                if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == false {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SimpleTextPostCollectionViewCell", for: indexPath) as! SimpleTextPostCollectionViewCell
-                    cell.data = dataList[indexPath.row - 1]
-                    cell.delegate = self
+            if let profileData = profileData {
+                if profileData.isProtected {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DefaultCollectionViewCell", for: indexPath) as! DefaultCollectionViewCell
+                    cell.title.text = "These Tweets are protected"
+                    cell.subTitle.text = "Only confirmed followers have access to @\(profileData.screenName ?? "")'s Tweet and complete profile. Tap the \"follow\" button to send request."
                     return cell
-                }
-                if dataList[indexPath.row - 1].media != nil &&  dataList[indexPath.row - 1].isQuotedStatus == false {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostWithImagesCollectionViewCell", for: indexPath) as! PostWithImagesCollectionViewCell
-                    cell.data = dataList[indexPath.row - 1]
-                    cell.delegate = self
-                    return cell
-                }
-                if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == nil {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "QuotedPostCollectionViewCell", for: indexPath) as! QuotedPostCollectionViewCell
-                    cell.data = dataList[indexPath.row - 1]
-                    cell.delegate = self
-                    return cell
-                }
-                if dataList[indexPath.row - 1].media != nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == nil {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostWithImageAndQuoteCollectionViewCell", for: indexPath) as! PostWithImageAndQuoteCollectionViewCell
-                    cell.data = dataList[indexPath.row - 1]
-                    cell.delegate = self
-                    return cell
-                }
-                if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != nil {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "QuotedPostWithImageCollectionViewCell", for: indexPath) as! QuotedPostWithImageCollectionViewCell
-                    cell.data = dataList[indexPath.row - 1]
-                    cell.delegate = self
-                    return cell
-                }
-                if dataList[indexPath.row - 1].media != nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != nil {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostWithImageAndQuotedImageCollectionViewCell", for: indexPath) as! PostWithImageAndQuotedImageCollectionViewCell
-                    cell.data = dataList[indexPath.row - 1]
-                    cell.delegate = self
-                    return cell
+                } else {
+                    if let dataList = dataList {
+                        if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == false {
+                            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SimpleTextPostCollectionViewCell", for: indexPath) as! SimpleTextPostCollectionViewCell
+                            cell.data = dataList[indexPath.row - 1]
+                            cell.delegate = self
+                            return cell
+                        }
+                        if dataList[indexPath.row - 1].media != nil &&  dataList[indexPath.row - 1].isQuotedStatus == false {
+                            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostWithImagesCollectionViewCell", for: indexPath) as! PostWithImagesCollectionViewCell
+                            cell.data = dataList[indexPath.row - 1]
+                            cell.delegate = self
+                            return cell
+                        }
+                        if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == nil {
+                            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "QuotedPostCollectionViewCell", for: indexPath) as! QuotedPostCollectionViewCell
+                            cell.data = dataList[indexPath.row - 1]
+                            cell.delegate = self
+                            return cell
+                        }
+                        if dataList[indexPath.row - 1].media != nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == nil {
+                            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostWithImageAndQuoteCollectionViewCell", for: indexPath) as! PostWithImageAndQuoteCollectionViewCell
+                            cell.data = dataList[indexPath.row - 1]
+                            cell.delegate = self
+                            return cell
+                        }
+                        if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != nil {
+                            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "QuotedPostWithImageCollectionViewCell", for: indexPath) as! QuotedPostWithImageCollectionViewCell
+                            cell.data = dataList[indexPath.row - 1]
+                            cell.delegate = self
+                            return cell
+                        }
+                        if dataList[indexPath.row - 1].media != nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != nil {
+                            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostWithImageAndQuotedImageCollectionViewCell", for: indexPath) as! PostWithImageAndQuotedImageCollectionViewCell
+                            cell.data = dataList[indexPath.row - 1]
+                            cell.delegate = self
+                            return cell
+                        }
+                    }
                 }
             }
         }
@@ -228,45 +252,51 @@ extension UserProfileViewController:UICollectionViewDelegate , UICollectionViewD
             return CGSize(width: collectionView.frame.width, height: estimatedH + 220)
         }
         if indexPath.row > 0 {
-            if let dataList = dataList {
-                if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == false {
-                    let font = UIFont(name: CustomFonts.appFont, size: 17)!
-                    let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
-                    return CGSize(width: collectionView.frame.width, height: estimatedH + 95 )
-                }
-                if dataList[indexPath.row - 1].media != nil &&  dataList[indexPath.row - 1].isQuotedStatus == false {
-                    let font = UIFont(name: CustomFonts.appFont, size: 17)!
-                    let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
-                    let extraHeight = 105 + ((collectionView.frame.width - 100) * (9 / 16))
-                    return CGSize(width: collectionView.frame.width, height: estimatedH + extraHeight )
-                }
-                if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == nil {
-                    let font = UIFont(name: CustomFonts.appFont, size: 17)!
-                    let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
-                    let estimatedHForQuotedTweet = dataList[indexPath.row - 1].tweetQuotedStatus.text.height(withWidth: ((collectionView.frame.width - 100) - 30), font: font)
-                    return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + 160)
-                }
-                if dataList[indexPath.row - 1].media != nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == nil {
-                    let font = UIFont(name: CustomFonts.appFont, size: 17)!
-                    let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
-                    let estimatedHForQuotedTweet = dataList[indexPath.row - 1].tweetQuotedStatus.text.height(withWidth: ((collectionView.frame.width - 100) - 30), font: font)
-                    let imageCollectionForPostH = (collectionView.frame.width - 100) * (9/16)
-                    return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + imageCollectionForPostH + 175)
-                }
-                if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != nil {
-                    let font = UIFont(name: CustomFonts.appFont, size: 17)!
-                    let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
-                    let estimatedHForQuotedTweet = dataList[indexPath.row - 1].tweetQuotedStatus.text.height(withWidth: ((collectionView.frame.width - 100) - 30), font: font)
-                    let imageCollectionHeight = ((collectionView.frame.width - 100) * (9/16))
-                    return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + imageCollectionHeight + 160)
-                }
-                if dataList[indexPath.row - 1].media != nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != nil {
-                    let font = UIFont(name: CustomFonts.appFont, size: 17)!
-                    let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
-                    let estimatedHForQuotedTweet = dataList[indexPath.row - 1].tweetQuotedStatus.text.height(withWidth: ((collectionView.frame.width - 100) - 30), font: font)
-                    let imageCollectionHeight = ((collectionView.frame.width - 100) * (9/16))
-                    let imageCollectionForPostH = (collectionView.frame.width - 100) * (9/16)
-                    return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + imageCollectionHeight + imageCollectionForPostH + 175)
+            if let profileData = profileData {
+                if profileData.isProtected {
+                    return CGSize(width: collectionView.frame.width, height: 500)
+                } else {
+                    if let dataList = dataList {
+                        if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == false {
+                            let font = UIFont(name: CustomFonts.appFont, size: 17)!
+                            let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
+                            return CGSize(width: collectionView.frame.width, height: estimatedH + 95 )
+                        }
+                        if dataList[indexPath.row - 1].media != nil &&  dataList[indexPath.row - 1].isQuotedStatus == false {
+                            let font = UIFont(name: CustomFonts.appFont, size: 17)!
+                            let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
+                            let extraHeight = 105 + ((collectionView.frame.width - 100) * (9 / 16))
+                            return CGSize(width: collectionView.frame.width, height: estimatedH + extraHeight )
+                        }
+                        if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == nil {
+                            let font = UIFont(name: CustomFonts.appFont, size: 17)!
+                            let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
+                            let estimatedHForQuotedTweet = dataList[indexPath.row - 1].tweetQuotedStatus.text.height(withWidth: ((collectionView.frame.width - 100) - 30), font: font)
+                            return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + 160)
+                        }
+                        if dataList[indexPath.row - 1].media != nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == nil {
+                            let font = UIFont(name: CustomFonts.appFont, size: 17)!
+                            let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
+                            let estimatedHForQuotedTweet = dataList[indexPath.row - 1].tweetQuotedStatus.text.height(withWidth: ((collectionView.frame.width - 100) - 30), font: font)
+                            let imageCollectionForPostH = (collectionView.frame.width - 100) * (9/16)
+                            return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + imageCollectionForPostH + 175)
+                        }
+                        if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != nil {
+                            let font = UIFont(name: CustomFonts.appFont, size: 17)!
+                            let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
+                            let estimatedHForQuotedTweet = dataList[indexPath.row - 1].tweetQuotedStatus.text.height(withWidth: ((collectionView.frame.width - 100) - 30), font: font)
+                            let imageCollectionHeight = ((collectionView.frame.width - 100) * (9/16))
+                            return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + imageCollectionHeight + 160)
+                        }
+                        if dataList[indexPath.row - 1].media != nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != nil {
+                            let font = UIFont(name: CustomFonts.appFont, size: 17)!
+                            let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
+                            let estimatedHForQuotedTweet = dataList[indexPath.row - 1].tweetQuotedStatus.text.height(withWidth: ((collectionView.frame.width - 100) - 30), font: font)
+                            let imageCollectionHeight = ((collectionView.frame.width - 100) * (9/16))
+                            let imageCollectionForPostH = (collectionView.frame.width - 100) * (9/16)
+                            return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + imageCollectionHeight + imageCollectionForPostH + 175)
+                        }
+                    }
                 }
             }
         }
@@ -334,20 +364,25 @@ extension UserProfileViewController: SimpleTextPostDelegate, PostWithImagesDeleg
     
     func didFollowingTapped() {
         guard let profileData = profileData else {return}
-        let VC = FollowDetailViewController()
-        VC.followType = "following"
-        VC.userId = profileData.id
-        VC.username = profileData.name
-        navigationController?.pushViewController(VC, animated: true)
+        if profileData.isProtected == false {
+            let VC = FollowDetailViewController()
+            VC.followType = "following"
+            VC.userId = profileData.id
+            VC.username = profileData.name
+            navigationController?.pushViewController(VC, animated: true)
+        }
+        
     }
     
     func didFollowerTapped() {
         guard let profileData = profileData else {return}
-        let VC = FollowDetailViewController()
-        VC.followType = "follower"
-        VC.userId = profileData.id
-        VC.username = profileData.name
-        navigationController?.pushViewController(VC, animated: true)
+        if profileData.isProtected == false {
+            let VC = FollowDetailViewController()
+            VC.followType = "follower"
+            VC.userId = profileData.id
+            VC.username = profileData.name
+            navigationController?.pushViewController(VC, animated: true)
+        }
     }
     
     //MARK:-SimpleTextPost Actions

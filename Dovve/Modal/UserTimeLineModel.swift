@@ -12,26 +12,6 @@ import SwiftyJSON
 import SwiftKeychainWrapper
 import GSMessages
 
-//class User {
-//    var userId:String!
-//    var name:String!
-//    var screen_name:String!
-//    var profileImage:String!
-//    var isVerified:Bool!
-//}
-//
-//class QuotedViewStatus {
-//    var createdAt:String!
-//    var user:User!
-//    var text:String!
-//    var media:[String]!
-//}
-//
-//class RetweetedData {
-//    var userProfileImage:String!
-//    var userID:String!
-//}
-
 class UserTimeLineModel:NSObject{
     
     var createdAt:String!
