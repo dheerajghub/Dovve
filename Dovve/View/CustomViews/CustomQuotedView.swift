@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ActiveLabel
 
 class CustomQuotedView: UIView {
     
@@ -32,6 +33,7 @@ class CustomQuotedView: UIView {
         tap.numberOfTapsRequired = 1
         img.addGestureRecognizer(tap)
         img.isUserInteractionEnabled = true
+        img.videoView.isHidden = true
         return img
     }()
     
@@ -49,13 +51,14 @@ class CustomQuotedView: UIView {
         return l
     }()
     
-    let tweet:UILabel = {
-        let l = UILabel()
+    let tweet:ActiveLabel = {
+        let l = ActiveLabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.font = UIFont(name: CustomFonts.appFont, size: 17)
         l.textColor = UIColor.dynamicColor(.textColor)
         l.text = "This is test this test this."
         l.numberOfLines = 0
+        l.enabledTypes = [.mention , .hashtag , .url]
         return l
     }()
     
@@ -67,7 +70,7 @@ class CustomQuotedView: UIView {
         addSubview(tweet)
         setUpConstraints()
         
-        setUpAttributes("Full name", "username", "2h", true)
+        setUpActiveLabels()
     }
     
     func setUpConstraints(){
@@ -93,6 +96,15 @@ class CustomQuotedView: UIView {
             tweet.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5)
             
         ])
+    }
+    
+    func setUpActiveLabels(){
+        //Customizing Labels
+        tweet.customize{ label in
+            label.hashtagColor = CustomColors.appBlue
+            label.mentionColor = CustomColors.appBlue
+            label.URLColor = CustomColors.appBlue
+        }
     }
     
     required init?(coder: NSCoder) {

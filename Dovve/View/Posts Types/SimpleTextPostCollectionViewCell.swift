@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ActiveLabel
 
 protocol SimpleTextPostDelegate{
     func didUserProfileTapped(for cell: SimpleTextPostCollectionViewCell , _ isRetweetedUser:Bool)
@@ -31,6 +32,7 @@ class SimpleTextPostCollectionViewCell: UICollectionViewCell {
         tap.numberOfTapsRequired = 1
         img.addGestureRecognizer(tap)
         img.isUserInteractionEnabled = true
+        img.videoView.isHidden = true
         return img
     }()
     
@@ -53,6 +55,7 @@ class SimpleTextPostCollectionViewCell: UICollectionViewCell {
         tap.numberOfTapsRequired = 1
         img.addGestureRecognizer(tap)
         img.isUserInteractionEnabled = true
+        img.videoView.isHidden = true
         return img
     }()
     
@@ -71,12 +74,13 @@ class SimpleTextPostCollectionViewCell: UICollectionViewCell {
         return l
     }()
     
-    let tweet:UILabel = {
-        let l = UILabel()
+    let tweet:ActiveLabel = {
+        let l = ActiveLabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.font = UIFont(name: CustomFonts.appFont, size: 17)
         l.textColor = UIColor.dynamicColor(.textColor)
         l.numberOfLines = 0
+        l.enabledTypes = [.hashtag , .mention , .url]
         return l
     }()
     
@@ -202,6 +206,8 @@ class SimpleTextPostCollectionViewCell: UICollectionViewCell {
         shareView.addSubview(shareImage)
         
         setUpConstraints()
+        setUpActiveLabels()
+        
     }
     
     func setUpConstraints(){
@@ -270,6 +276,15 @@ class SimpleTextPostCollectionViewCell: UICollectionViewCell {
             shareImage.widthAnchor.constraint(equalToConstant: 20),
             shareImage.heightAnchor.constraint(equalToConstant: 20),
         ])
+    }
+    
+    func setUpActiveLabels(){
+        //Customizing Labels
+        tweet.customize{ label in
+            label.hashtagColor = CustomColors.appBlue
+            label.mentionColor = CustomColors.appBlue
+            label.URLColor = CustomColors.appBlue
+        }
     }
     
     func manageData(){

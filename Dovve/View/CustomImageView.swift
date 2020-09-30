@@ -14,10 +14,54 @@ class CustomImageView: UIImageView {
     
     var imageUrlString:String?
     
+    let videoView:UIView = {
+        let v = UIView()
+        v.backgroundColor = UIColor(white: 0, alpha: 0.4)
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.clipsToBounds = true
+        return v
+    }()
+    
+    let playBtn:UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setBackgroundImage(UIImage(named: "playBtn"), for: .normal)
+        return btn
+    }()
+    
+    let status:UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.layer.cornerRadius = 2
+        btn.backgroundColor = UIColor(white: 0, alpha: 0.7)
+        btn.setTitle("0:30", for: .normal)
+        btn.setTitleColor(.white, for: .normal)
+        btn.titleLabel?.font = UIFont(name: CustomFonts.appFont, size: 12)
+        return btn
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame:frame)
         contentMode = .scaleAspectFill
         clipsToBounds = true
+        addSubview(videoView)
+        videoView.addSubview(playBtn)
+        videoView.addSubview(status)
+        videoView.pin(to: self)
+        setUpConstraints()
+    }
+    
+    func setUpConstraints(){
+        NSLayoutConstraint.activate([
+            playBtn.widthAnchor.constraint(equalToConstant: 50),
+            playBtn.heightAnchor.constraint(equalToConstant: 50),
+            playBtn.centerYAnchor.constraint(equalTo: centerYAnchor),
+            playBtn.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            status.leadingAnchor.constraint(equalTo: videoView.leadingAnchor , constant: 10),
+            status.bottomAnchor.constraint(equalTo: videoView.bottomAnchor, constant: -10),
+            status.heightAnchor.constraint(equalToConstant: 20)
+        ])
     }
     
     convenience init() {

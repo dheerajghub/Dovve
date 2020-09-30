@@ -10,9 +10,9 @@ import UIKit
 
 class ImageCollectionViewCell: UICollectionViewCell {
     
-    var data:String!{
+    var data:TweetMediaData?{
         didSet {
-            image.cacheImageWithLoader(withURL: data, view: userImageBackView)
+            manageData()
         }
     }
     
@@ -37,6 +37,18 @@ class ImageCollectionViewCell: UICollectionViewCell {
         addSubview(image)
         userImageBackView.pin(to: self)
         image.pin(to: self)
+    }
+    
+    func manageData(){
+        guard let data = data else {return}
+        image.cacheImageWithLoader(withURL: data.imgURL, view: userImageBackView)
+        image.videoView.isHidden = data.isVideo ? false : true
+        if data.duration == nil {
+            image.status.setTitle(" GIF ", for: .normal)
+        } else {
+            let seconds = data.duration.stringFromMillis()
+            image.status.setTitle(" \(seconds) ", for: .normal)
+        }
     }
     
     required init?(coder: NSCoder) {

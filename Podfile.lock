@@ -1,4 +1,5 @@
 PODS:
+  - ActiveLabel (1.1.0)
   - Alamofire (5.0.5)
   - GSMessages (1.7.3)
   - SwiftKeychainWrapper (3.4.0)
@@ -8,6 +9,7 @@ PODS:
     - TwitterCore (>= 3.2.0)
 
 DEPENDENCIES:
+  - ActiveLabel
   - Alamofire
   - GSMessages
   - SwiftKeychainWrapper
@@ -16,6 +18,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - ActiveLabel
     - Alamofire
     - GSMessages
     - SwiftKeychainWrapper
@@ -24,6 +27,7 @@ SPEC REPOS:
     - TwitterKit
 
 SPEC CHECKSUMS:
+  ActiveLabel: 5e3f4de79a1952d4604b845a0610d4776e4b82b3
   Alamofire: df2f8f826963b08b9a870791ad48e07a10090b2e
   GSMessages: b9bcf210247426ae113ff22eac1d8f03ad5dee53
   SwiftKeychainWrapper: 6fc49fbf7d4a6b0772917acb0e53a1639f6078d6
@@ -31,6 +35,6 @@ SPEC CHECKSUMS:
   TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
   TwitterKit: 5e4f41d70b9abdb41df5467f52d7aa2c0fd26ebb
 
-PODFILE CHECKSUM: 757a8fd805bf889400e8dcc4af7daa727a1529a6
+PODFILE CHECKSUM: 7d79a8e3d1850ac97e47b807ef15526d64bd063d
 
 COCOAPODS: 1.8.3

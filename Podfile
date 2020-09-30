@@ -11,4 +11,5 @@ pod 'Alamofire'
 pod 'SwiftKeychainWrapper'
 pod 'SwiftyJSON'
 pod 'GSMessages'
+pod 'ActiveLabel'
 end

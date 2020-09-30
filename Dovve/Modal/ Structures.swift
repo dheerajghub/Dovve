@@ -8,11 +8,19 @@
 
 import Foundation
 
+struct TweetMediaData:Equatable {
+    let imgURL:String!
+    let vidURL:String!
+    let duration:Int!
+    let isVideo:Bool!
+}
+
 struct TweetQuotedStatus {
     let createdAt:String!
     let user:TweetUser!
     let text:String!
-    let media:[String]!
+    let media:[TweetMediaData]!
+    let isVideo:Bool!
 }
 
 struct TweetUser {
@@ -33,7 +41,8 @@ struct TweetData {
     let id:String!
     let text:String!
     let user:TweetUser!
-    let media:[String]!
+    let media:[TweetMediaData]!
+    let isVideo:Bool!
     let isRetweetedStatus:Bool!
     let retweetedBy:TweetRetweetedData!
     let isQuotedStatus:Bool!

@@ -30,6 +30,7 @@ class ProfileStrechyHeader: UICollectionReusableView {
     
     func createViews() {
         imageView = CustomImageView()
+        imageView.videoView.isHidden = true
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         self.addSubview(imageView)

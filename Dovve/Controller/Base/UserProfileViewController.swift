@@ -132,20 +132,40 @@ class UserProfileViewController: UIViewController {
         var tweets = [TweetData]()
         let tweetCount = data.count
         for i in 0..<tweetCount{
+            var mediaData = [TweetMediaData]()
+            var quotedMediaData = [TweetMediaData]()
+            
+            if data[i].mediaData != nil {
+                for j in 0..<data[i].mediaData.count {
+                    let media = TweetMediaData(imgURL:data[i].mediaData[j].imgUrl, vidURL: data[i].mediaData[j].vidUrl, duration: data[i].mediaData[j].duration , isVideo: data[i].isVideo)
+                    mediaData.append(media)
+                }
+            } else {
+                mediaData = []
+            }
+            
             if data[i].isQuotedStatus == true {
+                if data[i].quotedStatus.mediaData != nil {
+                    for j in 0..<data[i].quotedStatus.mediaData.count {
+                        let media = TweetMediaData(imgURL:data[i].quotedStatus.mediaData[j].imgUrl, vidURL: data[i].quotedStatus.mediaData[j].vidUrl, duration: data[i].quotedStatus.mediaData[j].duration , isVideo: data[i].quotedStatus.isVideo)
+                        quotedMediaData.append(media)
+                    }
+                } else {
+                    quotedMediaData = []
+                }
                 if data[i].isRetweetedStatus == true {
-                    let tweet = TweetData(createdAt: data[i].createdAt, id: data[i].id, text: data[i].text, user: TweetUser(userId: data[i].user.userId, name: data[i].user.name, screenName: data[i].user.screen_name, profileImage: data[i].user.profileImage, isVerified: data[i].user.isVerified), media: data[i].media, isRetweetedStatus: true, retweetedBy: TweetRetweetedData(userProfileImage: data[i].retweetedBy.userProfileImage, userID: data[i].retweetedBy.userID) ,isQuotedStatus: data[i].isQuotedStatus, tweetQuotedStatus:TweetQuotedStatus(createdAt: data[i].quotedStatus.createdAt, user: TweetUser(userId: data[i].quotedStatus.user.userId, name: data[i].quotedStatus.user.name, screenName: data[i].quotedStatus.user.screen_name, profileImage: data[i].quotedStatus.user.profileImage, isVerified: data[i].quotedStatus.user.isVerified), text: data[i].quotedStatus.text, media: data[i].quotedStatus.media), retweetCount: data[i].retweetCount, favoriteCount: data[i].favoriteCount, favorited: data[i].favorited, retweeted: data[i].retweeted)
+                    let tweet = TweetData(createdAt: data[i].createdAt, id: data[i].id, text: data[i].text, user: TweetUser(userId: data[i].user.userId, name: data[i].user.name, screenName: data[i].user.screen_name, profileImage: data[i].user.profileImage, isVerified: data[i].user.isVerified), media: mediaData , isVideo: data[i].isVideo,isRetweetedStatus: true, retweetedBy: TweetRetweetedData(userProfileImage: data[i].retweetedBy.userProfileImage, userID: data[i].retweetedBy.userID) ,isQuotedStatus: data[i].isQuotedStatus, tweetQuotedStatus:TweetQuotedStatus(createdAt: data[i].quotedStatus.createdAt, user: TweetUser(userId: data[i].quotedStatus.user.userId, name: data[i].quotedStatus.user.name, screenName: data[i].quotedStatus.user.screen_name, profileImage: data[i].quotedStatus.user.profileImage, isVerified: data[i].quotedStatus.user.isVerified), text: data[i].quotedStatus.text, media: quotedMediaData, isVideo: data[i].quotedStatus.isVideo), retweetCount: data[i].retweetCount, favoriteCount: data[i].favoriteCount, favorited: data[i].favorited, retweeted: data[i].retweeted)
                     tweets.append(tweet)
                 } else {
-                    let tweet = TweetData(createdAt: data[i].createdAt, id: data[i].id, text: data[i].text, user: TweetUser(userId: data[i].user.userId, name: data[i].user.name, screenName: data[i].user.screen_name, profileImage: data[i].user.profileImage, isVerified: data[i].user.isVerified), media: data[i].media, isRetweetedStatus: false , retweetedBy: nil , isQuotedStatus: data[i].isQuotedStatus, tweetQuotedStatus:TweetQuotedStatus(createdAt: data[i].quotedStatus.createdAt, user: TweetUser(userId: data[i].quotedStatus.user.userId, name: data[i].quotedStatus.user.name, screenName: data[i].quotedStatus.user.screen_name, profileImage: data[i].quotedStatus.user.profileImage, isVerified: data[i].quotedStatus.user.isVerified), text: data[i].quotedStatus.text, media: data[i].quotedStatus.media), retweetCount: data[i].retweetCount, favoriteCount: data[i].favoriteCount, favorited: data[i].favorited, retweeted: data[i].retweeted)
+                    let tweet = TweetData(createdAt: data[i].createdAt, id: data[i].id, text: data[i].text, user: TweetUser(userId: data[i].user.userId, name: data[i].user.name, screenName: data[i].user.screen_name, profileImage: data[i].user.profileImage, isVerified: data[i].user.isVerified), media: mediaData, isVideo: data[i].isVideo,isRetweetedStatus: false , retweetedBy: nil , isQuotedStatus: data[i].isQuotedStatus, tweetQuotedStatus:TweetQuotedStatus(createdAt: data[i].quotedStatus.createdAt, user: TweetUser(userId: data[i].quotedStatus.user.userId, name: data[i].quotedStatus.user.name, screenName: data[i].quotedStatus.user.screen_name, profileImage: data[i].quotedStatus.user.profileImage, isVerified: data[i].quotedStatus.user.isVerified), text: data[i].quotedStatus.text, media: quotedMediaData, isVideo: data[i].quotedStatus.isVideo), retweetCount: data[i].retweetCount, favoriteCount: data[i].favoriteCount, favorited: data[i].favorited, retweeted: data[i].retweeted)
                     tweets.append(tweet)
                 }
             } else {
                 if data[i].isRetweetedStatus == true {
-                    let tweet = TweetData(createdAt: data[i].createdAt, id: data[i].id, text: data[i].text, user: TweetUser(userId: data[i].user.userId, name: data[i].user.name, screenName: data[i].user.screen_name, profileImage: data[i].user.profileImage, isVerified: data[i].user.isVerified), media: data[i].media, isRetweetedStatus: true , retweetedBy: TweetRetweetedData(userProfileImage: data[i].retweetedBy.userProfileImage, userID: data[i].retweetedBy.userID), isQuotedStatus: data[i].isQuotedStatus, tweetQuotedStatus:nil, retweetCount: data[i].retweetCount, favoriteCount: data[i].favoriteCount, favorited: data[i].favorited, retweeted: data[i].retweeted)
+                    let tweet = TweetData(createdAt: data[i].createdAt, id: data[i].id, text: data[i].text, user: TweetUser(userId: data[i].user.userId, name: data[i].user.name, screenName: data[i].user.screen_name, profileImage: data[i].user.profileImage, isVerified: data[i].user.isVerified), media: mediaData, isVideo: data[i].isVideo,isRetweetedStatus: true , retweetedBy: TweetRetweetedData(userProfileImage: data[i].retweetedBy.userProfileImage, userID: data[i].retweetedBy.userID), isQuotedStatus: data[i].isQuotedStatus, tweetQuotedStatus:nil, retweetCount: data[i].retweetCount, favoriteCount: data[i].favoriteCount, favorited: data[i].favorited, retweeted: data[i].retweeted)
                     tweets.append(tweet)
                 } else {
-                    let tweet = TweetData(createdAt: data[i].createdAt, id: data[i].id, text: data[i].text, user: TweetUser(userId: data[i].user.userId, name: data[i].user.name, screenName: data[i].user.screen_name, profileImage: data[i].user.profileImage, isVerified: data[i].user.isVerified), media: data[i].media, isRetweetedStatus: false, retweetedBy: nil ,isQuotedStatus: data[i].isQuotedStatus, tweetQuotedStatus:nil, retweetCount: data[i].retweetCount, favoriteCount: data[i].favoriteCount, favorited: data[i].favorited, retweeted: data[i].retweeted)
+                    let tweet = TweetData(createdAt: data[i].createdAt, id: data[i].id, text: data[i].text, user: TweetUser(userId: data[i].user.userId, name: data[i].user.name, screenName: data[i].user.screen_name, profileImage: data[i].user.profileImage, isVerified: data[i].user.isVerified), media: mediaData, isVideo: data[i].isVideo,isRetweetedStatus: false, retweetedBy: nil ,isQuotedStatus: data[i].isQuotedStatus, tweetQuotedStatus:nil, retweetCount: data[i].retweetCount, favoriteCount: data[i].favoriteCount, favorited: data[i].favorited, retweeted: data[i].retweeted)
                     tweets.append(tweet)
                 }
             }
@@ -202,37 +222,37 @@ extension UserProfileViewController:UICollectionViewDelegate , UICollectionViewD
                     return cell
                 } else {
                     if let dataList = dataList {
-                        if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == false {
+                        if dataList[indexPath.row - 1].media == [] && dataList[indexPath.row - 1].isQuotedStatus == false {
                             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SimpleTextPostCollectionViewCell", for: indexPath) as! SimpleTextPostCollectionViewCell
                             cell.data = dataList[indexPath.row - 1]
                             cell.delegate = self
                             return cell
                         }
-                        if dataList[indexPath.row - 1].media != nil &&  dataList[indexPath.row - 1].isQuotedStatus == false {
+                        if dataList[indexPath.row - 1].media != [] &&  dataList[indexPath.row - 1].isQuotedStatus == false {
                             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostWithImagesCollectionViewCell", for: indexPath) as! PostWithImagesCollectionViewCell
                             cell.data = dataList[indexPath.row - 1]
                             cell.delegate = self
                             return cell
                         }
-                        if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == nil {
+                        if dataList[indexPath.row - 1].media == [] && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == [] {
                             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "QuotedPostCollectionViewCell", for: indexPath) as! QuotedPostCollectionViewCell
                             cell.data = dataList[indexPath.row - 1]
                             cell.delegate = self
                             return cell
                         }
-                        if dataList[indexPath.row - 1].media != nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == nil {
+                        if dataList[indexPath.row - 1].media != [] && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == [] {
                             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostWithImageAndQuoteCollectionViewCell", for: indexPath) as! PostWithImageAndQuoteCollectionViewCell
                             cell.data = dataList[indexPath.row - 1]
                             cell.delegate = self
                             return cell
                         }
-                        if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != nil {
+                        if dataList[indexPath.row - 1].media == [] && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != [] {
                             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "QuotedPostWithImageCollectionViewCell", for: indexPath) as! QuotedPostWithImageCollectionViewCell
                             cell.data = dataList[indexPath.row - 1]
                             cell.delegate = self
                             return cell
                         }
-                        if dataList[indexPath.row - 1].media != nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != nil {
+                        if dataList[indexPath.row - 1].media != [] && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != [] {
                             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostWithImageAndQuotedImageCollectionViewCell", for: indexPath) as! PostWithImageAndQuotedImageCollectionViewCell
                             cell.data = dataList[indexPath.row - 1]
                             cell.delegate = self
@@ -257,38 +277,38 @@ extension UserProfileViewController:UICollectionViewDelegate , UICollectionViewD
                     return CGSize(width: collectionView.frame.width, height: 500)
                 } else {
                     if let dataList = dataList {
-                        if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == false {
+                        if dataList[indexPath.row - 1].media == [] && dataList[indexPath.row - 1].isQuotedStatus == false {
                             let font = UIFont(name: CustomFonts.appFont, size: 17)!
                             let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
                             return CGSize(width: collectionView.frame.width, height: estimatedH + 95 )
                         }
-                        if dataList[indexPath.row - 1].media != nil &&  dataList[indexPath.row - 1].isQuotedStatus == false {
+                        if dataList[indexPath.row - 1].media != [] &&  dataList[indexPath.row - 1].isQuotedStatus == false {
                             let font = UIFont(name: CustomFonts.appFont, size: 17)!
                             let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
                             let extraHeight = 105 + ((collectionView.frame.width - 100) * (9 / 16))
                             return CGSize(width: collectionView.frame.width, height: estimatedH + extraHeight )
                         }
-                        if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == nil {
+                        if dataList[indexPath.row - 1].media == [] && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == [] {
                             let font = UIFont(name: CustomFonts.appFont, size: 17)!
                             let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
                             let estimatedHForQuotedTweet = dataList[indexPath.row - 1].tweetQuotedStatus.text.height(withWidth: ((collectionView.frame.width - 100) - 30), font: font)
                             return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + 160)
                         }
-                        if dataList[indexPath.row - 1].media != nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == nil {
+                        if dataList[indexPath.row - 1].media != [] && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media == [] {
                             let font = UIFont(name: CustomFonts.appFont, size: 17)!
                             let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
                             let estimatedHForQuotedTweet = dataList[indexPath.row - 1].tweetQuotedStatus.text.height(withWidth: ((collectionView.frame.width - 100) - 30), font: font)
                             let imageCollectionForPostH = (collectionView.frame.width - 100) * (9/16)
                             return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + imageCollectionForPostH + 175)
                         }
-                        if dataList[indexPath.row - 1].media == nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != nil {
+                        if dataList[indexPath.row - 1].media == [] && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != [] {
                             let font = UIFont(name: CustomFonts.appFont, size: 17)!
                             let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
                             let estimatedHForQuotedTweet = dataList[indexPath.row - 1].tweetQuotedStatus.text.height(withWidth: ((collectionView.frame.width - 100) - 30), font: font)
                             let imageCollectionHeight = ((collectionView.frame.width - 100) * (9/16))
                             return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + imageCollectionHeight + 160)
                         }
-                        if dataList[indexPath.row - 1].media != nil && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != nil {
+                        if dataList[indexPath.row - 1].media != [] && dataList[indexPath.row - 1].isQuotedStatus == true && dataList[indexPath.row - 1].tweetQuotedStatus.media != [] {
                             let font = UIFont(name: CustomFonts.appFont, size: 17)!
                             let estimatedH = dataList[indexPath.row - 1].text.height(withWidth: (collectionView.frame.width - 100), font: font)
                             let estimatedHForQuotedTweet = dataList[indexPath.row - 1].tweetQuotedStatus.text.height(withWidth: ((collectionView.frame.width - 100) - 30), font: font)
@@ -416,8 +436,12 @@ extension UserProfileViewController: SimpleTextPostDelegate, PostWithImagesDeleg
     func didImageTapped(for cell: PostWithImagesCollectionViewCell, _ index: Int) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         if let dataList = dataList {
-            let media = dataList[indexPath.row - 1].media
-            PushToImageDetailView(media ?? [""] , index)
+            if dataList[indexPath.row - 1].isVideo {
+                ShowVieoWithUrl(dataList[indexPath.row - 1].media[0].vidURL)
+            } else {
+                let media = dataList[indexPath.row - 1].media
+                PushToImageDetailView(media! , index)
+            }
         }
     }
     
@@ -458,8 +482,12 @@ extension UserProfileViewController: SimpleTextPostDelegate, PostWithImagesDeleg
     func didImageTapped(for cell: QuotedPostWithImageCollectionViewCell, _ index: Int) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         if let dataList = dataList {
-            let media = dataList[indexPath.row - 1].tweetQuotedStatus.media
-            PushToImageDetailView(media ?? [""] , index)
+            if dataList[indexPath.row - 1].tweetQuotedStatus.isVideo {
+                ShowVieoWithUrl(dataList[indexPath.row - 1].tweetQuotedStatus.media[0].vidURL)
+            } else {
+                let media = dataList[indexPath.row - 1].tweetQuotedStatus.media
+                PushToImageDetailView(media! , index)
+            }
         }
     }
     
@@ -483,8 +511,12 @@ extension UserProfileViewController: SimpleTextPostDelegate, PostWithImagesDeleg
     func didImageTapped(for cell: PostWithImageAndQuoteCollectionViewCell, _ index: Int) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         if let dataList = dataList {
-            let media = dataList[indexPath.row - 1].media
-            PushToImageDetailView(media ?? [""] , index)
+            if dataList[indexPath.row - 1].isVideo {
+                ShowVieoWithUrl(dataList[indexPath.row - 1].media[0].vidURL)
+            } else {
+                let media = dataList[indexPath.row - 1].media
+                PushToImageDetailView(media! , index)
+            }
         }
     }
     
@@ -509,11 +541,19 @@ extension UserProfileViewController: SimpleTextPostDelegate, PostWithImagesDeleg
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         if let dataList = dataList {
             if isPostImage {
-                let media = dataList[indexPath.row - 1].media
-                PushToImageDetailView(media ?? [""] , index)
+                if dataList[indexPath.row - 1].isVideo {
+                    ShowVieoWithUrl(dataList[indexPath.row - 1].media[0].vidURL)
+                } else {
+                    let media = dataList[indexPath.row - 1].media
+                    PushToImageDetailView(media! , index)
+                }
             } else if isQuoteImage {
-                let media = dataList[indexPath.row - 1].tweetQuotedStatus.media
-                PushToImageDetailView(media ?? [""] , index)
+                if dataList[indexPath.row - 1].tweetQuotedStatus.isVideo {
+                    ShowVieoWithUrl(dataList[indexPath.row - 1].tweetQuotedStatus.media[0].vidURL)
+                } else {
+                    let media = dataList[indexPath.row - 1].tweetQuotedStatus.media
+                    PushToImageDetailView(media! , index)
+                }
             }
         }
     }

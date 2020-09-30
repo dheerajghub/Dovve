@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ActiveLabel
 
 protocol ButtonActionProtocol {
     func didFollowingTapped()
@@ -28,6 +29,7 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         img.layer.cornerRadius = 30
         img.image = UIImage(named: "demo")
         img.clipsToBounds = true
+        img.videoView.isHidden = true
         return img
     }()
     
@@ -56,12 +58,13 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         return l
     }()
     
-    let bioDetail:UILabel = {
-        let l = UILabel()
+    let bioDetail:ActiveLabel = {
+        let l = ActiveLabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.textColor = UIColor.dynamicColor(.textColor)
         l.font = UIFont(name: CustomFonts.appFont, size: 17)
         l.numberOfLines = 0
+        l.enabledTypes = [.mention , .hashtag , .url]
         return l
     }()
     
@@ -117,6 +120,7 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         addSubview(followerBtn)
         
         setUpConstraints()
+        setUpActiveLabels()
     }
     
     func setUpConstraints(){
@@ -165,6 +169,14 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    func setUpActiveLabels(){
+        bioDetail.customize{ label in
+            label.hashtagColor = CustomColors.appBlue
+            label.mentionColor = CustomColors.appBlue
+            label.URLColor = CustomColors.appBlue
+        }
+    }
+    
     func customAttribute(_ count:String , attr:String , btn:UIButton) {
         let attributedText = NSMutableAttributedString(string:"\(count)" , attributes:[NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Medium", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor.dynamicColor(.textColor)])
         
@@ -183,18 +195,7 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         joinedLabel.text = "Joined \(joiningDate.parseTwitterDateInFormat("MMMM yyyy") ?? "")"
         profileImgView.cacheImageWithLoader(withURL: "\(data.profileImage ?? "")", view: profileBackView)
         name.attributedText = setUserVerifiedNameAttribute("\(data.name ?? "")" , data.isVerified ?? false , 22)
-        
-//        GetFollowingStatus.fetchFollowingStatus(source_id: "893827304358424576", target_id: (data.id)!) { (followStatus) in
-//            if followStatus.isFollowing {
-//                self.followBtn.setTitle("Following", for: .normal)
-//                self.followBtn.backgroundColor = CustomColors.appBlue
-//                self.followBtn.setTitleColor(.white, for: .normal)
-//            } else {
-//                self.followBtn.setTitle("Follow", for: .normal)
-//                self.followBtn.backgroundColor = UIColor.clear
-//                self.followBtn.setTitleColor(CustomColors.appBlue, for: .normal)
-//            }
-//        }
+        followBtn.isHidden = true
     }
     
     @objc func followerBtnPressed(){

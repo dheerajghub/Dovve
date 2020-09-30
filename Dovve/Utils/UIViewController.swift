@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVKit
 
 extension UIViewController {
     
@@ -24,13 +25,24 @@ extension UIViewController {
         }
     }
     
-    func PushToImageDetailView( _ media:[String] , _ index:Int){
+    func PushToImageDetailView( _ media:[TweetMediaData] , _ index:Int){
         let VC = ImageDetailViewController()
         let navVC = UINavigationController(rootViewController: VC)
         VC.imgString = media
         VC.indexRow = index
         navVC.modalPresentationStyle = .fullScreen
         self.present(navVC, animated: true, completion: nil)
+    }
+    
+    func ShowVieoWithUrl(_ url:String){
+        let videoURL = URL(string: url)
+        let player = AVPlayer(url: videoURL!)
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = player
+
+        self.present(playerViewController, animated: true) {
+          player.play()
+        }
     }
     
 }

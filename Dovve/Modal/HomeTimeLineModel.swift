@@ -24,12 +24,20 @@ class QuotedViewStatus {
     var createdAt:String!
     var user:User!
     var text:String!
-    var media:[String]!
+    var mediaData:[MediaData]!
+    var isVideo:Bool!
 }
 
 class RetweetedData {
     var userProfileImage:String!
     var userID:String!
+}
+
+class MediaData {
+    var imgUrl:String!
+    var vidUrl:String!
+    var duration:Int!
+    var isVideo:Bool!
 }
 
 class HomeTimeLineModel:NSObject{
@@ -38,7 +46,8 @@ class HomeTimeLineModel:NSObject{
     var id:String!
     var text:String!
     var user:User!
-    var media:[String]!
+    var mediaData:[MediaData]!
+    var isVideo:Bool!
     var isQuotedStatus:Bool!
     var isRetweetedStatus:Bool!
     var retweetedBy:RetweetedData!
@@ -99,14 +108,34 @@ class HomeTimeLineModel:NSObject{
                             homeModel.user = user
                             let mediaData = data[i]["extended_entities"]["media"].array
                             if mediaData == nil {
-                                homeModel.media = nil
+                                homeModel.mediaData = nil
                             } else {
                                 let mediaData = data[i]["extended_entities"]["media"]
-                                var mediaArr = [String]()
-                                for i in 0..<mediaData.count{
-                                    mediaArr.append(mediaData[i]["media_url_https"].string ?? "")
+                                if mediaData[0]["type"].string == "photo" {
+                                    var mediaArr = [MediaData]()
+                                    for i in 0..<mediaData.count{
+                                        let media = MediaData()
+                                        media.imgUrl = mediaData[i]["media_url_https"].string ?? ""
+                                        media.duration = nil
+                                        media.vidUrl = nil
+                                        media.isVideo = false
+                                        mediaArr.append(media)
+                                    }
+                                    homeModel.mediaData = mediaArr
+                                    homeModel.isVideo = false
+                                } else {
+                                    var mediaArr = [MediaData]()
+                                    for i in 0..<mediaData.count{
+                                        let media = MediaData()
+                                        media.imgUrl = mediaData[i]["media_url_https"].string ?? ""
+                                        media.vidUrl = mediaData[i]["video_info"]["variants"][0]["url"].string ?? ""
+                                        media.duration = mediaData[i]["video_info"]["duration_millis"].int
+                                        media.isVideo = true
+                                        mediaArr.append(media)
+                                    }
+                                    homeModel.mediaData = mediaArr
+                                    homeModel.isVideo = true
                                 }
-                                homeModel.media = mediaArr
                             }
                             
                             homeModel.isRetweetedStatus = false
@@ -120,14 +149,34 @@ class HomeTimeLineModel:NSObject{
                                     
                                     let mediaData = quoteData["extended_entities"]["media"].array
                                     if mediaData == nil {
-                                        quoteView.media = nil
+                                        quoteView.mediaData = nil
                                     } else {
                                         let mediaData = quoteData["extended_entities"]["media"]
-                                        var mediaArr = [String]()
-                                        for i in 0..<mediaData.count{
-                                            mediaArr.append(mediaData[i]["media_url_https"].string ?? "")
+                                        if mediaData[0]["type"].string == "photo" {
+                                            var mediaArr = [MediaData]()
+                                            for i in 0..<mediaData.count{
+                                                let media = MediaData()
+                                                media.imgUrl = mediaData[i]["media_url_https"].string ?? ""
+                                                media.duration = nil
+                                                media.vidUrl = nil
+                                                media.isVideo = false
+                                                mediaArr.append(media)
+                                            }
+                                            quoteView.mediaData = mediaArr
+                                            quoteView.isVideo = false
+                                        } else {
+                                            var mediaArr = [MediaData]()
+                                            for i in 0..<mediaData.count{
+                                                let media = MediaData()
+                                                media.imgUrl = mediaData[i]["media_url_https"].string ?? ""
+                                                media.vidUrl = mediaData[i]["video_info"]["variants"][0]["url"].string ?? ""
+                                                media.duration = mediaData[i]["video_info"]["duration_millis"].int
+                                                media.isVideo = true
+                                                mediaArr.append(media)
+                                            }
+                                            quoteView.mediaData = mediaArr
+                                            quoteView.isVideo = true
                                         }
-                                        quoteView.media = mediaArr
                                     }
                                     quoteView.text = quoteData["full_text"].string ?? ""
                                     
@@ -174,14 +223,34 @@ class HomeTimeLineModel:NSObject{
                             homeModel.user = user
                             let mediaData = data[i]["extended_entities"]["media"].array
                             if mediaData == nil {
-                                homeModel.media = nil
+                                homeModel.mediaData = nil
                             } else {
                                 let mediaData = data[i]["extended_entities"]["media"]
-                                var mediaArr = [String]()
-                                for i in 0..<mediaData.count{
-                                    mediaArr.append(mediaData[i]["media_url_https"].string ?? "")
+                                if mediaData[0]["type"].string == "photo" {
+                                    var mediaArr = [MediaData]()
+                                    for i in 0..<mediaData.count{
+                                        let media = MediaData()
+                                        media.imgUrl = mediaData[i]["media_url_https"].string ?? ""
+                                        media.duration = nil
+                                        media.vidUrl = nil
+                                        media.isVideo = false
+                                        mediaArr.append(media)
+                                    }
+                                    homeModel.mediaData = mediaArr
+                                    homeModel.isVideo = false
+                                } else {
+                                    var mediaArr = [MediaData]()
+                                    for i in 0..<mediaData.count{
+                                        let media = MediaData()
+                                        media.imgUrl = mediaData[i]["media_url_https"].string ?? ""
+                                        media.vidUrl = mediaData[i]["video_info"]["variants"][0]["url"].string ?? ""
+                                        media.duration = mediaData[i]["video_info"]["duration_millis"].int
+                                        media.isVideo = true
+                                        mediaArr.append(media)
+                                    }
+                                    homeModel.mediaData = mediaArr
+                                    homeModel.isVideo = true
                                 }
-                                homeModel.media = mediaArr
                             }
                             
                             homeModel.isRetweetedStatus = true
@@ -199,14 +268,34 @@ class HomeTimeLineModel:NSObject{
                                     
                                     let mediaData = quoteData["extended_entities"]["media"].array
                                     if mediaData == nil {
-                                        quoteView.media = nil
+                                        quoteView.mediaData = nil
                                     } else {
                                         let mediaData = quoteData["extended_entities"]["media"]
-                                        var mediaArr = [String]()
-                                        for i in 0..<mediaData.count{
-                                            mediaArr.append(mediaData[i]["media_url_https"].string ?? "")
+                                        if mediaData[0]["type"].string == "photo" {
+                                            var mediaArr = [MediaData]()
+                                            for i in 0..<mediaData.count{
+                                                let media = MediaData()
+                                                media.imgUrl = mediaData[i]["media_url_https"].string ?? ""
+                                                media.duration = nil
+                                                media.vidUrl = nil
+                                                media.isVideo = false
+                                                mediaArr.append(media)
+                                            }
+                                            quoteView.mediaData = mediaArr
+                                            quoteView.isVideo = false
+                                        } else {
+                                            var mediaArr = [MediaData]()
+                                            for i in 0..<mediaData.count{
+                                                let media = MediaData()
+                                                media.imgUrl = mediaData[i]["media_url_https"].string ?? ""
+                                                media.vidUrl = mediaData[i]["video_info"]["variants"][0]["url"].string ?? ""
+                                                media.duration = mediaData[i]["video_info"]["duration_millis"].int
+                                                media.isVideo = true
+                                                mediaArr.append(media)
+                                            }
+                                            quoteView.mediaData = mediaArr
+                                            quoteView.isVideo = true
                                         }
-                                        quoteView.media = mediaArr
                                     }
                                     quoteView.text = quoteData["full_text"].string ?? ""
                                     

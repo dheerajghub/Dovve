@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ActiveLabel
 
 protocol ImageSelectedProtocol {
     func didImageSelected(_ index:Int)
@@ -14,7 +15,7 @@ protocol ImageSelectedProtocol {
 
 class CustomQuotedWithImageView: UIView {
 
-    var data:[String]?
+    var data:[TweetMediaData]?
     var imageHeightContraints:NSLayoutConstraint?
     var imgDelegate:ImageSelectedProtocol?
     
@@ -39,6 +40,7 @@ class CustomQuotedWithImageView: UIView {
         tap.numberOfTapsRequired = 1
         img.addGestureRecognizer(tap)
         img.isUserInteractionEnabled = true
+        img.videoView.isHidden = true
         return img
     }()
     
@@ -56,12 +58,13 @@ class CustomQuotedWithImageView: UIView {
         return l
     }()
     
-    let tweet:UILabel = {
-        let l = UILabel()
+    let tweet:ActiveLabel = {
+        let l = ActiveLabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.font = UIFont(name: CustomFonts.appFont, size: 17)
         l.textColor = UIColor.dynamicColor(.textColor)
         l.numberOfLines = 0
+        l.enabledTypes = [.mention , .hashtag , .url]
         return l
     }()
     
@@ -88,7 +91,7 @@ class CustomQuotedWithImageView: UIView {
         addSubview(tweet)
         addSubview(collectionView)
         setUpConstraints()
-        setUpAttributes("Full name", "username", "2h", true)
+        setUpActiveLabels()
     }
     
     func setUpConstraints(){
@@ -117,6 +120,15 @@ class CustomQuotedWithImageView: UIView {
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
+    }
+    
+    func setUpActiveLabels(){
+        //Customizing Labels
+        tweet.customize{ label in
+            label.hashtagColor = CustomColors.appBlue
+            label.mentionColor = CustomColors.appBlue
+            label.URLColor = CustomColors.appBlue
+        }
     }
     
     required init?(coder: NSCoder) {

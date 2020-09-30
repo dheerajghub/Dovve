@@ -10,7 +10,7 @@ import UIKit
 
 class ImageDetailViewController: UIViewController {
 
-    var imgString = [String]()
+    var imgString = [TweetMediaData]()
     var indexRow = Int()
     
     lazy var collectionView:UICollectionView = {

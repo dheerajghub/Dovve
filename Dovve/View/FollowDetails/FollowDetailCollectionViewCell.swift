@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
+import SwiftKeychainWrapper
+import GSMessages
+import ActiveLabel
 
 class FollowDetailCollectionViewCell: UICollectionViewCell {
     
-    var followStatus:GetFollowingStatus?
     var data:FollowDetail?{
         didSet{
             manageData()
@@ -22,6 +26,7 @@ class FollowDetailCollectionViewCell: UICollectionViewCell {
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFill
         img.layer.cornerRadius = 25
+        img.videoView.isHidden = true
         return img
     }()
     
@@ -60,12 +65,13 @@ class FollowDetailCollectionViewCell: UICollectionViewCell {
         return btn
     }()
     
-    let bioDetail:UILabel = {
-        let l = UILabel()
+    let bioDetail:ActiveLabel = {
+        let l = ActiveLabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.numberOfLines = 0
         l.font = UIFont(name: CustomFonts.appFont, size: 16)
         l.textColor = UIColor.dynamicColor(.textColor)
+        l.enabledTypes = [.mention , .hashtag , .url]
         return l
     }()
     
@@ -79,6 +85,7 @@ class FollowDetailCollectionViewCell: UICollectionViewCell {
         addSubview(followBtn)
         addSubview(bioDetail)
         setUpConstraints()
+        setUpActiveLabels()
     }
     
     func setUpConstraints(){
@@ -115,26 +122,21 @@ class FollowDetailCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    func setUpActiveLabels(){
+        bioDetail.customize{ label in
+            label.hashtagColor = CustomColors.appBlue
+            label.mentionColor = CustomColors.appBlue
+            label.URLColor = CustomColors.appBlue
+        }
+    }
+    
     func manageData(){
         guard let data = data else {return}
         profileImage.cacheImageWithLoader(withURL: data.profileImage, view: profileBackView)
         screenName.text = "@\(data.screenName ?? "")"
         name.attributedText = setUserVerifiedNameAttribute("\(data.name ?? "")" , data.isVerified ?? false , 16)
         bioDetail.text = data.bio
-        
-        GetFollowingStatus.fetchFollowingStatus(source_id: "893827304358424576", target_id: (data.id)!) { (followStatus) in
-            self.followStatus = followStatus
-        }
-        guard let followStatus = followStatus else {return}
-        if followStatus.isFollowing {
-            self.followBtn.setTitle("Following", for: .normal)
-            self.followBtn.backgroundColor = CustomColors.appBlue
-            self.followBtn.setTitleColor(.white, for: .normal)
-        } else {
-            self.followBtn.setTitle("Follow", for: .normal)
-            self.followBtn.backgroundColor = UIColor.clear
-            self.followBtn.setTitleColor(CustomColors.appBlue, for: .normal)
-        }
+        followBtn.isHidden = true
     }
     
     required init?(coder: NSCoder) {

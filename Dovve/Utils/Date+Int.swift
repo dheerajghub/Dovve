@@ -55,3 +55,13 @@ extension Date{
         return ""
     }
 }
+
+extension Int{
+    
+    func stringFromMillis() -> String {
+        let ms = NSInteger(self)
+        let seconds = ms / 1000
+        let minutes = seconds / 60
+        return String(format: "%0.2d:%0.2d",minutes,seconds)
+    }
+}

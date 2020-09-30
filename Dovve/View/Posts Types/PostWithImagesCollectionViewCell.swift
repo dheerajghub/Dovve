@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ActiveLabel
 
 protocol PostWithImagesDelegate{
     func didUserProfileTapped(for cell: PostWithImagesCollectionViewCell , _ isRetweetedUser:Bool)
@@ -33,6 +34,7 @@ class PostWithImagesCollectionViewCell: UICollectionViewCell {
         tap.numberOfTapsRequired = 1
         img.addGestureRecognizer(tap)
         img.isUserInteractionEnabled = true
+        img.videoView.isHidden = true
         return img
     }()
     
@@ -55,6 +57,7 @@ class PostWithImagesCollectionViewCell: UICollectionViewCell {
         tap.numberOfTapsRequired = 1
         img.addGestureRecognizer(tap)
         img.isUserInteractionEnabled = true
+        img.videoView.isHidden = true
         return img
     }()
     
@@ -73,12 +76,13 @@ class PostWithImagesCollectionViewCell: UICollectionViewCell {
         return l
     }()
     
-    let tweet:UILabel = {
-        let l = UILabel()
+    let tweet:ActiveLabel = {
+        let l = ActiveLabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.font = UIFont(name: CustomFonts.appFont, size: 17)
         l.textColor = UIColor.dynamicColor(.textColor)
         l.numberOfLines = 0
+        l.enabledTypes = [.hashtag , .mention , .url]
         return l
     }()
     
@@ -222,6 +226,7 @@ class PostWithImagesCollectionViewCell: UICollectionViewCell {
         shareView.addSubview(shareImage)
         
         setUpConstraints()
+        setUpActiveLabels()
     }
     
     func setUpConstraints(){
@@ -298,6 +303,15 @@ class PostWithImagesCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    func setUpActiveLabels(){
+        //Customizing Labels
+        tweet.customize{ label in
+            label.hashtagColor = CustomColors.appBlue
+            label.mentionColor = CustomColors.appBlue
+            label.URLColor = CustomColors.appBlue
+        }
+    }
+    
     func manageData(){
         guard let data = data else {return}
         userInfo.attributedText = setUserInfoAttributes(data.user.name, data.user.screenName, data.createdAt, data.user.isVerified)
@@ -340,7 +354,9 @@ extension PostWithImagesCollectionViewCell:UICollectionViewDelegate, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionViewCell", for: indexPath) as! ImageCollectionViewCell
-        cell.data = data?.media[indexPath.row]
+        if let data = data {
+            cell.data = data.media[indexPath.row]
+        }
         return cell
     }
     

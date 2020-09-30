@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ActiveLabel
 
 protocol PostWithImageAndQuotedImageDelegate{
     func didUserProfileTapped(for cell: PostWithImageAndQuotedImageCollectionViewCell, _ isQuotedUser:Bool , _ isRetweeted:Bool)
@@ -35,6 +36,7 @@ class PostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
         tap.numberOfTapsRequired = 1
         img.addGestureRecognizer(tap)
         img.isUserInteractionEnabled = true
+        img.videoView.isHidden = true
         return img
     }()
     
@@ -57,6 +59,7 @@ class PostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
         tap.numberOfTapsRequired = 1
         img.addGestureRecognizer(tap)
         img.isUserInteractionEnabled = true
+        img.videoView.isHidden = true
         return img
     }()
     
@@ -75,12 +78,13 @@ class PostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
         return l
     }()
     
-    let tweet:UILabel = {
-        let l = UILabel()
+    let tweet:ActiveLabel = {
+        let l = ActiveLabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.font = UIFont(name: CustomFonts.appFont, size: 17)
         l.textColor = UIColor.dynamicColor(.textColor)
         l.numberOfLines = 0
+        l.enabledTypes = [.mention , .hashtag, .url]
         return l
     }()
     
@@ -236,6 +240,7 @@ class PostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
         shareView.addSubview(shareImage)
         
         setUpConstraints()
+        setUpActiveLabels()
     }
     
     func setUpConstraints(){
@@ -315,6 +320,15 @@ class PostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
             shareImage.widthAnchor.constraint(equalToConstant: 20),
             shareImage.heightAnchor.constraint(equalToConstant: 20),
         ])
+    }
+    
+    func setUpActiveLabels(){
+        //Customizing Labels
+        tweet.customize{ label in
+            label.hashtagColor = CustomColors.appBlue
+            label.mentionColor = CustomColors.appBlue
+            label.URLColor = CustomColors.appBlue
+        }
     }
     
     func manageData(){
