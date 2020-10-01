@@ -91,6 +91,7 @@ class QuotedPostCollectionViewCell: UICollectionViewCell {
     lazy var quotedView:CustomQuotedView = {
         let v = CustomQuotedView()
         v.delegate = self
+        v.ActionDelegate = self
         v.translatesAutoresizingMaskIntoConstraints = false
         v.layer.cornerRadius = 15
         v.layer.borderColor = UIColor.dynamicColor(.secondaryBackground).cgColor
@@ -359,7 +360,19 @@ class QuotedPostCollectionViewCell: UICollectionViewCell {
     
 }
 
-extension QuotedPostCollectionViewCell {
+extension QuotedPostCollectionViewCell:QuotedActionProtocol {
+    
+    func didImageSelected(_ index: Int) {
+        print("do nothing!")
+    }
+    
+    func didUrlTapped(_ url: String) {
+        delegate?.didUrlTapped(url: url)
+    }
+    
+    func didMentionTapped(screenName: String) {
+        delegate?.didMentionTapped(screenName: screenName)
+    }
     
     @objc func userProfileSelected(){
         delegate?.didUserProfileTapped(for: self , false , false)

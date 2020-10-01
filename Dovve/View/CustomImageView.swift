@@ -34,7 +34,6 @@ class CustomImageView: UIImageView {
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.layer.cornerRadius = 2
         btn.backgroundColor = UIColor(white: 0, alpha: 0.7)
-        btn.setTitle("0:30", for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.titleLabel?.font = UIFont(name: CustomFonts.appFont, size: 12)
         return btn
