@@ -12,6 +12,8 @@ import ActiveLabel
 protocol PostWithImageAndQuoteDelegate{
     func didUserProfileTapped(for cell: PostWithImageAndQuoteCollectionViewCell , _ isQuotedUser:Bool , _ isRetweetedUser:Bool)
     func didImageTapped(for cell:PostWithImageAndQuoteCollectionViewCell , _ index:Int)
+    func didUrlTapped(url:String)
+    func didMentionTapped(screenName:String)
 }
 
 class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
@@ -327,6 +329,14 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
             label.hashtagColor = CustomColors.appBlue
             label.mentionColor = CustomColors.appBlue
             label.URLColor = CustomColors.appBlue
+        }
+        
+        tweet.handleURLTap { (url) in
+            self.delegate?.didUrlTapped(url: "\(url)")
+        }
+        
+        tweet.handleMentionTap { (screenName) in
+            self.delegate?.didMentionTapped(screenName: screenName)
         }
     }
     

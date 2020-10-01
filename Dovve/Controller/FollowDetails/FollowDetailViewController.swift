@@ -114,8 +114,21 @@ class FollowDetailViewController: UIViewController {
 
 extension FollowDetailViewController:UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FollowDetailActionProtocol {
     
+    func didMentionTapped(screenName: String) {
+        PushToProfile("", screenName)
+    }
+    
+    func didUrlTapped(url: String) {
+        let VC = WebViewController()
+        VC.url = URL(string: url)
+        let navVC = UINavigationController(rootViewController: VC)
+        navVC.modalPresentationStyle = .fullScreen
+        self.present(navVC, animated: true, completion: nil)
+    }
+    
+    
     func didUsertapped(_ userId: String) {
-        PushToProfile(userId)
+        PushToProfile(userId , "")
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -67,7 +67,10 @@ class ProfileViewController: UIViewController {
         setUpCustomNavBar()
         setUpConstraints()
         
-        UserProfileModel.fetchUserProfile(view: self, userId: "\(userProfileId ?? "")") { (profileData) in
+        var params = String()
+        params = "user_id=\(userProfileId ?? "")"
+        
+        UserProfileModel.fetchUserProfile(view: self, params:params) { (profileData) in
             self.profileData = profileData
             self.navBar.setAttributedText(profileData.name ?? "", tweetCount: "\(profileData.tweetCount ?? 0)")
             self.navBar.cardImageView.cacheImageWithLoader(withURL: profileData.backgroundImage ?? "", view: self.navBar.cardBackView)
@@ -340,6 +343,18 @@ extension ProfileViewController:UICollectionViewDelegate , UICollectionViewDataS
 }
 
 extension ProfileViewController: SimpleTextPostDelegate, PostWithImagesDelegate, QuotedPostDelegate, QuotedPostWithImageDelegate , PostWithImageAndQuoteDelegate , PostWithImageAndQuotedImageDelegate,ButtonActionProtocol {
+    
+    func didMentionTapped(screenName: String) {
+        PushToProfile("", screenName)
+    }
+    
+    func didUrlTapped(url: String) {
+        let VC = WebViewController()
+        VC.url = URL(string: url)
+        let navVC = UINavigationController(rootViewController: VC)
+        navVC.modalPresentationStyle = .fullScreen
+        self.present(navVC, animated: true, completion: nil)
+    }
     
     func didFollowingTapped() {
         guard let profileData = profileData else {return}

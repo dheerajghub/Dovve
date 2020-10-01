@@ -96,7 +96,15 @@ class UserFollowersCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension UserFollowersCollectionViewCell:UICollectionViewDelegateFlowLayout , UICollectionViewDelegate, UICollectionViewDataSource {
+extension UserFollowersCollectionViewCell:UICollectionViewDelegateFlowLayout , UICollectionViewDelegate, UICollectionViewDataSource, FollowActionProtocol {
+    
+    func didMentionTapped(screenName: String) {
+        delegate?.didMentionTapped(screenName: screenName)
+    }
+    
+    func didUrlTapped(url: String) {
+        delegate?.didUrlTapped(url: url)
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let followerPostList = followerPostList {
@@ -110,7 +118,7 @@ extension UserFollowersCollectionViewCell:UICollectionViewDelegateFlowLayout , U
         if let followerPostList = followerPostList {
             cell.data = followerPostList[indexPath.row]
         }
-        
+        cell.delegate = self
         return cell
     }
     

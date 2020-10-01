@@ -9,15 +9,17 @@
 import UIKit
 import ActiveLabel
 
-protocol ImageSelectedProtocol {
+protocol QuotedActionProtocol {
     func didImageSelected(_ index:Int)
+    func didUrlTapped(_ url:String)
+    func didMentionTapped(screenName:String)
 }
 
 class CustomQuotedWithImageView: UIView {
 
     var data:[TweetMediaData]?
     var imageHeightContraints:NSLayoutConstraint?
-    var imgDelegate:ImageSelectedProtocol?
+    var ActionDelegate:QuotedActionProtocol?
     
     var delegate:QuotedPostWithImageCollectionViewCell? {
         didSet {
@@ -129,6 +131,14 @@ class CustomQuotedWithImageView: UIView {
             label.mentionColor = CustomColors.appBlue
             label.URLColor = CustomColors.appBlue
         }
+        
+        tweet.handleURLTap { (url) in
+            self.ActionDelegate?.didUrlTapped("\(url)")
+        }
+        
+        tweet.handleMentionTap { (screenName) in
+            self.ActionDelegate?.didMentionTapped(screenName: screenName)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -185,7 +195,7 @@ extension CustomQuotedWithImageView:UICollectionViewDelegate, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        imgDelegate?.didImageSelected(indexPath.row)
+        ActionDelegate?.didImageSelected(indexPath.row)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

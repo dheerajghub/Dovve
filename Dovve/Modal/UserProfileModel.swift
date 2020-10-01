@@ -28,8 +28,8 @@ class UserProfileModel:NSObject{
     var website:String!
     var isProtected:Bool!
     
-    static func fetchUserProfile(view:UIViewController , userId:String, completionHandler: @escaping (UserProfileModel) -> ()){
-        let url = "\(Constants.BASE_URL.rawValue)/1.1/users/show.json?user_id=\(userId)"
+    static func fetchUserProfile(view:UIViewController , params:String, completionHandler: @escaping (UserProfileModel) -> ()){
+        let url = "\(Constants.BASE_URL.rawValue)/1.1/users/show.json?\(params)"
         
         let headers: HTTPHeaders = [
             "Authorization":"Bearer \(Constants.BEARER_TOKEN.rawValue)"

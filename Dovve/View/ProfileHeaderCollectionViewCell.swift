@@ -12,6 +12,8 @@ import ActiveLabel
 protocol ButtonActionProtocol {
     func didFollowingTapped()
     func didFollowerTapped()
+    func didUrlTapped(url:String)
+    func didMentionTapped(screenName:String)
 }
 
 class ProfileHeaderCollectionViewCell: UICollectionViewCell {
@@ -174,6 +176,14 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
             label.hashtagColor = CustomColors.appBlue
             label.mentionColor = CustomColors.appBlue
             label.URLColor = CustomColors.appBlue
+        }
+        
+        bioDetail.handleURLTap { (url) in
+            self.delegate?.didUrlTapped(url: "\(url)")
+        }
+        
+        bioDetail.handleMentionTap { (screenName) in
+            self.delegate?.didMentionTapped(screenName: screenName)
         }
     }
     

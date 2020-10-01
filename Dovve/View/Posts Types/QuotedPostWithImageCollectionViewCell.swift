@@ -12,6 +12,8 @@ import ActiveLabel
 protocol QuotedPostWithImageDelegate{
     func didUserProfileTapped(for cell: QuotedPostWithImageCollectionViewCell, _ isQuotedUser:Bool , _ isRetweetedUser:Bool)
     func didImageTapped(for cell: QuotedPostWithImageCollectionViewCell, _ index:Int)
+    func didUrlTapped(url:String)
+    func didMentionTapped(screenName:String)
 }
 
 class QuotedPostWithImageCollectionViewCell: UICollectionViewCell {
@@ -91,7 +93,7 @@ class QuotedPostWithImageCollectionViewCell: UICollectionViewCell {
     lazy var quotedView:CustomQuotedWithImageView = {
         let v = CustomQuotedWithImageView()
         v.delegate = self
-        v.imgDelegate = self
+        v.ActionDelegate = self
         v.translatesAutoresizingMaskIntoConstraints = false
         v.layer.cornerRadius = 15
         v.layer.borderColor = UIColor.dynamicColor(.secondaryBackground).cgColor
@@ -305,6 +307,14 @@ class QuotedPostWithImageCollectionViewCell: UICollectionViewCell {
             label.mentionColor = CustomColors.appBlue
             label.URLColor = CustomColors.appBlue
         }
+        
+        tweet.handleURLTap { (url) in
+            self.delegate?.didUrlTapped(url: "\(url)")
+        }
+        
+        tweet.handleMentionTap { (screenName) in
+            self.delegate?.didMentionTapped(screenName: screenName)
+        }
     }
     
     func manageData(){
@@ -356,7 +366,15 @@ class QuotedPostWithImageCollectionViewCell: UICollectionViewCell {
     
 }
 
-extension QuotedPostWithImageCollectionViewCell: ImageSelectedProtocol {
+extension QuotedPostWithImageCollectionViewCell: QuotedActionProtocol {
+    
+    func didMentionTapped(screenName: String) {
+        delegate?.didMentionTapped(screenName: screenName)
+    }
+    
+    func didUrlTapped(_ url: String) {
+        delegate?.didUrlTapped(url: url)
+    }
     
     func didImageSelected(_ index: Int) {
         delegate?.didImageTapped(for: self, index)

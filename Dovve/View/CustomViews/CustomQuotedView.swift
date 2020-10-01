@@ -11,6 +11,7 @@ import ActiveLabel
 
 class CustomQuotedView: UIView {
     
+    var ActionDelegate:QuotedActionProtocol?
     var delegate:QuotedPostCollectionViewCell? {
         didSet {
             tap.addTarget(delegate!, action: #selector(QuotedPostCollectionViewCell.quotedUserProfileSelected))
@@ -104,6 +105,14 @@ class CustomQuotedView: UIView {
             label.hashtagColor = CustomColors.appBlue
             label.mentionColor = CustomColors.appBlue
             label.URLColor = CustomColors.appBlue
+        }
+        
+        tweet.handleURLTap { (url) in
+            self.ActionDelegate?.didUrlTapped("\(url)")
+        }
+        
+        tweet.handleMentionTap { (screenName) in
+            self.ActionDelegate?.didMentionTapped(screenName: screenName)
         }
     }
     

@@ -13,8 +13,14 @@ import SwiftKeychainWrapper
 import GSMessages
 import ActiveLabel
 
+protocol FollowActionProtocol {
+    func didUrlTapped(url:String)
+    func didMentionTapped(screenName:String)
+}
+
 class FollowDetailCollectionViewCell: UICollectionViewCell {
     
+    var delegate:FollowActionProtocol?
     var data:FollowDetail?{
         didSet{
             manageData()
@@ -127,6 +133,14 @@ class FollowDetailCollectionViewCell: UICollectionViewCell {
             label.hashtagColor = CustomColors.appBlue
             label.mentionColor = CustomColors.appBlue
             label.URLColor = CustomColors.appBlue
+        }
+        
+        bioDetail.handleURLTap { (url) in
+            self.delegate?.didUrlTapped(url: "\(url)")
+        }
+        
+        bioDetail.handleMentionTap { (screenName) in
+            self.delegate?.didMentionTapped(screenName: screenName)
         }
     }
     

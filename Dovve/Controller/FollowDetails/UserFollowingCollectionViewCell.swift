@@ -10,6 +10,8 @@ import UIKit
 
 protocol FollowDetailActionProtocol {
     func didUsertapped(_ userId:String)
+    func didUrlTapped(url:String)
+    func didMentionTapped(screenName:String)
 }
 
 class UserFollowingCollectionViewCell: UICollectionViewCell {
@@ -101,7 +103,15 @@ class UserFollowingCollectionViewCell: UICollectionViewCell {
     
 }
 
-extension UserFollowingCollectionViewCell:UICollectionViewDelegateFlowLayout , UICollectionViewDelegate, UICollectionViewDataSource {
+extension UserFollowingCollectionViewCell:UICollectionViewDelegateFlowLayout , UICollectionViewDelegate, UICollectionViewDataSource, FollowActionProtocol {
+    
+    func didMentionTapped(screenName: String) {
+        delegate?.didMentionTapped(screenName: screenName)
+    }
+    
+    func didUrlTapped(url: String) {
+        delegate?.didUrlTapped(url: url)
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let followingPostList = followingPostList {
@@ -115,7 +125,7 @@ extension UserFollowingCollectionViewCell:UICollectionViewDelegateFlowLayout , U
         if let followingPostList = followingPostList {
             cell.data = followingPostList[indexPath.row]
         }
-        
+        cell.delegate = self
         return cell
     }
     

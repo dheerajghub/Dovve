@@ -11,9 +11,10 @@ import AVKit
 
 extension UIViewController {
     
-    func PushToProfile(_ userId:String) {
+    func PushToProfile(_ userId:String , _ screenName:String) {
         let VC = UserProfileViewController()
         VC.userProfileId = userId
+        VC.screenName = screenName
         navigationController?.pushViewController(VC, animated: true)
     }
     
@@ -21,6 +22,7 @@ extension UIViewController {
         if userId != comparingFrom {
             let VC = UserProfileViewController()
             VC.userProfileId = userId
+            VC.screenName = ""
             navigationController?.pushViewController(VC, animated: true)
         }
     }

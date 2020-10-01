@@ -314,16 +314,28 @@ extension HomeViewController:UICollectionViewDelegate , UICollectionViewDataSour
 
 extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, QuotedPostDelegate, QuotedPostWithImageDelegate , PostWithImageAndQuoteDelegate , PostWithImageAndQuotedImageDelegate {
     
+    func didMentionTapped(screenName: String) {
+        PushToProfile("", screenName)
+    }
+    
+    func didUrlTapped(url: String) {
+        let VC = WebViewController()
+        VC.url = URL(string: url)
+        let navVC = UINavigationController(rootViewController: VC)
+        navVC.modalPresentationStyle = .fullScreen
+        self.present(navVC, animated: true, completion: nil)
+    }
+    
     //MARK:-SimpleTextPost Actions
     func didUserProfileTapped(for cell: SimpleTextPostCollectionViewCell, _ isRetweetedUser: Bool) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         if let dataList = dataList {
             if isRetweetedUser {
                 let userId = dataList[indexPath.row].retweetedBy.userID
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             } else {
                 let userId = dataList[indexPath.row].user.userId
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             }
         }
     }
@@ -334,10 +346,10 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         if let dataList = dataList {
             if isRetweetedUser {
                 let userId = dataList[indexPath.row].retweetedBy.userID
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             } else {
                 let userId = dataList[indexPath.row].user.userId
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             }
         }
     }
@@ -360,13 +372,13 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         if let dataList = dataList {
             if isRetweetedUser {
                 let userId = dataList[indexPath.row].retweetedBy.userID
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             } else if isQuotedUser {
                 let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             } else {
                 let userId = dataList[indexPath.row].user.userId
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             }
         }
     }
@@ -377,13 +389,13 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         if let dataList = dataList {
             if isRetweetedUser {
                 let userId = dataList[indexPath.row].retweetedBy.userID
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             } else if isQuotedUser {
                 let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             } else {
                 let userId = dataList[indexPath.row].user.userId
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             }
         }
     }
@@ -406,13 +418,13 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         if let dataList = dataList {
             if isRetweetedUser {
                 let userId = dataList[indexPath.row].retweetedBy.userID
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             } else if isQuotedUser {
                 let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             } else {
                 let userId = dataList[indexPath.row].user.userId
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             }
         }
     }
@@ -435,13 +447,13 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         if let dataList = dataList {
             if isRetweetedUser {
                 let userId = dataList[indexPath.row].retweetedBy.userID
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             } else if isQuotedUser {
                 let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
-                PushToProfile(userId!)
+                PushToProfile(userId! , "")
             } else {
                 let userId = dataList[indexPath.row].user.userId
-                PushToProfile(userId!)
+                PushToProfile(userId! ,"")
             }
         }
     }

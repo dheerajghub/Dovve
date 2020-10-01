@@ -12,6 +12,8 @@ import ActiveLabel
 protocol PostWithImageAndQuotedImageDelegate{
     func didUserProfileTapped(for cell: PostWithImageAndQuotedImageCollectionViewCell, _ isQuotedUser:Bool , _ isRetweeted:Bool)
     func didImageTapped(for cell:PostWithImageAndQuotedImageCollectionViewCell , _ index:Int , isPostImage:Bool , isQuoteImage:Bool)
+    func didUrlTapped(url:String)
+    func didMentionTapped(screenName:String)
 }
 
 class PostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
@@ -108,7 +110,7 @@ class PostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
     lazy var quotedView:CustomQuotedWithImageView = {
         let v = CustomQuotedWithImageView()
         v.delegate2 = self
-        v.imgDelegate = self
+        v.ActionDelegate = self
         v.translatesAutoresizingMaskIntoConstraints = false
         v.layer.cornerRadius = 15
         v.layer.borderColor = UIColor.dynamicColor(.secondaryBackground).cgColor
@@ -329,6 +331,14 @@ class PostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
             label.mentionColor = CustomColors.appBlue
             label.URLColor = CustomColors.appBlue
         }
+        
+        tweet.handleURLTap { (url) in
+            self.delegate?.didUrlTapped(url: "\(url)")
+        }
+        
+        tweet.handleMentionTap { (screenName) in
+            self.delegate?.didMentionTapped(screenName: screenName)
+        }
     }
     
     func manageData(){
@@ -419,7 +429,15 @@ extension PostWithImageAndQuotedImageCollectionViewCell:UICollectionViewDelegate
 }
 
 
-extension PostWithImageAndQuotedImageCollectionViewCell:ImageSelectedProtocol {
+extension PostWithImageAndQuotedImageCollectionViewCell:QuotedActionProtocol {
+    
+    func didMentionTapped(screenName: String) {
+        delegate?.didMentionTapped(screenName: screenName)
+    }
+    
+    func didUrlTapped(_ url: String) {
+        delegate?.didUrlTapped(url: url)
+    }
     
     func didImageSelected(_ index: Int) {
         delegate?.didImageTapped(for: self, index, isPostImage: false , isQuoteImage: true)

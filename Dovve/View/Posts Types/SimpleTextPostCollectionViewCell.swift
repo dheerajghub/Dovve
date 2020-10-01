@@ -11,6 +11,8 @@ import ActiveLabel
 
 protocol SimpleTextPostDelegate{
     func didUserProfileTapped(for cell: SimpleTextPostCollectionViewCell , _ isRetweetedUser:Bool)
+    func didUrlTapped(url: String)
+    func didMentionTapped(screenName:String)
 }
 
 class SimpleTextPostCollectionViewCell: UICollectionViewCell {
@@ -284,6 +286,14 @@ class SimpleTextPostCollectionViewCell: UICollectionViewCell {
             label.hashtagColor = CustomColors.appBlue
             label.mentionColor = CustomColors.appBlue
             label.URLColor = CustomColors.appBlue
+        }
+        
+        tweet.handleURLTap { (url) in
+            self.delegate?.didUrlTapped(url: "\(url)")
+        }
+        
+        tweet.handleMentionTap { (screenName) in
+            self.delegate?.didMentionTapped(screenName: screenName)
         }
     }
     

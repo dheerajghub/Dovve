@@ -14,6 +14,7 @@ class UserProfileViewController: UIViewController {
     var dataModel:[UserTimeLineModel]?
     var dataList:[TweetData]?
     var userProfileId:String?
+    var screenName:String?
     
     private lazy var refresher: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -66,14 +67,21 @@ class UserProfileViewController: UIViewController {
         setUpCustomNavBar()
         setUpConstraints()
         
-        UserProfileModel.fetchUserProfile(view: self, userId: "\(userProfileId ?? "")") { (profileData) in
+        var params = String()
+        if userProfileId == "" {
+            params = "screen_name=\(screenName ?? "")"
+        } else {
+            params = "user_id=\(userProfileId ?? "")"
+        }
+        
+        UserProfileModel.fetchUserProfile(view: self, params: params) { (profileData) in
             self.profileData = profileData
             self.navBar.setAttributedText(profileData.name ?? "", tweetCount: "\(Double(profileData.tweetCount).kmFormatted)", isProtected: profileData.isProtected)
             self.navBar.cardImageView.cacheImageWithLoader(withURL: profileData.backgroundImage ?? "", view: self.navBar.cardBackView)
             self.collectionView.reloadData()
         }
         
-        UserTimeLineModel.fetchUserTimeLine(view:self, params:"&user_id=\(userProfileId ?? "")") {(dataModel) in
+        UserTimeLineModel.fetchUserTimeLine(view:self, params:"&\(params)") {(dataModel) in
             self.dataModel = dataModel
             self.dataList?.removeAll()
             self.getDataListArray(dataModel)
@@ -87,14 +95,21 @@ class UserProfileViewController: UIViewController {
     
     @objc func pullToRefresh(){
         
-        UserProfileModel.fetchUserProfile(view: self, userId: "\(userProfileId ?? "")") { (profileData) in
+        var params = String()
+        if userProfileId == "" {
+            params = "screen_name=\(screenName ?? "")"
+        } else {
+            params = "user_id=\(userProfileId ?? "")"
+        }
+        
+        UserProfileModel.fetchUserProfile(view: self, params: params) { (profileData) in
             self.profileData = profileData
             self.navBar.setAttributedText(profileData.name ?? "", tweetCount: "\(Double(profileData.tweetCount).kmFormatted)", isProtected: profileData.isProtected)
             self.navBar.cardImageView.cacheImageWithLoader(withURL: profileData.backgroundImage ?? "", view: self.navBar.cardBackView)
             self.collectionView.reloadData()
         }
         
-        UserTimeLineModel.fetchUserTimeLine(view:self, params:"&user_id=\(userProfileId ?? "")") {(dataModel) in
+        UserTimeLineModel.fetchUserTimeLine(view:self, params:"&\(params)") {(dataModel) in
             self.dataModel = dataModel
             self.dataList?.removeAll()
             self.getDataListArray(dataModel)
@@ -368,7 +383,15 @@ extension UserProfileViewController:UICollectionViewDelegate , UICollectionViewD
                 let totalPosts = dataList.count
                 let getLastId = Int(dataList[totalPosts - 1].id)
                 if totalPosts < (profileData?.tweetCount)! {
-                    UserTimeLineModel.fetchUserTimeLine(view:self, params:"&user_id=\(userProfileId ?? "")&max_id=\(getLastId ?? 0)") {(dataModel) in
+                    
+                    var params = String()
+                    if userProfileId == "" {
+                        params = "screen_name=\(screenName ?? "")"
+                    } else {
+                        params = "user_id=\(userProfileId ?? "")"
+                    }
+                    
+                    UserTimeLineModel.fetchUserTimeLine(view:self, params:"&\(params)&max_id=\(getLastId ?? 0)") {(dataModel) in
                         self.dataList?.remove(at: totalPosts - 1)
                         self.getDataListArray(dataModel)
                         self.collectionView.reloadData()
@@ -381,6 +404,18 @@ extension UserProfileViewController:UICollectionViewDelegate , UICollectionViewD
 }
 
 extension UserProfileViewController: SimpleTextPostDelegate, PostWithImagesDelegate, QuotedPostDelegate, QuotedPostWithImageDelegate , PostWithImageAndQuoteDelegate , PostWithImageAndQuotedImageDelegate,ButtonActionProtocol {
+    
+    func didMentionTapped(screenName: String) {
+        PushToProfile("", screenName)
+    }
+    
+    func didUrlTapped(url: String) {
+        let VC = WebViewController()
+        VC.url = URL(string: url)
+        let navVC = UINavigationController(rootViewController: VC)
+        navVC.modalPresentationStyle = .fullScreen
+        self.present(navVC, animated: true, completion: nil)
+    }
     
     func didFollowingTapped() {
         guard let profileData = profileData else {return}
