@@ -13,6 +13,7 @@ protocol SimpleTextPostDelegate{
     func didUserProfileTapped(for cell: SimpleTextPostCollectionViewCell , _ isRetweetedUser:Bool)
     func didUrlTapped(url: String)
     func didMentionTapped(screenName:String)
+    func didHashtagTapped(_ hashtag:String)
 }
 
 class SimpleTextPostCollectionViewCell: UICollectionViewCell {
@@ -294,6 +295,10 @@ class SimpleTextPostCollectionViewCell: UICollectionViewCell {
         
         tweet.handleMentionTap { (screenName) in
             self.delegate?.didMentionTapped(screenName: screenName)
+        }
+        
+        tweet.handleHashtagTap { (hashtag) in
+            self.delegate?.didHashtagTapped(hashtag)
         }
     }
     

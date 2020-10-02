@@ -14,6 +14,7 @@ protocol PostWithImageAndQuotedImageDelegate{
     func didImageTapped(for cell:PostWithImageAndQuotedImageCollectionViewCell , _ index:Int , isPostImage:Bool , isQuoteImage:Bool)
     func didUrlTapped(url:String)
     func didMentionTapped(screenName:String)
+    func didHashtagTapped(_ hashtag:String)
 }
 
 class PostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
@@ -339,6 +340,10 @@ class PostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
         tweet.handleMentionTap { (screenName) in
             self.delegate?.didMentionTapped(screenName: screenName)
         }
+        
+        tweet.handleHashtagTap { (hashtag) in
+            self.delegate?.didHashtagTapped(hashtag)
+        }
     }
     
     func manageData(){
@@ -405,8 +410,14 @@ extension PostWithImageAndQuotedImageCollectionViewCell:UICollectionViewDelegate
         if (data?.media.count) == 1 {
           return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
         }
-        if (data?.media.count) == 2 || (data?.media.count) == 3 {
+        if (data?.media.count) == 2{
           return CGSize(width: ((collectionView.frame.width / 2) - 1), height: collectionView.frame.height)
+        }
+        if (data?.media.count) == 3 {
+            if indexPath.row == 0 {
+                return CGSize(width: collectionView.frame.width, height: (collectionView.frame.height / 2) - 1)
+            }
+            return CGSize(width: ((collectionView.frame.width / 2) - 1), height: ((collectionView.frame.height / 2) - 1))
         }
         if (data?.media.count) == 4{
             return CGSize(width: ((collectionView.frame.width / 2) - 1), height: ((collectionView.frame.height / 2) - 1))
@@ -430,6 +441,10 @@ extension PostWithImageAndQuotedImageCollectionViewCell:UICollectionViewDelegate
 
 
 extension PostWithImageAndQuotedImageCollectionViewCell:QuotedActionProtocol {
+    
+    func didHashtagTapped(_ hashtag: String) {
+        delegate?.didHashtagTapped(hashtag)
+    }
     
     func didMentionTapped(screenName: String) {
         delegate?.didMentionTapped(screenName: screenName)

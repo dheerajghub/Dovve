@@ -328,10 +328,10 @@ extension ProfileViewController:UICollectionViewDelegate , UICollectionViewDataS
         if ((collectionView.contentOffset.y + collectionView.frame.size.height) >= loadMoreFrom){
             if let dataList = dataList {
                 let totalPosts = dataList.count
-                let getLastId = Int(dataList[totalPosts - 1].id)
+                var getLastId = Int(dataList[totalPosts - 1].id)
+                getLastId! -= 1
                 if totalPosts < (profileData?.tweetCount)! {
                     UserTimeLineModel.fetchUserTimeLine(view:self, params:"&user_id=\(userProfileId ?? "")&max_id=\(getLastId ?? 0)") {(dataModel) in
-                        self.dataList?.remove(at: totalPosts - 1)
                         self.getDataListArray(dataModel)
                         self.collectionView.reloadData()
                     }
@@ -343,6 +343,10 @@ extension ProfileViewController:UICollectionViewDelegate , UICollectionViewDataS
 }
 
 extension ProfileViewController: SimpleTextPostDelegate, PostWithImagesDelegate, QuotedPostDelegate, QuotedPostWithImageDelegate , PostWithImageAndQuoteDelegate , PostWithImageAndQuotedImageDelegate,ButtonActionProtocol {
+    
+    func didHashtagTapped(_ hashtag: String) {
+        SearchForHashtag(hashtag)
+    }
     
     func didMentionTapped(screenName: String) {
         PushToProfile("", screenName)

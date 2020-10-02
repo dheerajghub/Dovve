@@ -13,6 +13,7 @@ protocol QuotedActionProtocol {
     func didImageSelected(_ index:Int)
     func didUrlTapped(_ url:String)
     func didMentionTapped(screenName:String)
+    func didHashtagTapped(_ hashtag:String)
 }
 
 class CustomQuotedWithImageView: UIView {
@@ -139,6 +140,10 @@ class CustomQuotedWithImageView: UIView {
         tweet.handleMentionTap { (screenName) in
             self.ActionDelegate?.didMentionTapped(screenName: screenName)
         }
+        
+        tweet.handleHashtagTap { (hashtag) in
+            self.ActionDelegate?.didHashtagTapped(hashtag)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -185,8 +190,14 @@ extension CustomQuotedWithImageView:UICollectionViewDelegate, UICollectionViewDe
         if (data?.count) == 1 {
           return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
         }
-        if (data?.count) == 2 || (data?.count) == 3 {
+        if (data?.count) == 2 {
           return CGSize(width: ((collectionView.frame.width / 2) - 1), height: collectionView.frame.height)
+        }
+        if (data?.count) == 3 {
+            if indexPath.row == 0 {
+                return CGSize(width: collectionView.frame.width, height: (collectionView.frame.height / 2) - 1)
+            }
+            return CGSize(width: ((collectionView.frame.width / 2) - 1), height: ((collectionView.frame.height / 2) - 1))
         }
         if (data?.count) == 4{
             return CGSize(width: ((collectionView.frame.width / 2) - 1), height: ((collectionView.frame.height / 2) - 1))

@@ -59,7 +59,6 @@ extension Date{
 extension Int{
     func stringFromMillis() -> String {
         let ms = NSInteger(self)
-        print(ms)
         let seconds = Int((ms / 1000) % 60)
         let minutes = (ms / 1000) / 60
         return String(format: "%0.2d:%0.2d",minutes,seconds)

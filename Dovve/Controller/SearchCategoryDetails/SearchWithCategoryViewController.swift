@@ -1,25 +1,34 @@
 //
-//  FollowDetailViewController.swift
+//  SearchWithCategoryViewController.swift
 //  Dovve
 //
-//  Created by Dheeraj Kumar Sharma on 27/09/20.
+//  Created by Dheeraj Kumar Sharma on 01/10/20.
 //  Copyright © 2020 Dheeraj Kumar Sharma. All rights reserved.
 //
 
 import UIKit
 
-class FollowDetailViewController: UIViewController {
+class SearchWithCategoryViewController: UIViewController {
 
-    var userId = ""
-    var username = ""
-    var followType = ""
+    var query = ""
+    var query_str = ""
+    var query_user = ""
+    
+    lazy var searchHeaderView:CustomSearchHeader = {
+        let v = CustomSearchHeader()
+        v.controller = self
+        v.searchTextField.text = query_str
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = UIColor.dynamicColor(.appBackground)
+        return v
+    }()
     
     lazy var menuBar:CategoryMenuBar = {
         let mb = CategoryMenuBar()
-        mb.followDetailController = self
+        mb.searchDetailController = self
         mb.translatesAutoresizingMaskIntoConstraints = false
-        mb.categoryArr = ["Followers" , "Following"]
-        mb.widthAnchorContraints = mb.selectedBarView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 2)
+        mb.categoryArr = ["Top" , "Latest" , "People"]
+        mb.widthAnchorContraints = mb.selectedBarView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 3)
         mb.widthAnchorContraints?.isActive = true
         return mb
     }()
@@ -33,8 +42,9 @@ class FollowDetailViewController: UIViewController {
         cv.backgroundColor = .clear
         cv.isPagingEnabled = true
         cv.setCollectionViewLayout(layout, animated: false)
-        cv.register(UserFollowersCollectionViewCell.self, forCellWithReuseIdentifier: "UserFollowersCollectionViewCell")
-        cv.register(UserFollowingCollectionViewCell.self, forCellWithReuseIdentifier: "UserFollowingCollectionViewCell")
+        cv.register(TopSearchCollectionViewCell.self, forCellWithReuseIdentifier: "TopSearchCollectionViewCell")
+        cv.register(LatestSearchCollectionViewCell.self, forCellWithReuseIdentifier: "LatestSearchCollectionViewCell")
+        cv.register(PeopleSearchCollectionViewCell.self, forCellWithReuseIdentifier: "PeopleSearchCollectionViewCell")
         cv.delegate = self
         cv.dataSource = self
         cv.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
@@ -45,54 +55,42 @@ class FollowDetailViewController: UIViewController {
         super.viewDidLoad()
         setUpNavBar()
         view.addSubview(collectionView)
-        view.backgroundColor = .white
+        view.addSubview(searchHeaderView)
         view.addSubview(menuBar)
+        view.backgroundColor = UIColor.dynamicColor(.appBackground)
         setUpConstraints()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
+        view.backgroundColor = UIColor.dynamicColor(.appBackground)
         setUpNavBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if(followType == "follower"){
-            let index = IndexPath(item: 0, section: 0)
-            menuBar.collectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
-            scrollToMenuIndex(0,false)
-        } else if(followType == "following"){
-            let index = IndexPath(item: 1, section: 0)
-            menuBar.collectionView.selectItem(at: index, animated: true, scrollPosition: .centeredHorizontally)
-            scrollToMenuIndex(1,false)
-        }
+        let index = IndexPath(row: 0, section: 0)
+        collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
     }
     
     func setUpNavBar(){
-        navigationItem.title = "\(username)"
+        navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.layer.shadowOpacity = 0
-        navigationController?.navigationBar.barTintColor = UIColor.dynamicColor(.appBackground)
-        navigationController?.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.font: UIFont(name: CustomFonts.appFontBold, size: 16)!,
-            NSAttributedString.Key.foregroundColor: UIColor.dynamicColor(.textColor)
-        ]
-        
-        let backButton = UIButton(type: .system)
-        backButton.setImage(UIImage(named: "back2")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        backButton.tintColor = CustomColors.appBlue
-        backButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-        backButton.addTarget(self, action: #selector(backBtn), for: .touchUpInside)
-        let leftBarButtonItem = UIBarButtonItem()
-        leftBarButtonItem.customView = backButton
-        navigationItem.setLeftBarButton(leftBarButtonItem, animated: false)
+        navigationController?.navigationBar.isHidden = true
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
+    }
+    
+    @objc func backBtnPressed(){
+        navigationController?.popViewController(animated: true)
     }
     
     func setUpConstraints(){
         NSLayoutConstraint.activate([
-            menuBar.topAnchor.constraint(equalTo: view.topAnchor),
+            searchHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchHeaderView.heightAnchor.constraint(equalToConstant: 45),
+            
+            menuBar.topAnchor.constraint(equalTo: searchHeaderView.bottomAnchor),
             menuBar.heightAnchor.constraint(equalToConstant: 40),
             menuBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             menuBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -108,34 +106,12 @@ class FollowDetailViewController: UIViewController {
         let indexPath = IndexPath(item: index, section: 0)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: anim)
     }
-    
-    @objc func backBtn(){
-        navigationController?.popViewController(animated: true)
-    }
-   
 }
 
-extension FollowDetailViewController:UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FollowDetailActionProtocol {
-    
-    func didMentionTapped(screenName: String) {
-        PushToProfile("", screenName)
-    }
-    
-    func didUrlTapped(url: String) {
-        let VC = WebViewController()
-        VC.url = URL(string: url)
-        let navVC = UINavigationController(rootViewController: VC)
-        navVC.modalPresentationStyle = .fullScreen
-        self.present(navVC, animated: true, completion: nil)
-    }
-    
-    
-    func didUsertapped(_ userId: String) {
-        PushToProfile(userId , "")
-    }
+extension SearchWithCategoryViewController:UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        menuBar.horizontalBarLeadingAnchorConstraints?.constant = scrollView.contentOffset.x / 2
+        menuBar.horizontalBarLeadingAnchorConstraints?.constant = scrollView.contentOffset.x / 3
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -145,20 +121,26 @@ extension FollowDetailViewController:UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
     
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserFollowersCollectionViewCell", for: indexPath) as! UserFollowersCollectionViewCell
-            cell.userId = userId
-            cell.delegate = self
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TopSearchCollectionViewCell", for: indexPath) as! TopSearchCollectionViewCell
+            cell.controller = self
+            cell.query = query
             return cell
         }
         if indexPath.row == 1{
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserFollowingCollectionViewCell", for: indexPath) as! UserFollowingCollectionViewCell
-            cell.userId = userId
-            cell.delegate = self
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LatestSearchCollectionViewCell", for: indexPath) as! LatestSearchCollectionViewCell
+            cell.controller = self
+            cell.query = query
+            return cell
+        }
+        if indexPath.row == 2{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PeopleSearchCollectionViewCell", for: indexPath) as! PeopleSearchCollectionViewCell
+            cell.controller = self
+            cell.query = query_user
             return cell
         }
         return UICollectionViewCell()

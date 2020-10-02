@@ -9,10 +9,12 @@
 import UIKit
 
 enum Constants:String {
-    case CONSUMER_KEY = "r3Xf3R4URxGiXj3fumU5qTOYN" //ADD YOUR CONSUMER KEY HERE
-    case CONSUMER_SECRET = "7wi7QxmJz63q9grc5UVHCA7HnTKp5CWTGvmqawss4o3G59vAFg" //ADD YOUR CONSUMER SECRET HERE.
-    case BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAFkiHwEAAAAASFFbJQgIZHnt4ETjey3QGM4pkMk%3D7lJBBXpwao5cCen6v1CwUR2C3orfYDEmFmvAxoTo8nYw00RK7G" //ADD YOUR BEARER TOKEN HERE.
+    case CONSUMER_KEY = "GtfTfsRV7szIC8ERSgsQ3kHeN" //ADD YOUR CONSUMER KEY HERE
+    case CONSUMER_SECRET = "mk8uSVpJ2biKoXVSOwOFpb9LI05m9pSbMLzMmEbW3PCZhQrgLP" //ADD YOUR CONSUMER SECRET HERE.
+    case BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAFkiHwEAAAAA6dHMxPE3JMDVQ%2FuouX4PLGPE46c%3DRyr5KtAqmBN2Q1YnyvgQkt8YiAfNNuLYCASBOSPnF3YvI3K4rf" //ADD YOUR BEARER TOKEN HERE.
     case BASE_URL = "https://api.twitter.com"
+    //MARK:- Enter your WOEID as i belong from india my id is this 2282863 (this id is used to get trending tweets of your country or place!)
+    case WOEID = "2282863"
 }
 
 struct CustomColors {

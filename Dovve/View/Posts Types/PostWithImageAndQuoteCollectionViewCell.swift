@@ -14,6 +14,7 @@ protocol PostWithImageAndQuoteDelegate{
     func didImageTapped(for cell:PostWithImageAndQuoteCollectionViewCell , _ index:Int)
     func didUrlTapped(url:String)
     func didMentionTapped(screenName:String)
+    func didHashtagTapped(_ hashtag:String)
 }
 
 class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
@@ -110,6 +111,7 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
     lazy var quotedView:CustomQuotedView = {
         let v = CustomQuotedView()
         v.delegate2 = self
+        v.ActionDelegate = self
         v.translatesAutoresizingMaskIntoConstraints = false
         v.layer.cornerRadius = 15
         v.layer.borderColor = UIColor.dynamicColor(.secondaryBackground).cgColor
@@ -338,6 +340,10 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
         tweet.handleMentionTap { (screenName) in
             self.delegate?.didMentionTapped(screenName: screenName)
         }
+        
+        tweet.handleHashtagTap { (hashtag) in
+            self.delegate?.didHashtagTapped(hashtag)
+        }
     }
     
     func manageData(){
@@ -400,8 +406,14 @@ extension PostWithImageAndQuoteCollectionViewCell:UICollectionViewDelegate, UICo
         if (data?.media.count) == 1 {
           return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
         }
-        if (data?.media.count) == 2 || (data?.media.count) == 3 {
+        if (data?.media.count) == 2 {
           return CGSize(width: ((collectionView.frame.width / 2) - 1), height: collectionView.frame.height)
+        }
+        if (data?.media.count) == 3 {
+            if indexPath.row == 0 {
+                return CGSize(width: collectionView.frame.width, height: (collectionView.frame.height / 2) - 1)
+            }
+            return CGSize(width: ((collectionView.frame.width / 2) - 1), height: ((collectionView.frame.height / 2) - 1))
         }
         if (data?.media.count) == 4{
             return CGSize(width: ((collectionView.frame.width / 2) - 1), height: ((collectionView.frame.height / 2) - 1))
@@ -423,7 +435,22 @@ extension PostWithImageAndQuoteCollectionViewCell:UICollectionViewDelegate, UICo
     
 }
 
-extension PostWithImageAndQuoteCollectionViewCell {
+extension PostWithImageAndQuoteCollectionViewCell: QuotedActionProtocol {
+    func didImageSelected(_ index: Int) {
+        print("nothing")
+    }
+    
+    func didUrlTapped(_ url: String) {
+        delegate?.didUrlTapped(url: url)
+    }
+    
+    func didMentionTapped(screenName: String) {
+        delegate?.didMentionTapped(screenName: screenName)
+    }
+    
+    func didHashtagTapped(_ hashtag: String) {
+        delegate?.didHashtagTapped(hashtag)
+    }
     
     @objc func userProfileSelected(){
         delegate?.didUserProfileTapped(for: self , false , false)

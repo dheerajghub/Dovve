@@ -22,7 +22,7 @@ public struct TwitterSignatureParameters {
     let params:String
 
     var parameterString: String {
-    var string: String = ""
+        var string: String = ""
         string.append("\(user_id)")
         string.append("\(max_id)")
         string.append("oauth_consumer_key=\(oauthConsumerKey.percentEscaped)&")
@@ -47,7 +47,7 @@ class TwitterSwiftLite {
 
     let header:HTTPHeaders =  [
       "User-Agent": "iOS",
-      "Authorization": oauthString,
+      "authorization": oauthString,
       "Content-Type": "application/x-www-form-urlencoded"
     ]
     

@@ -1,21 +1,29 @@
 //
-//  HomeViewController.swift
+//  TopSearchCollectionViewCell.swift
 //  Dovve
 //
-//  Created by Dheeraj Kumar Sharma on 19/09/20.
+//  Created by Dheeraj Kumar Sharma on 01/10/20.
 //  Copyright © 2020 Dheeraj Kumar Sharma. All rights reserved.
 //
 
 import UIKit
-import Alamofire
-import SwiftyJSON
-import SwiftKeychainWrapper
-import AVKit
 
-class HomeViewController: UIViewController {
-
-    var dataModel:[HomeTimeLineModel]?
+class TopSearchCollectionViewCell: UICollectionViewCell {
+    
+    var dataModel:[SearchModel]?
     var dataList:[TweetData]?
+    var query:String?{
+        didSet {
+            SearchModel.fetchSearchModel(view:controller!,params:"&q=\(query!)&result_type=recent") {(dataModel) in
+                self.dataModel = dataModel
+                self.dataList?.removeAll()
+                self.getDataListArray(dataModel)
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
+    var controller:SearchWithCategoryViewController?
     
     private lazy var refresher: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -45,23 +53,19 @@ class HomeViewController: UIViewController {
         return cv
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
-        view.addSubview(collectionView)
-        collectionView.pin(to: view)
-        setUpCustomNavBar()
-        
-        HomeTimeLineModel.fetchHometimeLine(view:self, max_id: "" , params:"") {(dataModel) in
-            self.dataModel = dataModel
-            self.dataList?.removeAll()
-            self.getDataListArray(dataModel)
-            self.collectionView.reloadData()
-        }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = UIColor.dynamicColor(.secondaryBackground)
+        addSubview(collectionView)
+        collectionView.pin(to: self)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     @objc func pullToRefresh(){
-        HomeTimeLineModel.fetchHometimeLine(view:self, max_id: "" , params:"") {(dataModel) in
+        SearchModel.fetchSearchModel(view:controller!,params:"&q=\(query!)&result_type=popular") {(dataModel) in
             self.dataModel = dataModel
             self.dataList?.removeAll()
             self.getDataListArray(dataModel)
@@ -70,29 +74,7 @@ class HomeViewController: UIViewController {
         refresher.endRefreshing()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        setUpCustomNavBar()
-    }
-    
-    func setUpCustomNavBar(){
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.topItem?.title = "Home"
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 0.1)
-        navigationController?.navigationBar.layer.shadowColor = UIColor.dynamicColor(.secondaryBackground).cgColor
-        navigationController?.navigationBar.layer.shadowOpacity = 1
-        navigationController?.navigationBar.layer.shadowRadius = 0.5
-        
-        navigationController?.navigationBar.barTintColor = UIColor.dynamicColor(.appBackground)
-        navigationController?.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.font: UIFont(name: CustomFonts.appFontBold, size: 19)!,
-            NSAttributedString.Key.foregroundColor: UIColor.dynamicColor(.textColor)
-        ]
-    }
-    
-    func getDataListArray(_ data:[HomeTimeLineModel]){
+    func getDataListArray(_ data:[SearchModel]){
         var tweets = [TweetData]()
         let tweetCount = data.count
         for i in 0..<tweetCount{
@@ -142,7 +124,7 @@ class HomeViewController: UIViewController {
     
 }
 
-extension HomeViewController:UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension TopSearchCollectionViewCell:UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let dataList = dataList {
@@ -301,7 +283,7 @@ extension HomeViewController:UICollectionViewDelegate , UICollectionViewDataSour
                 let totalPosts = dataList.count
                 var getLastId = Int(dataList[totalPosts - 1].id)
                 getLastId! -= 1
-                HomeTimeLineModel.fetchHometimeLine(view:self ,max_id: "max_id=\(getLastId ?? 0)&" , params:"&max_id=\(getLastId ?? 0)") {(dataModel) in
+                SearchModel.fetchSearchModel(view:controller!,params:"&q=\(query!)&result_type=popular&since_id=\(getLastId ?? 0)") {(dataModel) in
                     self.getDataListArray(dataModel)
                     self.collectionView.reloadData()
                 }
@@ -311,14 +293,14 @@ extension HomeViewController:UICollectionViewDelegate , UICollectionViewDataSour
     
 }
 
-extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, QuotedPostDelegate, QuotedPostWithImageDelegate , PostWithImageAndQuoteDelegate , PostWithImageAndQuotedImageDelegate {
+extension TopSearchCollectionViewCell: SimpleTextPostDelegate, PostWithImagesDelegate, QuotedPostDelegate, QuotedPostWithImageDelegate , PostWithImageAndQuoteDelegate , PostWithImageAndQuotedImageDelegate {
     
     func didHashtagTapped(_ hashtag: String) {
-        SearchForHashtag(hashtag)
+        controller?.SearchForHashtag(hashtag)
     }
     
     func didMentionTapped(screenName: String) {
-        PushToProfile("", screenName)
+        controller?.PushToProfile("", screenName)
     }
     
     func didUrlTapped(url: String) {
@@ -326,7 +308,7 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         VC.url = URL(string: url)
         let navVC = UINavigationController(rootViewController: VC)
         navVC.modalPresentationStyle = .fullScreen
-        self.present(navVC, animated: true, completion: nil)
+        controller?.present(navVC, animated: true, completion: nil)
     }
     
     //MARK:-SimpleTextPost Actions
@@ -335,10 +317,10 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         if let dataList = dataList {
             if isRetweetedUser {
                 let userId = dataList[indexPath.row].retweetedBy.userID
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             } else {
                 let userId = dataList[indexPath.row].user.userId
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             }
         }
     }
@@ -349,10 +331,10 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         if let dataList = dataList {
             if isRetweetedUser {
                 let userId = dataList[indexPath.row].retweetedBy.userID
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             } else {
                 let userId = dataList[indexPath.row].user.userId
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             }
         }
     }
@@ -361,10 +343,10 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         if let dataList = dataList {
             if dataList[indexPath.row].isVideo {
-                ShowVieoWithUrl(dataList[indexPath.row].media[0].vidURL)
+                controller?.ShowVieoWithUrl(dataList[indexPath.row].media[0].vidURL)
             } else {
                 let media = dataList[indexPath.row].media
-                PushToImageDetailView(media! , index)
+                controller?.PushToImageDetailView(media! , index)
             }
         }
     }
@@ -375,13 +357,13 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         if let dataList = dataList {
             if isRetweetedUser {
                 let userId = dataList[indexPath.row].retweetedBy.userID
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             } else if isQuotedUser {
                 let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             } else {
                 let userId = dataList[indexPath.row].user.userId
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             }
         }
     }
@@ -392,13 +374,13 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         if let dataList = dataList {
             if isRetweetedUser {
                 let userId = dataList[indexPath.row].retweetedBy.userID
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             } else if isQuotedUser {
                 let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             } else {
                 let userId = dataList[indexPath.row].user.userId
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             }
         }
     }
@@ -407,10 +389,10 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         if let dataList = dataList {
             if dataList[indexPath.row].tweetQuotedStatus.isVideo {
-                ShowVieoWithUrl(dataList[indexPath.row].tweetQuotedStatus.media[0].vidURL)
+                controller?.ShowVieoWithUrl(dataList[indexPath.row].tweetQuotedStatus.media[0].vidURL)
             } else {
                 let media = dataList[indexPath.row].tweetQuotedStatus.media
-                PushToImageDetailView(media! , index)
+                controller?.PushToImageDetailView(media! , index)
             }
         }
     }
@@ -421,13 +403,13 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         if let dataList = dataList {
             if isRetweetedUser {
                 let userId = dataList[indexPath.row].retweetedBy.userID
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             } else if isQuotedUser {
                 let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             } else {
                 let userId = dataList[indexPath.row].user.userId
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             }
         }
     }
@@ -436,10 +418,10 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         if let dataList = dataList {
             if dataList[indexPath.row].isVideo {
-                ShowVieoWithUrl(dataList[indexPath.row].media[0].vidURL)
+                controller?.ShowVieoWithUrl(dataList[indexPath.row].media[0].vidURL)
             } else {
                 let media = dataList[indexPath.row].media
-                PushToImageDetailView(media!, index)
+                controller?.PushToImageDetailView(media!, index)
             }
         }
     }
@@ -450,13 +432,13 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         if let dataList = dataList {
             if isRetweetedUser {
                 let userId = dataList[indexPath.row].retweetedBy.userID
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             } else if isQuotedUser {
                 let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
-                PushToProfile(userId! , "")
+                controller?.PushToProfile(userId! , "")
             } else {
                 let userId = dataList[indexPath.row].user.userId
-                PushToProfile(userId! ,"")
+                controller?.PushToProfile(userId! ,"")
             }
         }
     }
@@ -466,17 +448,17 @@ extension HomeViewController: SimpleTextPostDelegate, PostWithImagesDelegate, Qu
         if let dataList = dataList {
             if isPostImage {
                 if dataList[indexPath.row].isVideo {
-                    ShowVieoWithUrl(dataList[indexPath.row].media[0].vidURL)
+                    controller?.ShowVieoWithUrl(dataList[indexPath.row].media[0].vidURL)
                 } else {
                     let media = dataList[indexPath.row].media
-                    PushToImageDetailView(media! , index)
+                    controller?.PushToImageDetailView(media! , index)
                 }
             } else if isQuoteImage {
                 if dataList[indexPath.row].tweetQuotedStatus.isVideo {
-                    ShowVieoWithUrl(dataList[indexPath.row].tweetQuotedStatus.media[0].vidURL)
+                    controller?.ShowVieoWithUrl(dataList[indexPath.row].tweetQuotedStatus.media[0].vidURL)
                 } else {
                     let media = dataList[indexPath.row].tweetQuotedStatus.media
-                    PushToImageDetailView(media! , index)
+                    controller?.PushToImageDetailView(media! , index)
                 }
             }
         }

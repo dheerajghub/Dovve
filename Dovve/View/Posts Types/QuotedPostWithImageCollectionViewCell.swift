@@ -14,6 +14,7 @@ protocol QuotedPostWithImageDelegate{
     func didImageTapped(for cell: QuotedPostWithImageCollectionViewCell, _ index:Int)
     func didUrlTapped(url:String)
     func didMentionTapped(screenName:String)
+    func didHashtagTapped(_ hashtag:String)
 }
 
 class QuotedPostWithImageCollectionViewCell: UICollectionViewCell {
@@ -315,6 +316,10 @@ class QuotedPostWithImageCollectionViewCell: UICollectionViewCell {
         tweet.handleMentionTap { (screenName) in
             self.delegate?.didMentionTapped(screenName: screenName)
         }
+        
+        tweet.handleHashtagTap { (hashtag) in
+            self.delegate?.didHashtagTapped(hashtag)
+        }
     }
     
     func manageData(){
@@ -367,6 +372,10 @@ class QuotedPostWithImageCollectionViewCell: UICollectionViewCell {
 }
 
 extension QuotedPostWithImageCollectionViewCell: QuotedActionProtocol {
+    
+    func didHashtagTapped(_ hashtag: String) {
+        delegate?.didHashtagTapped(hashtag)
+    }
     
     func didMentionTapped(screenName: String) {
         delegate?.didMentionTapped(screenName: screenName)

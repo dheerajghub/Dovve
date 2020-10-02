@@ -14,6 +14,7 @@ protocol PostWithImagesDelegate{
     func didImageTapped(for cell:PostWithImagesCollectionViewCell , _ index:Int)
     func didUrlTapped(url:String)
     func didMentionTapped(screenName:String)
+    func didHashtagTapped(_ hashtag:String)
 }
 
 class PostWithImagesCollectionViewCell: UICollectionViewCell {
@@ -320,6 +321,10 @@ class PostWithImagesCollectionViewCell: UICollectionViewCell {
         tweet.handleMentionTap { (screenName) in
             self.delegate?.didMentionTapped(screenName: screenName)
         }
+        
+        tweet.handleHashtagTap { (hashtag) in
+            self.delegate?.didHashtagTapped(hashtag)
+        }
     }
     
     func manageData(){
@@ -374,8 +379,14 @@ extension PostWithImagesCollectionViewCell:UICollectionViewDelegate, UICollectio
         if (data?.media.count) == 1 {
           return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
         }
-        if (data?.media.count) == 2 || (data?.media.count) == 3 {
+        if (data?.media.count) == 2 {
           return CGSize(width: ((collectionView.frame.width / 2) - 1), height: collectionView.frame.height)
+        }
+        if (data?.media.count) == 3 {
+            if indexPath.row == 0 {
+                return CGSize(width: collectionView.frame.width, height: (collectionView.frame.height / 2) - 1)
+            }
+            return CGSize(width: ((collectionView.frame.width / 2) - 1), height: ((collectionView.frame.height / 2) - 1))
         }
         if (data?.media.count) == 4{
             return CGSize(width: ((collectionView.frame.width / 2) - 1), height: ((collectionView.frame.height / 2) - 1))

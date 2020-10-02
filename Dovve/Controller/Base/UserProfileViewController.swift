@@ -91,6 +91,7 @@ class UserProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setUpCustomNavBar()
+        navigationController?.navigationBar.isHidden = false
     }
     
     @objc func pullToRefresh(){
@@ -381,7 +382,8 @@ extension UserProfileViewController:UICollectionViewDelegate , UICollectionViewD
         if ((collectionView.contentOffset.y + collectionView.frame.size.height) >= loadMoreFrom){
             if let dataList = dataList {
                 let totalPosts = dataList.count
-                let getLastId = Int(dataList[totalPosts - 1].id)
+                var getLastId = Int(dataList[totalPosts - 1].id)
+                getLastId! -= 1
                 if totalPosts < (profileData?.tweetCount)! {
                     
                     var params = String()
@@ -392,7 +394,6 @@ extension UserProfileViewController:UICollectionViewDelegate , UICollectionViewD
                     }
                     
                     UserTimeLineModel.fetchUserTimeLine(view:self, params:"&\(params)&max_id=\(getLastId ?? 0)") {(dataModel) in
-                        self.dataList?.remove(at: totalPosts - 1)
                         self.getDataListArray(dataModel)
                         self.collectionView.reloadData()
                     }
@@ -404,6 +405,10 @@ extension UserProfileViewController:UICollectionViewDelegate , UICollectionViewD
 }
 
 extension UserProfileViewController: SimpleTextPostDelegate, PostWithImagesDelegate, QuotedPostDelegate, QuotedPostWithImageDelegate , PostWithImageAndQuoteDelegate , PostWithImageAndQuotedImageDelegate,ButtonActionProtocol {
+    
+    func didHashtagTapped(_ hashtag: String) {
+        SearchForHashtag(hashtag)
+    }
     
     func didMentionTapped(screenName: String) {
         PushToProfile("", screenName)

@@ -13,6 +13,7 @@ protocol QuotedPostDelegate{
     func didUserProfileTapped(for cell: QuotedPostCollectionViewCell , _ isQuotedUser:Bool , _ isRetweeted:Bool)
     func didUrlTapped(url:String)
     func didMentionTapped(screenName:String)
+    func didHashtagTapped(_ hashtag:String)
 }
 
 class QuotedPostCollectionViewCell: UICollectionViewCell {
@@ -313,6 +314,10 @@ class QuotedPostCollectionViewCell: UICollectionViewCell {
         tweet.handleMentionTap { (screenName) in
             self.delegate?.didMentionTapped(screenName: screenName)
         }
+        
+        tweet.handleHashtagTap { (hashtag) in
+            self.delegate?.didHashtagTapped(hashtag)
+        }
     }
     
     func manageData(){
@@ -361,6 +366,10 @@ class QuotedPostCollectionViewCell: UICollectionViewCell {
 }
 
 extension QuotedPostCollectionViewCell:QuotedActionProtocol {
+    
+    func didHashtagTapped(_ hashtag: String) {
+        delegate?.didHashtagTapped(hashtag)
+    }
     
     func didImageSelected(_ index: Int) {
         print("do nothing!")

@@ -47,4 +47,12 @@ extension UIViewController {
         }
     }
     
+    func SearchForHashtag(_ hashtag:String){
+        let VC = SearchWithCategoryViewController()
+        VC.query = "%23\(hashtag)"
+        VC.query_str = "#\(hashtag)"
+        VC.query_user = hashtag
+        navigationController?.pushViewController(VC, animated: true)
+    }
+    
 }

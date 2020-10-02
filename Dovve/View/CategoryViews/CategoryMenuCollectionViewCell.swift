@@ -1,46 +1,45 @@
 //
-//  FollowMenuCollectionViewCell.swift
+//  CategoryMenuCollectionViewCell.swift
 //  Dovve
 //
-//  Created by Dheeraj Kumar Sharma on 27/09/20.
+//  Created by Dheeraj Kumar Sharma on 01/10/20.
 //  Copyright © 2020 Dheeraj Kumar Sharma. All rights reserved.
 //
 
 import UIKit
 
-class FollowMenuCollectionViewCell: UICollectionViewCell {
+class CategoryMenuCollectionViewCell: UICollectionViewCell {
     
     override var isHighlighted: Bool{
         didSet{
-            followLabel.textColor = isHighlighted ? CustomColors.appBlue : CustomColors.appDarkGray
+            categoryLabel.textColor = isHighlighted ? CustomColors.appBlue : CustomColors.appDarkGray
         }
     }
     
     override var isSelected: Bool{
         didSet{
-            followLabel.textColor = isSelected ? CustomColors.appBlue : CustomColors.appDarkGray
+            categoryLabel.textColor = isSelected ? CustomColors.appBlue : CustomColors.appDarkGray
         }
     }
     
-    let followLabel:UILabel = {
+    let categoryLabel:UILabel = {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
         l.font = UIFont(name: CustomFonts.appFontBold, size: 15)
-        l.text = "Followers"
         l.textColor = CustomColors.appDarkGray
         return l
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(followLabel)
+        addSubview(categoryLabel)
         setUpViews()
     }
     
     func setUpViews(){
         NSLayoutConstraint.activate([
-            followLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            followLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
+            categoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            categoryLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
     

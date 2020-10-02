@@ -1,17 +1,21 @@
 //
-//  MenuBar.swift
+//  CategoryMenuBar.swift
 //  Dovve
 //
-//  Created by Dheeraj Kumar Sharma on 27/09/20.
+//  Created by Dheeraj Kumar Sharma on 01/10/20.
 //  Copyright © 2020 Dheeraj Kumar Sharma. All rights reserved.
 //
 
 import UIKit
 
-class MenuBar:UIView {
+class CategoryMenuBar: UIView {
+
+    var categoryArr = [String]()
     
     var horizontalBarLeadingAnchorConstraints:NSLayoutConstraint?
+    var widthAnchorContraints:NSLayoutConstraint?
     var followDetailController:FollowDetailViewController?
+    var searchDetailController:SearchWithCategoryViewController?
     
     let collectionView:UICollectionView = {
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewLayout.init())
@@ -41,7 +45,7 @@ class MenuBar:UIView {
         super.init(frame: frame)
         layout.scrollDirection = .horizontal
         collectionView.setCollectionViewLayout(layout, animated: false)
-        collectionView.register(FollowMenuCollectionViewCell.self, forCellWithReuseIdentifier: "FollowMenuCollectionViewCell")
+        collectionView.register(CategoryMenuCollectionViewCell.self, forCellWithReuseIdentifier: "CategoryMenuCollectionViewCell")
         collectionView.delegate = self
         collectionView.dataSource = self
         backgroundColor = UIColor.dynamicColor(.appBackground)
@@ -63,7 +67,6 @@ class MenuBar:UIView {
         horizontalBarLeadingAnchorConstraints = selectedBarView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
         horizontalBarLeadingAnchorConstraints?.isActive = true
         selectedBarView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        selectedBarView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/2).isActive = true
         selectedBarView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
     
@@ -72,29 +75,25 @@ class MenuBar:UIView {
     }
 }
 
-extension MenuBar:UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension CategoryMenuBar:UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return categoryArr.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FollowMenuCollectionViewCell", for: indexPath) as! FollowMenuCollectionViewCell
-        if indexPath.row == 0{
-            cell.followLabel.text = "Followers"
-        }
-        if indexPath.row == 1{
-            cell.followLabel.text = "Following"
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryMenuCollectionViewCell", for: indexPath) as! CategoryMenuCollectionViewCell
+        cell.categoryLabel.text = categoryArr[indexPath.row]
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: frame.size.width / 2, height: frame.size.height)
+        return CGSize(width: frame.size.width / CGFloat(categoryArr.count) , height: frame.size.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         followDetailController?.scrollToMenuIndex(indexPath.row, true)
+        searchDetailController?.scrollToMenuIndex(indexPath.row , true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

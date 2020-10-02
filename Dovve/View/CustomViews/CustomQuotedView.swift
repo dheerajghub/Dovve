@@ -114,6 +114,10 @@ class CustomQuotedView: UIView {
         tweet.handleMentionTap { (screenName) in
             self.ActionDelegate?.didMentionTapped(screenName: screenName)
         }
+        
+        tweet.handleHashtagTap { (hashtag) in
+            self.ActionDelegate?.didHashtagTapped(hashtag)
+        }
     }
     
     required init?(coder: NSCoder) {
