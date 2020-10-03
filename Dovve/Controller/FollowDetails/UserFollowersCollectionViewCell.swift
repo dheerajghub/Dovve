@@ -98,6 +98,10 @@ class UserFollowersCollectionViewCell: UICollectionViewCell {
 
 extension UserFollowersCollectionViewCell:UICollectionViewDelegateFlowLayout , UICollectionViewDelegate, UICollectionViewDataSource, FollowActionProtocol {
     
+    func didHashtagTapped(_ hashtag: String) {
+        delegate?.didHashtagTapped(hashtag)
+    }
+    
     func didMentionTapped(screenName: String) {
         delegate?.didMentionTapped(screenName: screenName)
     }

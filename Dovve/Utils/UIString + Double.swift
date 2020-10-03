@@ -74,6 +74,17 @@ extension String {
         return outputDate
     }
     
+    func getQueryForUser() -> String{
+        let arr = self.map( { String($0) })
+        var queryString = String()
+        if arr[0] == "#"{
+            queryString = String(self.dropFirst())
+        } else {
+            queryString = self
+        }
+        return queryString
+    }
+    
 }
 
 extension Double {

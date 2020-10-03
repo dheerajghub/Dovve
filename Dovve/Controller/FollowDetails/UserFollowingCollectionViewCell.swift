@@ -12,6 +12,7 @@ protocol FollowDetailActionProtocol {
     func didUsertapped(_ userId:String)
     func didUrlTapped(url:String)
     func didMentionTapped(screenName:String)
+    func didHashtagTapped(_ hashtag:String)
 }
 
 class UserFollowingCollectionViewCell: UICollectionViewCell {
@@ -104,6 +105,10 @@ class UserFollowingCollectionViewCell: UICollectionViewCell {
 }
 
 extension UserFollowingCollectionViewCell:UICollectionViewDelegateFlowLayout , UICollectionViewDelegate, UICollectionViewDataSource, FollowActionProtocol {
+    
+    func didHashtagTapped(_ hashtag: String) {
+        delegate?.didHashtagTapped(hashtag)
+    }
     
     func didMentionTapped(screenName: String) {
         delegate?.didMentionTapped(screenName: screenName)

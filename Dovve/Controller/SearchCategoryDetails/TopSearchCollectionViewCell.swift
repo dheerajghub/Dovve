@@ -283,9 +283,14 @@ extension TopSearchCollectionViewCell:UICollectionViewDelegate , UICollectionVie
                 let totalPosts = dataList.count
                 var getLastId = Int(dataList[totalPosts - 1].id)
                 getLastId! -= 1
-                SearchModel.fetchSearchModel(view:controller!,params:"&q=\(query!)&result_type=popular&since_id=\(getLastId ?? 0)") {(dataModel) in
-                    self.getDataListArray(dataModel)
-                    self.collectionView.reloadData()
+                SearchModel.fetchSearchModel(view:controller!,params:"&q=\(query!)&result_type=popular&max_id=\(getLastId ?? 0)") {(dataModel) in
+                    self.dataModel = dataModel
+                    if let dataList = self.dataList {
+                        if dataList[0].id != dataModel[0].id {
+                            self.getDataListArray(dataModel)
+                            self.collectionView.reloadData()
+                        }
+                    }
                 }
             }
         }

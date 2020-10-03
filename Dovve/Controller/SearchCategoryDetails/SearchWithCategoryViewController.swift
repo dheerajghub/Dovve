@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchWithCategoryViewController: UIViewController {
+class SearchWithCategoryViewController: UIViewController, FollowDetailActionProtocol {
 
     var query = ""
     var query_str = ""
@@ -66,11 +66,6 @@ class SearchWithCategoryViewController: UIViewController {
         setUpNavBar()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        let index = IndexPath(row: 0, section: 0)
-        collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
-    }
-    
     func setUpNavBar(){
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -108,7 +103,28 @@ class SearchWithCategoryViewController: UIViewController {
     }
 }
 
-extension SearchWithCategoryViewController:UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension SearchWithCategoryViewController:UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,FollowActionProtocol {
+    
+    func didHashtagTapped(_ hashtag: String) {
+        SearchForHashtag(hashtag)
+    }
+    
+    func didMentionTapped(screenName: String) {
+        PushToProfile("", screenName)
+    }
+    
+    func didUrlTapped(url: String) {
+        let VC = WebViewController()
+        VC.url = URL(string: url)
+        let navVC = UINavigationController(rootViewController: VC)
+        navVC.modalPresentationStyle = .fullScreen
+        self.present(navVC, animated: true, completion: nil)
+    }
+    
+    
+    func didUsertapped(_ userId: String) {
+        PushToProfile(userId , "")
+    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         menuBar.horizontalBarLeadingAnchorConstraints?.constant = scrollView.contentOffset.x / 3
@@ -141,6 +157,7 @@ extension SearchWithCategoryViewController:UICollectionViewDelegate, UICollectio
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PeopleSearchCollectionViewCell", for: indexPath) as! PeopleSearchCollectionViewCell
             cell.controller = self
             cell.query = query_user
+            cell.delegate = self
             return cell
         }
         return UICollectionViewCell()

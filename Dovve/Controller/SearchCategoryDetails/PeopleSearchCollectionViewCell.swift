@@ -91,8 +91,10 @@ class PeopleSearchCollectionViewCell: UICollectionViewCell {
             SearchUserModel.fetchSearchedUsers(view: controller!, params: "page=\(pageCount)&q=\(query ?? "")", query: "&page=\(pageCount)&q=\(query ?? "")") { (searchData) in
                 self.getUserArray(searchData)
                 if let userList = self.userList {
-                    if userList[0].id != searchData[0].id {
-                        self.collectionView.reloadData()
+                    if userList.count > 0 {
+                        if userList[0].id != searchData[0].id {
+                            self.collectionView.reloadData()
+                        }
                     }
                 }
             }
@@ -108,6 +110,10 @@ extension PeopleSearchCollectionViewCell:UICollectionViewDelegateFlowLayout , UI
     
     func didUrlTapped(url: String) {
         delegate?.didUrlTapped(url: url)
+    }
+    
+    func didHashtagTapped(_ hashtag: String) {
+        delegate?.didHashtagTapped(hashtag)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

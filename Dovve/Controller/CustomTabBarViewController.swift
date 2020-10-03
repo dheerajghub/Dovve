@@ -25,7 +25,7 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate{
         let vc1 = HomeViewController()
         homeViewController = UINavigationController(rootViewController: vc1)
         
-        let vc2 = HomeViewController()
+        let vc2 = SearchViewController()
         exploreViewController = UINavigationController(rootViewController: vc2)
         
         let vc3 = MentionsViewController()

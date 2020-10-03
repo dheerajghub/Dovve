@@ -117,6 +117,10 @@ class FollowDetailViewController: UIViewController {
 
 extension FollowDetailViewController:UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FollowDetailActionProtocol {
     
+    func didHashtagTapped(_ hashtag: String) {
+        SearchForHashtag(hashtag)
+    }
+    
     func didMentionTapped(screenName: String) {
         PushToProfile("", screenName)
     }
