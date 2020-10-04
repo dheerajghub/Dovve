@@ -12,6 +12,7 @@ import SwiftKeychainWrapper
 class SelectLocationViewController: UIViewController {
 
     var woeidList:[GetWoeidModel]?
+    var bottomConstraint: NSLayoutConstraint?
     
     lazy var searchView:CustomLocationSearchView = {
         let sb = CustomLocationSearchView()
@@ -44,6 +45,13 @@ class SelectLocationViewController: UIViewController {
             self.woeidList = woeidList
             self.tableView.reloadData()
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification) , name: UIResponder.keyboardWillShowNotification , object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification) , name: UIResponder.keyboardWillHideNotification , object: nil)
+        
+        bottomConstraint = NSLayoutConstraint(item: tableView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+        view.addConstraint(bottomConstraint!)
     }
     
     func setUpConstraints(){
@@ -108,6 +116,24 @@ class SelectLocationViewController: UIViewController {
             self.tableView.reloadData()
         }
     }
+    
+    @objc func handleKeyboardNotification(notification: NSNotification){
+        
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            
+            let isKeyboardShowing = notification.name == UIResponder.keyboardWillShowNotification
+            
+            bottomConstraint?.constant = isKeyboardShowing ? -keyboardHeight : 0
+            
+            UIView.animate(withDuration:0.1, delay: 0 , options: .curveEaseOut , animations: {
+                self.view.layoutIfNeeded()
+            } , completion: {(completed) in
+                
+            })
+        }
+    }
 
 }
 
@@ -125,13 +151,14 @@ extension SelectLocationViewController:UITableViewDelegate, UITableViewDataSourc
         
         if let woeidList = woeidList {
             cell.textLabel?.text = woeidList[indexPath.row].country
+            let woeid: String? = KeychainWrapper.standard.string(forKey: "woeid")
+            if woeid == "\(woeidList[indexPath.row].woeid ?? 0)" {
+                cell.accessoryType = .checkmark
+            } else {
+                cell.accessoryType = .none
+            }
         }
-        let selectedIndex: Int? = KeychainWrapper.standard.integer(forKey: "selectedIndex")
-        if selectedIndex == indexPath.row {
-            cell.accessoryType = .checkmark
-        } else {
-            cell.accessoryType = .none
-        }
+        
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         cell.backgroundColor = UIColor.dynamicColor(.appBackground)
         cell.selectionStyle = .none
@@ -140,7 +167,6 @@ extension SelectLocationViewController:UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let woeidList = woeidList {
-            let _:Bool = KeychainWrapper.standard.set(indexPath.row, forKey: "selectedIndex")
             let _:Bool = KeychainWrapper.standard.set("\(woeidList[indexPath.row].woeid ?? 0)", forKey: "woeid")
             let _:Bool = KeychainWrapper.standard.set(woeidList[indexPath.row].country ?? "", forKey: "country")
             self.tableView.reloadData()
