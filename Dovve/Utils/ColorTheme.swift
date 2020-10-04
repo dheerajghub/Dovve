@@ -20,6 +20,7 @@ extension UIColor {
         case textColor
         case secondaryBackground
         case secondaryTextColor
+        case darkBackground
         
         var lightTheme: UIColor {
             switch self {
@@ -31,6 +32,8 @@ extension UIColor {
                 return CustomColors.appExtraLightGray
             case .secondaryTextColor:
                 return CustomColors.appDarkGray
+            case .darkBackground:
+                return CustomColors.appExtraLightGray
             }
         }
 
@@ -44,6 +47,8 @@ extension UIColor {
                 return CustomColors.appDarkGray
             case .secondaryTextColor:
                 return CustomColors.appExtraLightGray
+            case .darkBackground:
+                return CustomColors.appSecondaryBackground
             }
         }
         

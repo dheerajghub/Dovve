@@ -25,6 +25,13 @@ class HomeViewController: UIViewController {
         return refreshControl
     }()
     
+    let activityIndicator:UIActivityIndicatorView = {
+        let ac = UIActivityIndicatorView()
+        ac.translatesAutoresizingMaskIntoConstraints = false
+        ac.tintColor = UIColor.dynamicColor(.secondaryTextColor)
+        return ac
+    }()
+    
     lazy var collectionView:UICollectionView = {
         let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
         layout.scrollDirection = .vertical
@@ -49,14 +56,19 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
         view.addSubview(collectionView)
+        view.addSubview(activityIndicator)
         collectionView.pin(to: view)
         setUpCustomNavBar()
+        setUpConstraints()
         
+        self.activityIndicator.startAnimating()
         HomeTimeLineModel.fetchHometimeLine(view:self, max_id: "" , params:"") {(dataModel) in
             self.dataModel = dataModel
             self.dataList?.removeAll()
             self.getDataListArray(dataModel)
             self.collectionView.reloadData()
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.isHidden = true
         }
     }
     
@@ -72,6 +84,13 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setUpCustomNavBar()
+    }
+    
+    func setUpConstraints(){
+        NSLayoutConstraint.activate([
+            activityIndicator.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
     }
     
     func setUpCustomNavBar(){

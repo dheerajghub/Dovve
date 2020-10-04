@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
 class SearchViewController: UIViewController {
 
@@ -20,9 +21,16 @@ class SearchViewController: UIViewController {
         return refreshControl
     }()
     
+    let activityIndicator:UIActivityIndicatorView = {
+        let ac = UIActivityIndicatorView()
+        ac.translatesAutoresizingMaskIntoConstraints = false
+        ac.tintColor = UIColor.dynamicColor(.secondaryTextColor)
+        return ac
+    }()
+    
     lazy var searchHeaderView:CustomMainSearchHeader = {
         let v = CustomMainSearchHeader()
-//        v.controller = self
+        v.controller = self
 //        v.searchTextField.text = query_str
         v.translatesAutoresizingMaskIntoConstraints = false
         v.backgroundColor = UIColor.dynamicColor(.appBackground)
@@ -52,27 +60,48 @@ class SearchViewController: UIViewController {
         view.backgroundColor = UIColor.dynamicColor(.appBackground)
         view.addSubview(searchHeaderView)
         view.addSubview(collectionView)
+        view.addSubview(activityIndicator)
         setUpNavBar()
         setUpConstraints()
         
-        GetTrends.fetchTrends(view: self, woeid: "\(Constants.WOEID.rawValue)") { (trendList) in
+        activityIndicator.startAnimating()
+        let woeid: String? = KeychainWrapper.standard.string(forKey: "woeid")
+        GetTrends.fetchTrends(view: self, woeid: woeid ?? "") { (trendList) in
+            self.trendList = trendList
+            self.collectionView.reloadData()
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.isHidden = true
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setUpNavBar()
+        let woeid: String? = KeychainWrapper.standard.string(forKey: "woeid")
+        GetTrends.fetchTrends(view: self, woeid: woeid ?? "") { (trendList) in
             self.trendList = trendList
             self.collectionView.reloadData()
         }
     }
     
     @objc func pullToRefresh(){
-        GetTrends.fetchTrends(view: self, woeid: "\(Constants.WOEID.rawValue)") { (trendList) in
+        let woeid: String? = KeychainWrapper.standard.string(forKey: "woeid")
+        GetTrends.fetchTrends(view: self, woeid: woeid ?? "") { (trendList) in
             self.trendList = trendList
             self.collectionView.reloadData()
         }
         refresher.endRefreshing()
     }
     
+    @objc func settingBtnPressd(){
+        let VC = ExploreSettingsViewController()
+        navigationController?.pushViewController(VC, animated: true)
+    }
+    
     func setUpNavBar(){
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        
         navigationController?.navigationBar.isHidden = true
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
@@ -87,7 +116,10 @@ class SearchViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: searchHeaderView.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            activityIndicator.topAnchor.constraint(equalTo: searchHeaderView.bottomAnchor, constant: 30),
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -110,7 +142,9 @@ extension SearchViewController:UICollectionViewDelegate, UICollectionViewDataSou
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "HeaderCollectionReusableView", for: indexPath) as! HeaderCollectionReusableView
-            header.headerText.text = "Trends"
+            let country: String? = KeychainWrapper.standard.string(forKey: "country")
+            let titleArr = country?.components(separatedBy: "-")
+            header.headerText.text = "\(titleArr![0])Trends"
             return header
         default:
             assert(false, "Unexpected element kind")

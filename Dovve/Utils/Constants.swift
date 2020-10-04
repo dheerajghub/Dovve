@@ -13,8 +13,6 @@ enum Constants:String {
     case CONSUMER_SECRET = "mk8uSVpJ2biKoXVSOwOFpb9LI05m9pSbMLzMmEbW3PCZhQrgLP" //ADD YOUR CONSUMER SECRET HERE.
     case BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAFkiHwEAAAAA6dHMxPE3JMDVQ%2FuouX4PLGPE46c%3DRyr5KtAqmBN2Q1YnyvgQkt8YiAfNNuLYCASBOSPnF3YvI3K4rf" //ADD YOUR BEARER TOKEN HERE.
     case BASE_URL = "https://api.twitter.com"
-    //MARK:- Enter your WOEID as i belong from india my id is this 2282863 (this id is used to get trending tweets of your country or place!)
-    case WOEID = "2282863"
 }
 
 struct CustomColors {
@@ -25,6 +23,7 @@ struct CustomColors {
     static let appBlue = UIColor(red: 29/255, green: 161/255, blue: 242/255, alpha: 1)
     static let appBackground = UIColor(red: 21/255, green: 33/255, blue: 43/255, alpha: 1)
     static let appRed = UIColor(red: 225/255, green: 57/255, blue: 95/255, alpha: 1)
+    static let appSecondaryBackground = UIColor(red: 15/255, green: 24/255, blue: 34/255, alpha: 1)
 }
 
 struct CustomFonts {

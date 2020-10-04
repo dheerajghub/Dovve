@@ -1,5 +1,5 @@
 //
-//  HeaderCollectionViewCell.swift
+//  HeaderTableViewCell.swift
 //  Dovve
 //
 //  Created by Dheeraj Kumar Sharma on 03/10/20.
@@ -8,19 +8,19 @@
 
 import UIKit
 
-class HeaderCollectionViewCell: UICollectionViewCell {
-    
+class HeaderTableViewCell: UITableViewCell {
+
     let headerText:UILabel = {
         let l = UILabel()
-        l.font = UIFont(name: CustomFonts.appFontBold, size: 20)
+        l.font = UIFont(name: CustomFonts.appFontBold, size: 18)
         l.textColor = UIColor.dynamicColor(.textColor)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = UIColor.dynamicColor(.appBackground)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = UIColor.dynamicColor(.darkBackground)
         addSubview(headerText)
         setUpConstraints()
     }

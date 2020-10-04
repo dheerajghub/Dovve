@@ -14,11 +14,14 @@ class TopSearchCollectionViewCell: UICollectionViewCell {
     var dataList:[TweetData]?
     var query:String?{
         didSet {
+            self.activityIndicator.startAnimating()
             SearchModel.fetchSearchModel(view:controller!,params:"&q=\(query!)&result_type=recent") {(dataModel) in
                 self.dataModel = dataModel
                 self.dataList?.removeAll()
                 self.getDataListArray(dataModel)
                 self.collectionView.reloadData()
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.isHidden = true
             }
         }
     }
@@ -31,6 +34,13 @@ class TopSearchCollectionViewCell: UICollectionViewCell {
         refreshControl.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
         refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         return refreshControl
+    }()
+    
+    let activityIndicator:UIActivityIndicatorView = {
+        let ac = UIActivityIndicatorView()
+        ac.translatesAutoresizingMaskIntoConstraints = false
+        ac.tintColor = UIColor.dynamicColor(.secondaryTextColor)
+        return ac
     }()
     
     lazy var collectionView:UICollectionView = {
@@ -57,6 +67,8 @@ class TopSearchCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         backgroundColor = UIColor.dynamicColor(.secondaryBackground)
         addSubview(collectionView)
+        addSubview(activityIndicator)
+        setUpConstraints()
         collectionView.pin(to: self)
     }
     
@@ -72,6 +84,13 @@ class TopSearchCollectionViewCell: UICollectionViewCell {
             self.collectionView.reloadData()
         }
         refresher.endRefreshing()
+    }
+    
+    func setUpConstraints(){
+        NSLayoutConstraint.activate([
+            activityIndicator.topAnchor.constraint(equalTo: topAnchor, constant: 30),
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ])
     }
     
     func getDataListArray(_ data:[SearchModel]){

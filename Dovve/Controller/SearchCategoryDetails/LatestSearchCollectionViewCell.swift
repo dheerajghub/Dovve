@@ -15,14 +15,24 @@ class LatestSearchCollectionViewCell: UICollectionViewCell {
 
     var query:String?{
         didSet {
+            self.activityIndicator.startAnimating()
             SearchModel.fetchSearchModel(view:controller!,params:"&q=\(query!)&result_type=recent") {(dataModel) in
                 self.dataModel = dataModel
                 self.dataList?.removeAll()
                 self.getDataListArray(dataModel)
                 self.collectionView.reloadData()
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.isHidden = true
             }
         }
     }
+    
+    let activityIndicator:UIActivityIndicatorView = {
+        let ac = UIActivityIndicatorView()
+        ac.translatesAutoresizingMaskIntoConstraints = false
+        ac.tintColor = UIColor.dynamicColor(.secondaryTextColor)
+        return ac
+    }()
     
     var controller:SearchWithCategoryViewController?
     private lazy var refresher: UIRefreshControl = {
@@ -57,7 +67,16 @@ class LatestSearchCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         backgroundColor = UIColor.dynamicColor(.secondaryBackground)
         addSubview(collectionView)
+        addSubview(activityIndicator)
         collectionView.pin(to: self)
+        setUpConstraints()
+    }
+    
+    func setUpConstraints(){
+        NSLayoutConstraint.activate([
+            activityIndicator.topAnchor.constraint(equalTo: topAnchor, constant: 30),
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ])
     }
     
     required init?(coder: NSCoder) {

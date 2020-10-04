@@ -10,6 +10,12 @@ import UIKit
 
 class CustomMainSearchHeader: UIView {
 
+    var controller:SearchViewController? {
+        didSet{
+            settingBtn.addTarget(controller, action: #selector(SearchViewController.settingBtnPressd), for: .touchUpInside)
+        }
+    }
+    
     let searchBarView:UIView = {
         let v = UIView()
         v.translatesAutoresizingMaskIntoConstraints = false

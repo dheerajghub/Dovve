@@ -8,6 +8,7 @@
 
 import UIKit
 import TwitterKit
+import SwiftKeychainWrapper
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -25,6 +26,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //            window?.rootViewController = HomeTimeLineData()
         } else {
             window?.rootViewController = LoginViewController()
+            let _:Bool = KeychainWrapper.standard.set(300, forKey: "selectedIndex")
+            let _:Bool = KeychainWrapper.standard.set("2282863", forKey: "woeid")
+            let _:Bool = KeychainWrapper.standard.set("India - Nagpur", forKey: "country")
         }
         
         window?.makeKeyAndVisible()

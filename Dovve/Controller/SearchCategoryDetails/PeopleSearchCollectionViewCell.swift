@@ -18,10 +18,13 @@ class PeopleSearchCollectionViewCell: UICollectionViewCell {
     
     var query:String?{
         didSet {
+            self.activityIndicator.startAnimating()
             SearchUserModel.fetchSearchedUsers(view: controller!,params: "q=\(query ?? "")", query: "&q=\(query ?? "")") { (searchData) in
                 self.searchData = searchData
                 self.getUserArray(searchData)
                 self.collectionView.reloadData()
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.isHidden = true
             }
         }
     }
@@ -32,6 +35,13 @@ class PeopleSearchCollectionViewCell: UICollectionViewCell {
         refreshControl.backgroundColor = UIColor.dynamicColor(.secondaryBackground)
         refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         return refreshControl
+    }()
+    
+    let activityIndicator:UIActivityIndicatorView = {
+        let ac = UIActivityIndicatorView()
+        ac.translatesAutoresizingMaskIntoConstraints = false
+        ac.tintColor = UIColor.dynamicColor(.secondaryTextColor)
+        return ac
     }()
     
     lazy var collectionView:UICollectionView = {
@@ -52,7 +62,9 @@ class PeopleSearchCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(collectionView)
+        addSubview(activityIndicator)
         collectionView.pin(to: self)
+        setUpConstraints()
     }
     
     @objc func pullToRefresh(){
@@ -63,6 +75,13 @@ class PeopleSearchCollectionViewCell: UICollectionViewCell {
             self.collectionView.reloadData()
        }
         refresher.endRefreshing()
+    }
+    
+    func setUpConstraints(){
+        NSLayoutConstraint.activate([
+            activityIndicator.topAnchor.constraint(equalTo: topAnchor, constant: 30),
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ])
     }
     
     required init?(coder: NSCoder) {
