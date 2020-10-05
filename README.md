@@ -15,7 +15,8 @@ For installation follow these steps: <a href="https://github.com/dheerajghub/Dov
 ## Progress Glance
 <img src="https://imgur.com/ZcNirDr.png" height="600"> <img src="https://imgur.com/KFlW4SX.png" height="600">
 <img src="https://imgur.com/qgNnHeQ.png" height="600"> <img src="https://imgur.com/tuWbGvW.png" height="600">
-<img src="https://imgur.com/2gkArLs.png" height="600">
+<img src="https://imgur.com/2gkArLs.png" height="600"> <img src="https://imgur.com/FTD7mhF.png" height="600">
+<img src="https://imgur.com/Hynq7WF.png" height="600">
 
 
 ## Stuck Somewhere or having trouble ?
