@@ -14,6 +14,7 @@ protocol ButtonActionProtocol {
     func didFollowerTapped()
     func didUrlTapped(url:String)
     func didMentionTapped(screenName:String)
+    func didHashtagTapped( _ hashtag:String)
 }
 
 class ProfileHeaderCollectionViewCell: UICollectionViewCell {
@@ -184,6 +185,10 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         
         bioDetail.handleMentionTap { (screenName) in
             self.delegate?.didMentionTapped(screenName: screenName)
+        }
+        
+        bioDetail.handleHashtagTap { (hashtag) in
+            self.delegate?.didHashtagTapped(hashtag)
         }
     }
     
