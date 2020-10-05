@@ -1,10 +1,7 @@
 <p align="center"><img src="https://imgur.com/ilgdcv5.png" width="400"></p>
 
 ![platform](https://img.shields.io/badge/platform-iOS-orange?style=flat-square)
-![Repository size](https://img.shields.io/github/repo-size/dheerajghub/dovve?style=flat-square)
-![GitHub stars](https://img.shields.io/github/stars/dheerajghub/dovve?style=flat-square)
-![GitHub forks](https://img.shields.io/github/forks/dheerajghub/dovve?style=flat-square)
-![GitHub follow](https://img.shields.io/github/followers/dheerajghub?style=flat-square)
+![Repository size](https://img.shields.io/github/repo-size/dheerajghub/dovve?style=flat-square)\
 
 ## Dovve
 Dovve is a twitter clone that I will build with Twitter API. As I'm creating this application day by day you can watch the whole journey of this app on my instagram page <a href="https://www.instagram.com/dheeraj.iosdev ">here</a> , I'm trying to break a whole process of building an Full app in some parts there! I hope you enjoy that!
