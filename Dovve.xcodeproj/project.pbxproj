@@ -31,6 +31,7 @@
 		443EE25D2520D53F006B90DB /* FollowerListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443EE25C2520D53F006B90DB /* FollowerListModel.swift */; };
 		443EE25F2520D97B006B90DB /* FollowingListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443EE25E2520D97B006B90DB /* FollowingListModel.swift */; };
 		443EE2612520DD4A006B90DB /* GetFollowingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443EE2602520DD4A006B90DB /* GetFollowingStatus.swift */; };
+		444597DB252D6E6E004CA658 /* MentionTimelineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444597DA252D6E6E004CA658 /* MentionTimelineModel.swift */; };
 		445D42E72528A5DD00856AA4 /* Woeid.json in Resources */ = {isa = PBXBuildFile; fileRef = 445D42E62528A5DD00856AA4 /* Woeid.json */; };
 		446DA6772519E027004A818E /* PostWithImageAndQuoteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DA6762519E027004A818E /* PostWithImageAndQuoteCollectionViewCell.swift */; };
 		446DA6792519E786004A818E /* PostWithImageAndQuotedImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DA6782519E786004A818E /* PostWithImageAndQuotedImageCollectionViewCell.swift */; };
@@ -110,6 +111,7 @@
 		443EE25C2520D53F006B90DB /* FollowerListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerListModel.swift; sourceTree = "<group>"; };
 		443EE25E2520D97B006B90DB /* FollowingListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingListModel.swift; sourceTree = "<group>"; };
 		443EE2602520DD4A006B90DB /* GetFollowingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFollowingStatus.swift; sourceTree = "<group>"; };
+		444597DA252D6E6E004CA658 /* MentionTimelineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionTimelineModel.swift; sourceTree = "<group>"; };
 		445D42E62528A5DD00856AA4 /* Woeid.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Woeid.json; sourceTree = "<group>"; };
 		446DA6762519E027004A818E /* PostWithImageAndQuoteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostWithImageAndQuoteCollectionViewCell.swift; sourceTree = "<group>"; };
 		446DA6782519E786004A818E /* PostWithImageAndQuotedImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostWithImageAndQuotedImageCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 				44F8893B25284261003E68A9 /* TrendsModel.swift */,
 				445D42E62528A5DD00856AA4 /* Woeid.json */,
 				44058456252972F100FA6B37 /* FetchWoeidModel.swift */,
+				444597DA252D6E6E004CA658 /* MentionTimelineModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 				44FE6AB22519B9ED00284738 /* CustomQuotedWithImageView.swift in Sources */,
 				44FE6AA2251895D500284738 /*  Structures.swift in Sources */,
 				44F8891E2525BD8A003E68A9 /* CategoryMenuBar.swift in Sources */,
+				444597DB252D6E6E004CA658 /* MentionTimelineModel.swift in Sources */,
 				44FE6A8F2517439000284738 /* NSTextAttachment.swift in Sources */,
 				44FE6A8D251741E600284738 /* MentionsViewController.swift in Sources */,
 				44FAE82D2514ADEC006D6867 /* SceneDelegate.swift in Sources */,

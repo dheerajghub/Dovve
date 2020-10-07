@@ -14,7 +14,6 @@ class ProfileViewController: UIViewController {
     var profileData:UserProfileModel?
     var dataModel:[UserTimeLineModel]?
     var dataList:[TweetData]?
-    
     let userProfileId:String? = KeychainWrapper.standard.string(forKey: "userId")
     
     private lazy var refresher: UIRefreshControl = {
