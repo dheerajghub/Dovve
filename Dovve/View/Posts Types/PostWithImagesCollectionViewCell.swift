@@ -79,6 +79,14 @@ class PostWithImagesCollectionViewCell: UICollectionViewCell {
         return l
     }()
     
+    let createdAt:UILabel = {
+        let l =  UILabel()
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.textColor = CustomColors.appDarkGray
+        l.font = UIFont(name: CustomFonts.appFont, size: 17)
+        return l
+    }()
+    
     let tweet:ActiveLabel = {
         let l = ActiveLabel()
         l.translatesAutoresizingMaskIntoConstraints = false
@@ -210,6 +218,7 @@ class PostWithImagesCollectionViewCell: UICollectionViewCell {
         addSubview(retweetedProfileImage)
         addSubview(retweetImageView)
         addSubview(userInfo)
+        addSubview(createdAt)
         addSubview(tweet)
         addSubview(collectionView)
         addSubview(stackView)
@@ -256,8 +265,11 @@ class PostWithImagesCollectionViewCell: UICollectionViewCell {
             
             userInfo.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             userInfo.leadingAnchor.constraint(equalTo: userProfileImage.trailingAnchor , constant: 10),
-            userInfo.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             userInfo.heightAnchor.constraint(equalToConstant: 20),
+            
+            createdAt.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            createdAt.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            createdAt.leadingAnchor.constraint(equalTo: userInfo.trailingAnchor, constant: 5),
             
             tweet.topAnchor.constraint(equalTo: userInfo.bottomAnchor, constant: 5),
             tweet.leadingAnchor.constraint(equalTo: userProfileImage.trailingAnchor, constant: 10),
@@ -329,7 +341,8 @@ class PostWithImagesCollectionViewCell: UICollectionViewCell {
     
     func manageData(){
         guard let data = data else {return}
-        userInfo.attributedText = setUserInfoAttributes(data.user.name, data.user.screenName, data.createdAt, data.user.isVerified)
+        userInfo.attributedText = setUserInfoAttributes(data.user.name, data.user.screenName, data.user.isVerified)
+        createdAt.text = data.createdAt.parseTwitterDate()
         userProfileImage.cacheImageWithLoader(withURL: data.user.profileImage, view: userBackImageView)
         tweet.text = data.text
         commentLabel.text = ""

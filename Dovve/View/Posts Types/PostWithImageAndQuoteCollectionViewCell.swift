@@ -81,6 +81,14 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
         return l
     }()
     
+    let createdAt:UILabel = {
+        let l =  UILabel()
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.textColor = CustomColors.appDarkGray
+        l.font = UIFont(name: CustomFonts.appFont, size: 17)
+        return l
+    }()
+    
     let tweet:ActiveLabel = {
         let l = ActiveLabel()
         l.translatesAutoresizingMaskIntoConstraints = false
@@ -223,6 +231,7 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
         addSubview(retweetedProfileImage)
         addSubview(retweetImageView)
         addSubview(userInfo)
+        addSubview(createdAt)
         addSubview(tweet)
         addSubview(collectionView)
         addSubview(quotedView)
@@ -271,8 +280,11 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
             
             userInfo.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             userInfo.leadingAnchor.constraint(equalTo: userProfileImage.trailingAnchor , constant: 10),
-            userInfo.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             userInfo.heightAnchor.constraint(equalToConstant: 20),
+            
+            createdAt.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            createdAt.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            createdAt.leadingAnchor.constraint(equalTo: userInfo.trailingAnchor, constant: 5),
             
             tweet.topAnchor.constraint(equalTo: userInfo.bottomAnchor, constant: 5),
             tweet.leadingAnchor.constraint(equalTo: userProfileImage.trailingAnchor, constant: 10),
@@ -348,7 +360,8 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
     
     func manageData(){
         guard let data = data else {return}
-        userInfo.attributedText = setUserInfoAttributes(data.user.name, data.user.screenName, data.createdAt, data.user.isVerified)
+        userInfo.attributedText = setUserInfoAttributes(data.user.name, data.user.screenName,data.user.isVerified)
+        createdAt.text = data.createdAt.parseTwitterDate()
         tweet.text = data.text
         userProfileImage.cacheImageWithLoader(withURL: data.user.profileImage, view: userBackImageView)
 //        commentLabel.text = data.comments
@@ -367,8 +380,9 @@ class PostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
         
         //Quoted View data
         quotedView.profileImageView.cacheImageWithLoader(withURL: data.tweetQuotedStatus.user.profileImage, view: quotedView.profileBackImageView)
-        quotedView.userInfo.attributedText = setUserInfoAttributes(data.tweetQuotedStatus.user.name, data.tweetQuotedStatus.user.screenName, data.tweetQuotedStatus.createdAt, data.tweetQuotedStatus.user.isVerified)
+        quotedView.userInfo.attributedText = setUserInfoAttributes(data.tweetQuotedStatus.user.name, data.tweetQuotedStatus.user.screenName, data.tweetQuotedStatus.user.isVerified)
         quotedView.tweet.text = data.tweetQuotedStatus.text
+        quotedView.createdAt.text = data.createdAt.parseTwitterDate()
         
         let font = UIFont(name: CustomFonts.appFont, size: 17)!
         let estimatedH = data.tweetQuotedStatus.text.height(withWidth: ((self.frame.width - 100) - 30), font: font)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-func setUserInfoAttributes( _ name:String, _ userName:String , _ time:String, _ isVerified:Bool) -> NSAttributedString {
+func setUserInfoAttributes( _ name:String, _ userName:String, _ isVerified:Bool) -> NSAttributedString {
     let attributedText = NSMutableAttributedString(string:"\(name) " , attributes:[NSAttributedString.Key.font: UIFont(name: CustomFonts.appFontMedium, size: 17)!, NSAttributedString.Key.foregroundColor: UIColor.dynamicColor(.textColor)])
     
     if isVerified {
@@ -23,9 +23,6 @@ func setUserInfoAttributes( _ name:String, _ userName:String , _ time:String, _ 
     }
     
     attributedText.append(NSAttributedString(string: " @\(userName)" , attributes:[NSAttributedString.Key.font: UIFont(name: CustomFonts.appFont, size: 17)! , NSAttributedString.Key.foregroundColor: CustomColors.appDarkGray]))
-    
-    let formattedT = time.parseTwitterDate()
-    attributedText.append(NSAttributedString(string: " • \(formattedT ?? "")" , attributes:[NSAttributedString.Key.font: UIFont(name: CustomFonts.appFont, size: 17)!, NSAttributedString.Key.foregroundColor: CustomColors.appDarkGray]))
     
     return attributedText
 }

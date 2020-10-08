@@ -52,6 +52,14 @@ class CustomQuotedView: UIView {
         return l
     }()
     
+    let createdAt:UILabel = {
+        let l =  UILabel()
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.textColor = CustomColors.appDarkGray
+        l.font = UIFont(name: CustomFonts.appFont, size: 17)
+        return l
+    }()
+    
     let tweet:ActiveLabel = {
         let l = ActiveLabel()
         l.translatesAutoresizingMaskIntoConstraints = false
@@ -68,6 +76,7 @@ class CustomQuotedView: UIView {
         addSubview(profileImageView)
         addSubview(profileBackImageView)
         addSubview(userInfo)
+        addSubview(createdAt)
         addSubview(tweet)
         setUpConstraints()
         
@@ -87,9 +96,12 @@ class CustomQuotedView: UIView {
             profileBackImageView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             
             userInfo.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
-            userInfo.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
             userInfo.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             userInfo.heightAnchor.constraint(equalToConstant: 25),
+            
+            createdAt.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            createdAt.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            createdAt.leadingAnchor.constraint(equalTo: userInfo.trailingAnchor, constant: 5),
             
             tweet.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             tweet.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
@@ -124,7 +136,7 @@ class CustomQuotedView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setUpAttributes( _ name:String, _ userName:String , _ time:String, _ isVerified:Bool){
+    func setUpAttributes( _ name:String, _ userName:String , _ isVerified:Bool){
         let attributedText = NSMutableAttributedString(string:"\(name) " , attributes:[NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Medium", size: 17)!, NSAttributedString.Key.foregroundColor: UIColor.dynamicColor(.textColor)])
         
         if isVerified {
@@ -139,8 +151,6 @@ class CustomQuotedView: UIView {
         }
         
         attributedText.append(NSAttributedString(string: " @\(userName)" , attributes:[NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 17)! , NSAttributedString.Key.foregroundColor: CustomColors.appDarkGray]))
-        
-        attributedText.append(NSAttributedString(string: " • \(time)" , attributes:[NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 17)!, NSAttributedString.Key.foregroundColor: CustomColors.appDarkGray]))
         
         userInfo.attributedText = attributedText
     }
