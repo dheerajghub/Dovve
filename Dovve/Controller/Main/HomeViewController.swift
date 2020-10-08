@@ -257,6 +257,11 @@ extension HomeViewController:UICollectionViewDelegate , UICollectionViewDataSour
         return CGSize()
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let VC = TweetDetailViewController()
+        navigationController?.pushViewController(VC, animated: true)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0.7
     }

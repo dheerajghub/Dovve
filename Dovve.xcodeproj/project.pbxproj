@@ -17,6 +17,8 @@
 		4431C948251B816F00CC1CB6 /* OAuthCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4431C947251B816F00CC1CB6 /* OAuthCrypto.swift */; };
 		4431C94A251C353600CC1CB6 /* HomeTimeLineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4431C949251C353600CC1CB6 /* HomeTimeLineModel.swift */; };
 		4431C94C251C5C6F00CC1CB6 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4431C94B251C5C6F00CC1CB6 /* CustomImageView.swift */; };
+		443285CC252F14B60066D9E7 /* TDSimpleTextPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443285CB252F14B60066D9E7 /* TDSimpleTextPostCollectionViewCell.swift */; };
+		443285CE252F15C00066D9E7 /* CustomImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443285CD252F15C00066D9E7 /* CustomImageLoader.swift */; };
 		443EE23C251EF895006B90DB /* Date+Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443EE23B251EF895006B90DB /* Date+Int.swift */; };
 		443EE240251F3663006B90DB /* UserProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443EE23F251F3663006B90DB /* UserProfileModel.swift */; };
 		443EE242251F8A1F006B90DB /* UserTimeLineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443EE241251F8A1F006B90DB /* UserTimeLineModel.swift */; };
@@ -97,6 +99,8 @@
 		4431C947251B816F00CC1CB6 /* OAuthCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthCrypto.swift; sourceTree = "<group>"; };
 		4431C949251C353600CC1CB6 /* HomeTimeLineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTimeLineModel.swift; sourceTree = "<group>"; };
 		4431C94B251C5C6F00CC1CB6 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
+		443285CB252F14B60066D9E7 /* TDSimpleTextPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDSimpleTextPostCollectionViewCell.swift; sourceTree = "<group>"; };
+		443285CD252F15C00066D9E7 /* CustomImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageLoader.swift; sourceTree = "<group>"; };
 		443EE23B251EF895006B90DB /* Date+Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Int.swift"; sourceTree = "<group>"; };
 		443EE23F251F3663006B90DB /* UserProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileModel.swift; sourceTree = "<group>"; };
 		443EE241251F8A1F006B90DB /* UserTimeLineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTimeLineModel.swift; sourceTree = "<group>"; };
@@ -197,6 +201,14 @@
 				EA3B84137003676414685CB4 /* Pods-Dovve.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		443285CA252F14990066D9E7 /* Tweet Detail Post Types */ = {
+			isa = PBXGroup;
+			children = (
+				443285CB252F14B60066D9E7 /* TDSimpleTextPostCollectionViewCell.swift */,
+			);
+			path = "Tweet Detail Post Types";
 			sourceTree = "<group>";
 		};
 		443EE2502520A02C006B90DB /* FollowDetails */ = {
@@ -329,6 +341,7 @@
 		44FAE8402514AF4F006D6867 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				443285CA252F14990066D9E7 /* Tweet Detail Post Types */,
 				44F889242525BF72003E68A9 /* SearchCategoryCell */,
 				44F8891A2525BBF3003E68A9 /* CategoryViews */,
 				443EE2502520A02C006B90DB /* FollowDetails */,
@@ -393,6 +406,7 @@
 				44F8892B2525CF9F003E68A9 /* CustomSearchHeader.swift */,
 				44F8893325281A82003E68A9 /* CustomMainSearchHeader.swift */,
 				440584592529976C00FA6B37 /* CustomLocationSearchView.swift */,
+				443285CD252F15C00066D9E7 /* CustomImageLoader.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -555,6 +569,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				44FAE8472514AFBB006D6867 /* LoginViewController.swift in Sources */,
+				443285CC252F14B60066D9E7 /* TDSimpleTextPostCollectionViewCell.swift in Sources */,
 				44A421C725247C5300E103EB /* WebViewController.swift in Sources */,
 				44FAE82B2514ADEC006D6867 /* AppDelegate.swift in Sources */,
 				44F8892E25260152003E68A9 /* SearchModel.swift in Sources */,
@@ -575,6 +590,7 @@
 				44FE6AB02519B97600284738 /* QuotedPostWithImageCollectionViewCell.swift in Sources */,
 				44F8892C2525CF9F003E68A9 /* CustomSearchHeader.swift in Sources */,
 				443EE246252026F6006B90DB /* CustomUserProfileNavBar.swift in Sources */,
+				443285CE252F15C00066D9E7 /* CustomImageLoader.swift in Sources */,
 				44FAE84B2514C704006D6867 /* Constants.swift in Sources */,
 				44FE6AAE2519B38200284738 /* NSAttributedString.swift in Sources */,
 				4431C946251B7A4D00CC1CB6 /* TwitterOAuth.swift in Sources */,
