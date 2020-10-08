@@ -52,6 +52,7 @@ class PeopleSearchCollectionViewCell: UICollectionViewCell {
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.showsVerticalScrollIndicator = false
         cv.register(FollowDetailCollectionViewCell.self, forCellWithReuseIdentifier: "FollowDetailCollectionViewCell")
+        cv.register(DefaultCollectionViewCell.self, forCellWithReuseIdentifier: "DefaultCollectionViewCell")
         cv.setCollectionViewLayout(layout, animated: false)
         cv.delegate = self
         cv.dataSource = self
@@ -137,28 +138,48 @@ extension PeopleSearchCollectionViewCell:UICollectionViewDelegateFlowLayout , UI
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let userList = userList {
-            return userList.count
+            if userList.count > 0 {
+                return userList.count
+            }
+            return 1
         }
         return Int()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FollowDetailCollectionViewCell", for: indexPath) as! FollowDetailCollectionViewCell
         if let userList = userList {
-            cell.data = userList[indexPath.row]
+            if userList.count > 0 {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FollowDetailCollectionViewCell", for: indexPath) as! FollowDetailCollectionViewCell
+                cell.data = userList[indexPath.row]
+                cell.delegate = self
+                return cell
+            }
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DefaultCollectionViewCell", for: indexPath) as! DefaultCollectionViewCell
+            cell.title.text = "No results for #\(query ?? "")"
+            cell.subTitle.text = "The term you entered did not bring up any result."
+            return cell
         }
-        cell.delegate = self
-        return cell
+        return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let font = UIFont(name: CustomFonts.appFont, size: 16)!
-        let estimatedH = userList?[indexPath.row].bio.height(withWidth: (collectionView.frame.width - 100), font: font)
-        return CGSize(width: collectionView.frame.width, height: estimatedH! + 70)
+        if let userList = userList {
+            if userList.count > 0 {
+                let font = UIFont(name: CustomFonts.appFont, size: 16)!
+                let estimatedH = userList[indexPath.row].bio.height(withWidth: (collectionView.frame.width - 100), font: font)
+                return CGSize(width: collectionView.frame.width, height: estimatedH + 70)
+            }
+            return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+        }
+        return CGSize()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.didUsertapped(userList![indexPath.row].id)
+        if let userList = userList {
+            if userList.count > 0 {
+                delegate?.didUsertapped(userList[indexPath.row].id)
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {

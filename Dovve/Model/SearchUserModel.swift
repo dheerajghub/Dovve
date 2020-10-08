@@ -51,6 +51,7 @@ class SearchUserModel:NSObject{
             switch(response.result){
             case .success(_):
                 let data = JSON(response.value!)
+                print(data)
                 if data["errors"][0]["message"].string == nil {
                     var searchModel = [SearchUserModel]()
                     let users = data

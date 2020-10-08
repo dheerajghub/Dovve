@@ -16,6 +16,7 @@ class DefaultCollectionViewCell: UICollectionViewCell {
         l.textAlignment = .center
         l.textColor = UIColor.dynamicColor(.textColor)
         l.font = UIFont(name: CustomFonts.appFontBold, size: 20)
+        l.numberOfLines = 0
         return l
     }()
     
