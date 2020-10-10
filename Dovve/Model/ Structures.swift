@@ -51,6 +51,7 @@ struct TweetData {
     let favoriteCount:Int!
     let favorited:Bool!
     let retweeted:Bool!
+    let inReplyToStatusId:String!
 }
 
 struct UserProfile {

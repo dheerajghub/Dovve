@@ -41,6 +41,7 @@
 		44B7D2C72521D69D00939EE5 /* DefaultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B7D2C62521D69D00939EE5 /* DefaultCollectionViewCell.swift */; };
 		44B7D2CA2523213E00939EE5 /* TweetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B7D2C92523213E00939EE5 /* TweetDetailViewController.swift */; };
 		44B7D2CC2523215E00939EE5 /* GetTweetWithIdModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B7D2CB2523215E00939EE5 /* GetTweetWithIdModel.swift */; };
+		44F55489253153040058BDDE /* TDPostWithImagesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F55488253153040058BDDE /* TDPostWithImagesCollectionViewCell.swift */; };
 		44F889192525BBD3003E68A9 /* SearchWithCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F889182525BBD3003E68A9 /* SearchWithCategoryViewController.swift */; };
 		44F8891E2525BD8A003E68A9 /* CategoryMenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F8891D2525BD8A003E68A9 /* CategoryMenuBar.swift */; };
 		44F889202525BDCD003E68A9 /* CategoryMenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F8891F2525BDCD003E68A9 /* CategoryMenuCollectionViewCell.swift */; };
@@ -123,6 +124,7 @@
 		44B7D2C62521D69D00939EE5 /* DefaultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCollectionViewCell.swift; sourceTree = "<group>"; };
 		44B7D2C92523213E00939EE5 /* TweetDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetDetailViewController.swift; sourceTree = "<group>"; };
 		44B7D2CB2523215E00939EE5 /* GetTweetWithIdModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTweetWithIdModel.swift; sourceTree = "<group>"; };
+		44F55488253153040058BDDE /* TDPostWithImagesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDPostWithImagesCollectionViewCell.swift; sourceTree = "<group>"; };
 		44F889182525BBD3003E68A9 /* SearchWithCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWithCategoryViewController.swift; sourceTree = "<group>"; };
 		44F8891D2525BD8A003E68A9 /* CategoryMenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMenuBar.swift; sourceTree = "<group>"; };
 		44F8891F2525BDCD003E68A9 /* CategoryMenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMenuCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				443285CB252F14B60066D9E7 /* TDSimpleTextPostCollectionViewCell.swift */,
+				44F55488253153040058BDDE /* TDPostWithImagesCollectionViewCell.swift */,
 			);
 			path = "Tweet Detail Post Types";
 			sourceTree = "<group>";
@@ -602,6 +605,7 @@
 				44FE6AA425189BD800284738 /* UIString + Double.swift in Sources */,
 				44F889222525BE55003E68A9 /* CategoryDetailCell.swift in Sources */,
 				44FE6A99251755B900284738 /* CustomProfileNavBar.swift in Sources */,
+				44F55489253153040058BDDE /* TDPostWithImagesCollectionViewCell.swift in Sources */,
 				443EE25D2520D53F006B90DB /* FollowerListModel.swift in Sources */,
 				44058457252972F100FA6B37 /* FetchWoeidModel.swift in Sources */,
 				44FE6AA62518A46300284738 /* PostWithImagesCollectionViewCell.swift in Sources */,

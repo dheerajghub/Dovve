@@ -9,13 +9,33 @@
 import UIKit
 import ActiveLabel
 
+protocol TDSimpleTextPostDelegate{
+    func didUserProfileTapped(for cell: TDSimpleTextPostCollectionViewCell , _ isRetweetedUser:Bool)
+    func didUrlTapped(url: String)
+    func didMentionTapped(screenName:String)
+    func didHashtagTapped(_ hashtag:String)
+}
+
 class TDSimpleTextPostCollectionViewCell: UICollectionViewCell {
+    
+    var data:TweetData? {
+        didSet {
+            manageData()
+        }
+    }
+    
+    var delegate:TDSimpleTextPostDelegate?
     
     let profileImageView:CustomImageView = {
         let img = CustomImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.image = UIImage(named:"demo")
         img.layer.cornerRadius = 25
+        let tap = UITapGestureRecognizer(target: self, action: #selector(userProfileSelected))
+        tap.numberOfTapsRequired = 1
+        img.addGestureRecognizer(tap)
+        img.isUserInteractionEnabled = true
+        img.videoView.isHidden = true
         return img
     }()
     
@@ -39,7 +59,7 @@ class TDSimpleTextPostCollectionViewCell: UICollectionViewCell {
         l.translatesAutoresizingMaskIntoConstraints = false
         l.enabledTypes = [.hashtag , .mention , .url]
         l.numberOfLines = 0
-        l.font = UIFont(name: CustomFonts.appFont, size: 19)
+        l.font = UIFont(name: CustomFonts.appFontThin, size: 20)
         l.text = "This is just demo #hello @mention This is just demo This is just demo This is just demo This is just demo is just demo This is just demo is just demo This is just demo"
         return l
     }()
@@ -131,8 +151,8 @@ class TDSimpleTextPostCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor.dynamicColor(.appBackground)
-        addSubview(profileImageView)
         addSubview(profileLoaderView)
+        addSubview(profileImageView)
         addSubview(userInfo)
         addSubview(tweet)
         addSubview(createdAt)
@@ -147,6 +167,9 @@ class TDSimpleTextPostCollectionViewCell: UICollectionViewCell {
         stackView.addArrangedSubview(likeBtn)
         stackView.addArrangedSubview(shareBtn)
         setUpConstraints()
+        setUpActiveLabels()
+
+        userInfo.attributedText = setTweetDetailUserInfoAttributes("Dheeraj", "dheerajdev_twit", true)
     }
     
     func setUpConstraints(){
@@ -204,6 +227,59 @@ class TDSimpleTextPostCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    func setUpActiveLabels(){
+        //Customizing Labels
+        tweet.customize{ label in
+            label.hashtagColor = CustomColors.appBlue
+            label.mentionColor = CustomColors.appBlue
+            label.URLColor = CustomColors.appBlue
+        }
+        
+        tweet.handleURLTap { (url) in
+            self.delegate?.didUrlTapped(url: "\(url)")
+        }
+        
+        tweet.handleMentionTap { (screenName) in
+            self.delegate?.didMentionTapped(screenName: screenName)
+        }
+        
+        tweet.handleHashtagTap { (hashtag) in
+            self.delegate?.didHashtagTapped(hashtag)
+        }
+    }
+    
+    func manageData(){
+        guard let data = data else {return}
+        userInfo.attributedText = setTweetDetailUserInfoAttributes(data.user.name, data.user.screenName, data.user.isVerified)
+        createdAt.text = data.createdAt.parseTwitterDate()
+        profileImageView.cacheImageWithLoader(withURL: data.user.profileImage, view: profileLoaderView)
+//        retweetedProfileImage.cacheImageWithLoader(withURL: data.user.profileImage, view: userBackImageView)
+        tweet.text = data.text
+        
+        let retweetCount = "\(data.retweetCount ?? 0)"
+        let retweetAttributedText = setMetricDataAttribute("Retweets", Double(retweetCount)!.kmFormatted)
+        retweetsWithBtn.setAttributedTitle(retweetAttributedText, for: .normal)
+        
+        let likeCount = "\(data.favoriteCount ?? 0)"
+        let likeAttributedText = setMetricDataAttribute("Likes", Double(likeCount)!.kmFormatted)
+        tweetLikedWithBtn.setAttributedTitle(likeAttributedText, for: .normal)
+        
+        if data.favorited {
+            likeBtn.setImage(UIImage(named: "favorited"), for: .normal)
+        } else {
+            likeBtn.setImage(UIImage(named: "heart"), for: .normal)
+        }
+        
+//        if data.isRetweetedStatus {
+//            retweetedProfileImage.isHidden = false
+//            retweetImageView.isHidden = false
+//            retweetedProfileImage.cacheImageWithLoader(withURL: data.retweetedBy.userProfileImage, view: userBackImageView)
+//        } else {
+//            retweetedProfileImage.isHidden = true
+//            retweetImageView.isHidden = true
+//        }
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -215,5 +291,17 @@ class TDSimpleTextPostCollectionViewCell: UICollectionViewCell {
         
         return attributedText
     }
+    
+}
+
+extension TDSimpleTextPostCollectionViewCell {
+
+    @objc func userProfileSelected(){
+        delegate?.didUserProfileTapped(for: self , false)
+    }
+    
+//    @objc func retweetedProfileSelected(){
+//       delegate?.didUserProfileTapped(for: self , true)
+//    }
     
 }
