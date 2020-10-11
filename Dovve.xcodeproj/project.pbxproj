@@ -19,6 +19,10 @@
 		4431C94C251C5C6F00CC1CB6 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4431C94B251C5C6F00CC1CB6 /* CustomImageView.swift */; };
 		443285CC252F14B60066D9E7 /* TDSimpleTextPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443285CB252F14B60066D9E7 /* TDSimpleTextPostCollectionViewCell.swift */; };
 		443285CE252F15C00066D9E7 /* CustomImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443285CD252F15C00066D9E7 /* CustomImageLoader.swift */; };
+		443E71A925330C8000A0ED73 /* TDQuotedPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443E71A825330C8000A0ED73 /* TDQuotedPostCollectionViewCell.swift */; };
+		443E71AB2533190A00A0ED73 /* TDQuotedPostWithImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443E71AA2533190A00A0ED73 /* TDQuotedPostWithImageCollectionViewCell.swift */; };
+		443E71AD25331E5D00A0ED73 /* TDPostWithImageAndQuoteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443E71AC25331E5D00A0ED73 /* TDPostWithImageAndQuoteCollectionViewCell.swift */; };
+		443E71AF253325A100A0ED73 /* TDPostWithImageAndQuotedImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443E71AE253325A100A0ED73 /* TDPostWithImageAndQuotedImageCollectionViewCell.swift */; };
 		443EE23C251EF895006B90DB /* Date+Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443EE23B251EF895006B90DB /* Date+Int.swift */; };
 		443EE240251F3663006B90DB /* UserProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443EE23F251F3663006B90DB /* UserProfileModel.swift */; };
 		443EE242251F8A1F006B90DB /* UserTimeLineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443EE241251F8A1F006B90DB /* UserTimeLineModel.swift */; };
@@ -102,6 +106,10 @@
 		4431C94B251C5C6F00CC1CB6 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		443285CB252F14B60066D9E7 /* TDSimpleTextPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDSimpleTextPostCollectionViewCell.swift; sourceTree = "<group>"; };
 		443285CD252F15C00066D9E7 /* CustomImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageLoader.swift; sourceTree = "<group>"; };
+		443E71A825330C8000A0ED73 /* TDQuotedPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDQuotedPostCollectionViewCell.swift; sourceTree = "<group>"; };
+		443E71AA2533190A00A0ED73 /* TDQuotedPostWithImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDQuotedPostWithImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		443E71AC25331E5D00A0ED73 /* TDPostWithImageAndQuoteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDPostWithImageAndQuoteCollectionViewCell.swift; sourceTree = "<group>"; };
+		443E71AE253325A100A0ED73 /* TDPostWithImageAndQuotedImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDPostWithImageAndQuotedImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		443EE23B251EF895006B90DB /* Date+Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Int.swift"; sourceTree = "<group>"; };
 		443EE23F251F3663006B90DB /* UserProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileModel.swift; sourceTree = "<group>"; };
 		443EE241251F8A1F006B90DB /* UserTimeLineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTimeLineModel.swift; sourceTree = "<group>"; };
@@ -210,6 +218,10 @@
 			children = (
 				443285CB252F14B60066D9E7 /* TDSimpleTextPostCollectionViewCell.swift */,
 				44F55488253153040058BDDE /* TDPostWithImagesCollectionViewCell.swift */,
+				443E71A825330C8000A0ED73 /* TDQuotedPostCollectionViewCell.swift */,
+				443E71AA2533190A00A0ED73 /* TDQuotedPostWithImageCollectionViewCell.swift */,
+				443E71AC25331E5D00A0ED73 /* TDPostWithImageAndQuoteCollectionViewCell.swift */,
+				443E71AE253325A100A0ED73 /* TDPostWithImageAndQuotedImageCollectionViewCell.swift */,
 			);
 			path = "Tweet Detail Post Types";
 			sourceTree = "<group>";
@@ -609,6 +621,7 @@
 				443EE25D2520D53F006B90DB /* FollowerListModel.swift in Sources */,
 				44058457252972F100FA6B37 /* FetchWoeidModel.swift in Sources */,
 				44FE6AA62518A46300284738 /* PostWithImagesCollectionViewCell.swift in Sources */,
+				443E71AD25331E5D00A0ED73 /* TDPostWithImageAndQuoteCollectionViewCell.swift in Sources */,
 				44F889202525BDCD003E68A9 /* CategoryMenuCollectionViewCell.swift in Sources */,
 				44F8893A252826EB003E68A9 /* HeaderCollectionReusableView.swift in Sources */,
 				44FE6A852515FEAB00284738 /* HomeViewController.swift in Sources */,
@@ -618,8 +631,10 @@
 				44B7D2CC2523215E00939EE5 /* GetTweetWithIdModel.swift in Sources */,
 				44F889192525BBD3003E68A9 /* SearchWithCategoryViewController.swift in Sources */,
 				443EE25B2520C028006B90DB /* FollowDetailCollectionViewCell.swift in Sources */,
+				443E71A925330C8000A0ED73 /* TDQuotedPostCollectionViewCell.swift in Sources */,
 				44F8893225281860003E68A9 /* SearchViewController.swift in Sources */,
 				4431C94C251C5C6F00CC1CB6 /* CustomImageView.swift in Sources */,
+				443E71AB2533190A00A0ED73 /* TDQuotedPostWithImageCollectionViewCell.swift in Sources */,
 				443EE23C251EF895006B90DB /* Date+Int.swift in Sources */,
 				443EE242251F8A1F006B90DB /* UserTimeLineModel.swift in Sources */,
 				44FE6AA82518CA1A00284738 /* ImageCollectionViewCell.swift in Sources */,
@@ -628,6 +643,7 @@
 				44FE6A892516301A00284738 /* UIView.swift in Sources */,
 				44F8892A2525C155003E68A9 /* PeopleSearchCollectionViewCell.swift in Sources */,
 				44F8893425281A82003E68A9 /* CustomMainSearchHeader.swift in Sources */,
+				443E71AF253325A100A0ED73 /* TDPostWithImageAndQuotedImageCollectionViewCell.swift in Sources */,
 				44FE6A9B25175C0D00284738 /* ProfileHeaderCollectionViewCell.swift in Sources */,
 				44F889262525BFDF003E68A9 /* TopSearchCollectionViewCell.swift in Sources */,
 				44F889302526CBA3003E68A9 /* SearchUserModel.swift in Sources */,

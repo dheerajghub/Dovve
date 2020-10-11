@@ -22,6 +22,11 @@ class TweetDetailViewController: UIViewController {
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.showsVerticalScrollIndicator = false
         cv.register(TDSimpleTextPostCollectionViewCell.self, forCellWithReuseIdentifier: "TDSimpleTextPostCollectionViewCell")
+        cv.register(TDPostWithImagesCollectionViewCell.self, forCellWithReuseIdentifier: "TDPostWithImagesCollectionViewCell")
+        cv.register(TDQuotedPostCollectionViewCell.self, forCellWithReuseIdentifier: "TDQuotedPostCollectionViewCell")
+        cv.register(TDQuotedPostWithImageCollectionViewCell.self, forCellWithReuseIdentifier: "TDQuotedPostWithImageCollectionViewCell")
+        cv.register(TDPostWithImageAndQuoteCollectionViewCell.self, forCellWithReuseIdentifier: "TDPostWithImageAndQuoteCollectionViewCell")
+        cv.register(TDPostWithImageAndQuotedImageCollectionViewCell.self, forCellWithReuseIdentifier: "TDPostWithImageAndQuotedImageCollectionViewCell")
         cv.setCollectionViewLayout(layout, animated: false)
         cv.delegate = self
         cv.dataSource = self
@@ -100,19 +105,96 @@ extension TweetDetailViewController:UICollectionViewDelegate, UICollectionViewDe
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let dataList = dataList {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDSimpleTextPostCollectionViewCell", for: indexPath) as! TDSimpleTextPostCollectionViewCell
-            cell.data = dataList[indexPath.row]
-            return cell
+            if indexPath.row == 0 {
+                if dataList[indexPath.row].media == [] && dataList[indexPath.row].isQuotedStatus == false {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDSimpleTextPostCollectionViewCell", for: indexPath) as! TDSimpleTextPostCollectionViewCell
+                    cell.data = dataList[indexPath.row]
+                    return cell
+                }
+                if dataList[indexPath.row].media != [] &&  dataList[indexPath.row].isQuotedStatus == false {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDPostWithImagesCollectionViewCell", for: indexPath) as! TDPostWithImagesCollectionViewCell
+                    cell.data = dataList[indexPath.row]
+                    return cell
+                }
+                if dataList[indexPath.row].media == [] && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media == [] {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDQuotedPostCollectionViewCell", for: indexPath) as! TDQuotedPostCollectionViewCell
+                    cell.data = dataList[indexPath.row]
+                    return cell
+                }
+                if dataList[indexPath.row].media == [] && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media != [] {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDQuotedPostWithImageCollectionViewCell", for: indexPath) as! TDQuotedPostWithImageCollectionViewCell
+                    cell.data = dataList[indexPath.row]
+                    return cell
+                }
+                if dataList[indexPath.row].media != [] && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media == [] {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDPostWithImageAndQuoteCollectionViewCell", for: indexPath) as! TDPostWithImageAndQuoteCollectionViewCell
+                    cell.data = dataList[indexPath.row]
+                    return cell
+                }
+                if dataList[indexPath.row].media != [] && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media != [] {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDPostWithImageAndQuotedImageCollectionViewCell", for: indexPath) as! TDPostWithImageAndQuotedImageCollectionViewCell
+                    cell.data = dataList[indexPath.row]
+                    return cell
+                }
+            }
         }
         return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if let dataList = dataList {
-            let font = UIFont(name: CustomFonts.appFontThin, size: 20)!
-            let width = CGFloat(collectionView.frame.width - 40)
-            let estimatedH = dataList[indexPath.row].text.height(withWidth: width, font: font)
-            return CGSize(width: collectionView.frame.width, height: 210 + estimatedH)
+            if indexPath.row == 0 {
+                if dataList[indexPath.row].media == [] && dataList[indexPath.row].isQuotedStatus == false {
+                    let font = UIFont(name: CustomFonts.appFontThin, size: 20)!
+                    let width = CGFloat(collectionView.frame.width - 40)
+                    let estimatedH = dataList[indexPath.row].text.height(withWidth: width, font: font)
+                    return CGSize(width: collectionView.frame.width, height: 210 + estimatedH)
+                }
+                if dataList[indexPath.row].media != [] &&  dataList[indexPath.row].isQuotedStatus == false {
+                    let font = UIFont(name: CustomFonts.appFontThin, size: 20)!
+                    let width = CGFloat(collectionView.frame.width - 40)
+                    let estimatedH = dataList[indexPath.row].text.height(withWidth: width, font: font)
+                    let extraHeight = 220 + (width * (9 / 16))
+                    return CGSize(width: collectionView.frame.width, height: estimatedH + extraHeight )
+                }
+                if dataList[indexPath.row].media == [] && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media == [] {
+                    let font = UIFont(name: CustomFonts.appFontThin, size: 20)!
+                    let font2 = UIFont(name: CustomFonts.appFont, size: 17)!
+                    let width = CGFloat(collectionView.frame.width - 40)
+                    let estimatedH = dataList[indexPath.row].text.height(withWidth: width, font: font)
+                    let estimatedHForQuotedTweet = dataList[indexPath.row].tweetQuotedStatus.text.height(withWidth: (width - 30), font: font2)
+                    return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + 280)
+                }
+                if dataList[indexPath.row].media == [] && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media != [] {
+                    let font = UIFont(name: CustomFonts.appFontThin, size: 20)!
+                    let font2 = UIFont(name: CustomFonts.appFont, size: 17)!
+                    let width = CGFloat(collectionView.frame.width - 40)
+                    let estimatedH = dataList[indexPath.row].text.height(withWidth: width, font: font)
+                    let estimatedHForQuotedTweet = dataList[indexPath.row].tweetQuotedStatus.text.height(withWidth: (width - 30), font: font2)
+                    let imageCollectionHeight = (width * (9/16))
+                    return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + imageCollectionHeight + 280)
+                }
+                if dataList[indexPath.row].media != [] && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media == [] {
+                    let font = UIFont(name: CustomFonts.appFontThin, size: 20)!
+                    let font2 = UIFont(name: CustomFonts.appFont, size: 17)!
+                    let width = CGFloat(collectionView.frame.width - 40)
+                    let estimatedH = dataList[indexPath.row].text.height(withWidth: width, font: font)
+                    let estimatedHForQuotedTweet = dataList[indexPath.row].tweetQuotedStatus.text.height(withWidth: (width - 30), font: font2)
+                    let imageCollectionForPostH = width * (9/16)
+                    return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + imageCollectionForPostH + 280)
+                }
+                if dataList[indexPath.row].media != [] && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media != [] {
+                    let font = UIFont(name: CustomFonts.appFontThin, size: 20)!
+                    let font2 = UIFont(name: CustomFonts.appFont, size: 17)!
+                    let width = CGFloat(collectionView.frame.width - 40)
+                    let estimatedH = dataList[indexPath.row].text.height(withWidth: width, font: font)
+                    let estimatedHForQuotedTweet = dataList[indexPath.row].tweetQuotedStatus.text.height(withWidth: (width - 30), font: font2)
+                    let imageCollectionHeight = width * (9/16)
+                    let imageCollectionForPostH = width * (9/16)
+                    return CGSize(width: collectionView.frame.width, height: estimatedH + estimatedHForQuotedTweet + imageCollectionHeight + imageCollectionForPostH + 280)
+                }
+            }
+            
         }
         return CGSize()
     }

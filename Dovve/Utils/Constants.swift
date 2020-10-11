@@ -30,5 +30,6 @@ struct CustomFonts {
     static let appFontBold = "HelveticaNeue-Bold"
     static let appFontMedium = "HelveticaNeue-Medium"
     static let appFont = "HelveticaNeue"
+    static let appFontLight = "HelveticaNeue-Light"
     static let appFontThin = "HelveticaNeue-Thin"
 }

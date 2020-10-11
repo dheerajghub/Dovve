@@ -22,6 +22,16 @@ class CustomQuotedView: UIView {
             tap.addTarget(delegate2!, action: #selector(QuotedPostCollectionViewCell.quotedUserProfileSelected))
         }
     }
+    var delegate3:TDQuotedPostCollectionViewCell? {
+        didSet {
+            tap.addTarget(delegate3!, action: #selector(TDQuotedPostCollectionViewCell.quotedUserProfileSelected))
+        }
+    }
+    var delegate4:TDPostWithImageAndQuoteCollectionViewCell?{
+        didSet{
+            tap.addTarget(delegate4!, action: #selector(QuotedPostCollectionViewCell.quotedUserProfileSelected))
+        }
+    }
     
     let tap = UITapGestureRecognizer()
     lazy var profileImageView:CustomImageView = {

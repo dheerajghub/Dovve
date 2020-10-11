@@ -1,30 +1,34 @@
 //
-//  TDSimpleTextPostCollectionViewCell.swift
+//  TDQuotedPostWithImageCollectionViewCell.swift
 //  Dovve
 //
-//  Created by Dheeraj Kumar Sharma on 08/10/20.
+//  Created by Dheeraj Kumar Sharma on 11/10/20.
 //  Copyright © 2020 Dheeraj Kumar Sharma. All rights reserved.
 //
 
 import UIKit
 import ActiveLabel
 
-protocol TDSimpleTextPostDelegate{
-    func didUserProfileTapped(for cell: TDSimpleTextPostCollectionViewCell , _ isRetweetedUser:Bool)
-    func didUrlTapped(url: String)
+protocol TDQuotedPostWithImageDelegate{
+    func didUserProfileTapped(for cell: TDQuotedPostWithImageCollectionViewCell, _ isQuotedUser:Bool , _ isRetweetedUser:Bool)
+    func didImageTapped(for cell: TDQuotedPostWithImageCollectionViewCell, _ index:Int)
+    func didUrlTapped(url:String)
     func didMentionTapped(screenName:String)
     func didHashtagTapped(_ hashtag:String)
 }
 
-class TDSimpleTextPostCollectionViewCell: UICollectionViewCell {
+class TDQuotedPostWithImageCollectionViewCell: UICollectionViewCell {
     
     var data:TweetData? {
         didSet {
             manageData()
+            quotedView.collectionView.reloadData()
         }
     }
     
-    var delegate:TDSimpleTextPostDelegate?
+    var delegate:TDQuotedPostWithImageDelegate?
+    
+    var quotedViewHeightContraints:NSLayoutConstraint?
     
     let profileImageView:CustomImageView = {
         let img = CustomImageView()
@@ -64,6 +68,17 @@ class TDSimpleTextPostCollectionViewCell: UICollectionViewCell {
         return l
     }()
     
+
+    lazy var quotedView:CustomQuotedWithImageView = {
+        let v = CustomQuotedWithImageView()
+        v.delegate3 = self
+        v.ActionDelegate = self
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.layer.cornerRadius = 15
+        v.layer.borderColor = UIColor.dynamicColor(.secondaryBackground).cgColor
+        v.layer.borderWidth = 0.7
+        return v
+    }()
     
     //MARK:- Remains same for all post types
     
@@ -155,6 +170,7 @@ class TDSimpleTextPostCollectionViewCell: UICollectionViewCell {
         addSubview(profileImageView)
         addSubview(userInfo)
         addSubview(tweet)
+        addSubview(quotedView)
         addSubview(createdAt)
         addSubview(dividerLine1)
         addSubview(dividerLine2)
@@ -191,7 +207,11 @@ class TDSimpleTextPostCollectionViewCell: UICollectionViewCell {
             tweet.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             tweet.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             tweet.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5),
-            tweet.bottomAnchor.constraint(equalTo: createdAt.topAnchor, constant: -10),
+            tweet.bottomAnchor.constraint(equalTo: quotedView.topAnchor, constant: -10),
+            
+            quotedView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            quotedView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            quotedView.bottomAnchor.constraint(equalTo: createdAt.topAnchor, constant: -10),
             
             createdAt.leadingAnchor.constraint(equalTo: leadingAnchor, constant:20),
             createdAt.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
@@ -270,6 +290,21 @@ class TDSimpleTextPostCollectionViewCell: UICollectionViewCell {
             likeBtn.setImage(UIImage(named: "heart"), for: .normal)
         }
         
+        //Quoted View data
+        quotedView.profileImageView.cacheImageWithLoader(withURL: data.tweetQuotedStatus.user.profileImage, view: quotedView.profileBackImageView)
+        quotedView.userInfo.attributedText = setUserInfoAttributes(data.tweetQuotedStatus.user.name, data.tweetQuotedStatus.user.screenName, data.tweetQuotedStatus.user.isVerified)
+        quotedView.tweet.text = data.tweetQuotedStatus.text
+        quotedView.data = data.tweetQuotedStatus.media
+        quotedView.createdAt.text = data.createdAt.parseTwitterDate()
+        
+        let font = UIFont(name: CustomFonts.appFont, size: 17)!
+        let estimatedH = data.tweetQuotedStatus.text.height(withWidth: ((self.frame.width - 40) - 30), font: font)
+        quotedViewHeightContraints = quotedView.heightAnchor.constraint(equalToConstant: estimatedH + 60 + ((self.frame.width - 40) * (9/16)))
+        quotedViewHeightContraints?.isActive = true
+        
+        quotedView.imageHeightContraints = quotedView.collectionView.heightAnchor.constraint(equalToConstant: ((self.frame.width - 40) * (9/16)))
+        quotedView.imageHeightContraints?.isActive = true
+        
 //        if data.isRetweetedStatus {
 //            retweetedProfileImage.isHidden = false
 //            retweetImageView.isHidden = false
@@ -294,10 +329,30 @@ class TDSimpleTextPostCollectionViewCell: UICollectionViewCell {
     
 }
 
-extension TDSimpleTextPostCollectionViewCell {
+extension TDQuotedPostWithImageCollectionViewCell:QuotedActionProtocol {
 
+    func didHashtagTapped(_ hashtag: String) {
+        delegate?.didHashtagTapped(hashtag)
+    }
+    
+    func didMentionTapped(screenName: String) {
+        delegate?.didMentionTapped(screenName: screenName)
+    }
+    
+    func didUrlTapped(_ url: String) {
+        delegate?.didUrlTapped(url: url)
+    }
+    
+    func didImageSelected(_ index: Int) {
+        delegate?.didImageTapped(for: self, index)
+    }
+    
     @objc func userProfileSelected(){
-        delegate?.didUserProfileTapped(for: self , false)
+        delegate?.didUserProfileTapped(for: self, false , false)
+    }
+    
+    @objc func quotedUserProfileSelected(){
+        delegate?.didUserProfileTapped(for: self , true , false)
     }
     
 //    @objc func retweetedProfileSelected(){
@@ -305,3 +360,4 @@ extension TDSimpleTextPostCollectionViewCell {
 //    }
     
 }
+
