@@ -13,7 +13,6 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate{
     var homeViewController:UIViewController!
     var exploreViewController:UIViewController!
     var mentionViewController:UIViewController!
-    var messageViewController:UIViewController!
     var profileViewController:UIViewController!
     
     var tabItem = UITabBarItem()
@@ -31,21 +30,17 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate{
         let vc3 = MentionsViewController()
         mentionViewController = UINavigationController(rootViewController: vc3)
         
-        let vc4 = HomeViewController()
-        messageViewController = UINavigationController(rootViewController: vc4)
+        let vc4 = ProfileViewController()
+        profileViewController = UINavigationController(rootViewController: vc4)
         
-        let vc5 = ProfileViewController()
-        profileViewController = UINavigationController(rootViewController: vc5)
-        
-        viewControllers = [homeViewController , exploreViewController , mentionViewController , messageViewController, profileViewController]
+        viewControllers = [homeViewController , exploreViewController , mentionViewController , profileViewController]
         
         setUpViews()
         
         customTab(selectedImage: "home-selected", deselectedImage: "home", indexOfTab: 0 , tabTitle: "")
         customTab(selectedImage: "explore", deselectedImage: "search", indexOfTab: 1 , tabTitle: "")
         customTab(selectedImage: "mentions-selected", deselectedImage: "mentions", indexOfTab: 2 , tabTitle: "")
-        customTab(selectedImage: "messages-selected", deselectedImage: "messages", indexOfTab: 3 , tabTitle: "")
-        customTab(selectedImage: "profile-selected", deselectedImage: "profile", indexOfTab: 4 , tabTitle: "")
+        customTab(selectedImage: "profile-selected", deselectedImage: "profile", indexOfTab: 3 , tabTitle: "")
     }
     
     func setUpViews(){

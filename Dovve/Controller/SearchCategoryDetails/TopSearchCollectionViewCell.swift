@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol TweetActions{
+    func tweetSelected(with id:String)
+}
+
 class TopSearchCollectionViewCell: UICollectionViewCell {
     
     var dataModel:[SearchModel]?
@@ -26,6 +30,7 @@ class TopSearchCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    var delegate:TweetActions?
     var controller:SearchWithCategoryViewController?
     
     private lazy var refresher: UIRefreshControl = {
@@ -249,6 +254,10 @@ extension TopSearchCollectionViewCell:UICollectionViewDelegate , UICollectionVie
             return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
         }
         return CGSize()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.tweetSelected(with: "\(dataList?[indexPath.row].id ?? "")")
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

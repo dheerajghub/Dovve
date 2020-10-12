@@ -280,6 +280,14 @@ extension UserProfileViewController:UICollectionViewDelegate , UICollectionViewD
         }
         return UICollectionViewCell()
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.row != 0 {
+            let VC = TweetDetailViewController()
+            VC.tweetId = "\(dataList?[indexPath.row - 1].id ?? "")"
+            navigationController?.pushViewController(VC, animated: true)
+        }
+    }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.row == 0 {

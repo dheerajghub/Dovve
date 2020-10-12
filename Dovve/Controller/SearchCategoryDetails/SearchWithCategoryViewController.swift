@@ -103,7 +103,13 @@ class SearchWithCategoryViewController: UIViewController, FollowDetailActionProt
     }
 }
 
-extension SearchWithCategoryViewController:UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,FollowActionProtocol {
+extension SearchWithCategoryViewController:UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,FollowActionProtocol,TweetActions {
+    
+    func tweetSelected(with id: String) {
+        let VC = TweetDetailViewController()
+        VC.tweetId = id
+        navigationController?.pushViewController(VC, animated: true)
+    }
     
     func didHashtagTapped(_ hashtag: String) {
         SearchForHashtag(hashtag)
@@ -144,12 +150,14 @@ extension SearchWithCategoryViewController:UICollectionViewDelegate, UICollectio
         if indexPath.row == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TopSearchCollectionViewCell", for: indexPath) as! TopSearchCollectionViewCell
             cell.controller = self
+            cell.delegate = self
             cell.query = query
             return cell
         }
         if indexPath.row == 1{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LatestSearchCollectionViewCell", for: indexPath) as! LatestSearchCollectionViewCell
             cell.controller = self
+            cell.delegate = self
             cell.query = query
             return cell
         }

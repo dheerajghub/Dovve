@@ -18,7 +18,6 @@ class TweetDetailViewController: UIViewController {
         let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewLayout.init())
-//        cv.refreshControl = refresher
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.showsVerticalScrollIndicator = false
         cv.register(TDSimpleTextPostCollectionViewCell.self, forCellWithReuseIdentifier: "TDSimpleTextPostCollectionViewCell")
@@ -39,12 +38,49 @@ class TweetDetailViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubview(collectionView)
         collectionView.pin(to: view)
+        setUpCustomNavBar()
         
         GetTweetWithIdModel.fetchTweetWithId(view: self, tweet_id: tweetId) { (dataModel) in
             self.dataModel = dataModel
             self.getDataListArray(dataModel)
             self.collectionView.reloadData()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setUpCustomNavBar()
+    }
+    
+    func setUpCustomNavBar(){
+        navigationController?.navigationBar.isHidden = false
+        navigationItem.title = "Tweet"
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 0.1)
+        navigationController?.navigationBar.layer.shadowColor = UIColor.dynamicColor(.secondaryBackground).cgColor
+        navigationController?.navigationBar.layer.shadowOpacity = 1
+        navigationController?.navigationBar.layer.shadowRadius = 0.5
+        navigationController?.navigationBar.barTintColor = UIColor.dynamicColor(.appBackground)
+        navigationController?.navigationBar.isTranslucent = false
+        self.navigationController!.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont(name: CustomFonts.appFontBold, size: 19)!,
+            NSAttributedString.Key.foregroundColor: UIColor.dynamicColor(.textColor)
+        ]
+        
+        let backButton = UIButton(type: .system)
+        backButton.setImage(UIImage(named: "back2")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        backButton.tintColor = CustomColors.appBlue
+        backButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        
+        let leftBarButtonItem = UIBarButtonItem()
+        leftBarButtonItem.customView = backButton
+        navigationItem.setLeftBarButton(leftBarButtonItem, animated: false)
+    }
+    
+    @objc func backButtonPressed(){
+        navigationController?.popViewController(animated: true)
     }
     
     func getDataListArray(_ data:GetTweetWithIdModel){
@@ -109,31 +145,37 @@ extension TweetDetailViewController:UICollectionViewDelegate, UICollectionViewDe
                 if dataList[indexPath.row].media == [] && dataList[indexPath.row].isQuotedStatus == false {
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDSimpleTextPostCollectionViewCell", for: indexPath) as! TDSimpleTextPostCollectionViewCell
                     cell.data = dataList[indexPath.row]
+                    cell.delegate = self
                     return cell
                 }
                 if dataList[indexPath.row].media != [] &&  dataList[indexPath.row].isQuotedStatus == false {
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDPostWithImagesCollectionViewCell", for: indexPath) as! TDPostWithImagesCollectionViewCell
                     cell.data = dataList[indexPath.row]
+                    cell.delegate = self
                     return cell
                 }
                 if dataList[indexPath.row].media == [] && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media == [] {
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDQuotedPostCollectionViewCell", for: indexPath) as! TDQuotedPostCollectionViewCell
                     cell.data = dataList[indexPath.row]
+                    cell.delegate = self
                     return cell
                 }
                 if dataList[indexPath.row].media == [] && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media != [] {
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDQuotedPostWithImageCollectionViewCell", for: indexPath) as! TDQuotedPostWithImageCollectionViewCell
                     cell.data = dataList[indexPath.row]
+                    cell.delegate = self
                     return cell
                 }
                 if dataList[indexPath.row].media != [] && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media == [] {
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDPostWithImageAndQuoteCollectionViewCell", for: indexPath) as! TDPostWithImageAndQuoteCollectionViewCell
                     cell.data = dataList[indexPath.row]
+                    cell.delegate = self
                     return cell
                 }
                 if dataList[indexPath.row].media != [] && dataList[indexPath.row].isQuotedStatus == true && dataList[indexPath.row].tweetQuotedStatus.media != [] {
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDPostWithImageAndQuotedImageCollectionViewCell", for: indexPath) as! TDPostWithImageAndQuotedImageCollectionViewCell
                     cell.data = dataList[indexPath.row]
+                    cell.delegate = self
                     return cell
                 }
             }
@@ -198,5 +240,176 @@ extension TweetDetailViewController:UICollectionViewDelegate, UICollectionViewDe
         }
         return CGSize()
     }
+}
+
+extension TweetDetailViewController: TDSimpleTextPostDelegate, TDPostWithImagesDelegate, TDQuotedPostDelegate, TDQuotedPostWithImageDelegate , TDPostWithImageAndQuoteDelegate , TDPostWithImageAndQuotedImageDelegate {
     
+    func didHashtagTapped(_ hashtag: String) {
+        SearchForHashtag(hashtag)
+    }
+    
+    func didMentionTapped(screenName: String) {
+        PushToProfile("", screenName)
+    }
+    
+    func didUrlTapped(url: String) {
+        let VC = WebViewController()
+        VC.url = URL(string: url)
+        let navVC = UINavigationController(rootViewController: VC)
+        navVC.modalPresentationStyle = .fullScreen
+        self.present(navVC, animated: true, completion: nil)
+    }
+    
+    //MARK:-SimpleTextPost Actions
+    func didUserProfileTapped(for cell: TDSimpleTextPostCollectionViewCell, _ isRetweetedUser: Bool) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if isRetweetedUser {
+                let userId = dataList[indexPath.row].retweetedBy.userID
+                PushToProfile(userId! , "")
+            } else {
+                let userId = dataList[indexPath.row].user.userId
+                PushToProfile(userId! , "")
+            }
+        }
+    }
+    
+    //MARK:-PostWithImages Actions
+    func didUserProfileTapped(for cell: TDPostWithImagesCollectionViewCell, _ isRetweetedUser: Bool) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if isRetweetedUser {
+                let userId = dataList[indexPath.row].retweetedBy.userID
+                PushToProfile(userId! , "")
+            } else {
+                let userId = dataList[indexPath.row].user.userId
+                PushToProfile(userId! , "")
+            }
+        }
+    }
+    
+    func didImageTapped(for cell: TDPostWithImagesCollectionViewCell, _ index: Int) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if dataList[indexPath.row].isVideo {
+                ShowVieoWithUrl(dataList[indexPath.row].media[0].vidURL)
+            } else {
+                let media = dataList[indexPath.row].media
+                PushToImageDetailView(media! , index)
+            }
+        }
+    }
+    
+    //MARK:-QuotedPost Actions
+    func didUserProfileTapped(for cell: TDQuotedPostCollectionViewCell, _ isQuotedUser: Bool, _ isRetweetedUser: Bool) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if isRetweetedUser {
+                let userId = dataList[indexPath.row].retweetedBy.userID
+                PushToProfile(userId! , "")
+            } else if isQuotedUser {
+                let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
+                PushToProfile(userId! , "")
+            } else {
+                let userId = dataList[indexPath.row].user.userId
+                PushToProfile(userId! , "")
+            }
+        }
+    }
+    
+    //MARK:-QuotedPostWithImage Actions
+    func didUserProfileTapped(for cell: TDQuotedPostWithImageCollectionViewCell, _ isQuotedUser: Bool, _ isRetweetedUser: Bool) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if isRetweetedUser {
+                let userId = dataList[indexPath.row].retweetedBy.userID
+                PushToProfile(userId! , "")
+            } else if isQuotedUser {
+                let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
+                PushToProfile(userId! , "")
+            } else {
+                let userId = dataList[indexPath.row].user.userId
+                PushToProfile(userId! , "")
+            }
+        }
+    }
+    
+    func didImageTapped(for cell: TDQuotedPostWithImageCollectionViewCell, _ index: Int) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if dataList[indexPath.row].tweetQuotedStatus.isVideo {
+                ShowVieoWithUrl(dataList[indexPath.row].tweetQuotedStatus.media[0].vidURL)
+            } else {
+                let media = dataList[indexPath.row].tweetQuotedStatus.media
+                PushToImageDetailView(media! , index)
+            }
+        }
+    }
+    
+    //MARK:-PostWithImageAndQuote Actions
+    func didUserProfileTapped(for cell: TDPostWithImageAndQuoteCollectionViewCell, _ isQuotedUser: Bool, _ isRetweetedUser: Bool) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if isRetweetedUser {
+                let userId = dataList[indexPath.row].retweetedBy.userID
+                PushToProfile(userId! , "")
+            } else if isQuotedUser {
+                let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
+                PushToProfile(userId! , "")
+            } else {
+                let userId = dataList[indexPath.row].user.userId
+                PushToProfile(userId! , "")
+            }
+        }
+    }
+    
+    func didImageTapped(for cell: TDPostWithImageAndQuoteCollectionViewCell, _ index: Int) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if dataList[indexPath.row].isVideo {
+                ShowVieoWithUrl(dataList[indexPath.row].media[0].vidURL)
+            } else {
+                let media = dataList[indexPath.row].media
+                PushToImageDetailView(media!, index)
+            }
+        }
+    }
+    
+    //MARK:-PostWithImageAndQuotedImage Actions
+    func didUserProfileTapped(for cell: TDPostWithImageAndQuotedImageCollectionViewCell, _ isQuotedUser: Bool , _ isRetweetedUser:Bool) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if isRetweetedUser {
+                let userId = dataList[indexPath.row].retweetedBy.userID
+                PushToProfile(userId! , "")
+            } else if isQuotedUser {
+                let userId = dataList[indexPath.row].tweetQuotedStatus.user.userId
+                PushToProfile(userId! , "")
+            } else {
+                let userId = dataList[indexPath.row].user.userId
+                PushToProfile(userId! ,"")
+            }
+        }
+    }
+    
+    func didImageTapped(for cell: TDPostWithImageAndQuotedImageCollectionViewCell, _ index: Int, isPostImage: Bool, isQuoteImage: Bool) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if let dataList = dataList {
+            if isPostImage {
+                if dataList[indexPath.row].isVideo {
+                    ShowVieoWithUrl(dataList[indexPath.row].media[0].vidURL)
+                } else {
+                    let media = dataList[indexPath.row].media
+                    PushToImageDetailView(media! , index)
+                }
+            } else if isQuoteImage {
+                if dataList[indexPath.row].tweetQuotedStatus.isVideo {
+                    ShowVieoWithUrl(dataList[indexPath.row].tweetQuotedStatus.media[0].vidURL)
+                } else {
+                    let media = dataList[indexPath.row].tweetQuotedStatus.media
+                    PushToImageDetailView(media! , index)
+                }
+            }
+        }
+    }
 }

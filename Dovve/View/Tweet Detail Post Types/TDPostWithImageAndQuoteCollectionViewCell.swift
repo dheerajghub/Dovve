@@ -121,13 +121,6 @@ class TDPostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
         return btn
     }()
     
-    lazy var quoteTweetWithBtn:UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setAttributedTitle(setMetricDataAttribute("Quote Tweets" , "12"),for: .normal)
-        return btn
-    }()
-    
     lazy var tweetLikedWithBtn:UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -192,7 +185,6 @@ class TDPostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
         addSubview(dividerLine1)
         addSubview(dividerLine2)
         addSubview(retweetsWithBtn)
-        addSubview(quoteTweetWithBtn)
         addSubview(tweetLikedWithBtn)
         addSubview(stackView)
         stackView.addArrangedSubview(messageBtn)
@@ -250,11 +242,7 @@ class TDPostWithImageAndQuoteCollectionViewCell: UICollectionViewCell {
             retweetsWithBtn.heightAnchor.constraint(equalToConstant: 25),
             retweetsWithBtn.bottomAnchor.constraint(equalTo: dividerLine2.topAnchor, constant: -10),
             
-            quoteTweetWithBtn.leadingAnchor.constraint(equalTo: retweetsWithBtn.trailingAnchor, constant: 10),
-            quoteTweetWithBtn.heightAnchor.constraint(equalToConstant: 25),
-            quoteTweetWithBtn.bottomAnchor.constraint(equalTo: dividerLine2.topAnchor, constant: -10),
-            
-            tweetLikedWithBtn.leadingAnchor.constraint(equalTo: quoteTweetWithBtn.trailingAnchor, constant: 10),
+            tweetLikedWithBtn.leadingAnchor.constraint(equalTo: retweetsWithBtn.trailingAnchor, constant: 10),
             tweetLikedWithBtn.heightAnchor.constraint(equalToConstant: 25),
             tweetLikedWithBtn.bottomAnchor.constraint(equalTo: dividerLine2.topAnchor, constant: -10),
             

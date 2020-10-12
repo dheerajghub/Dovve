@@ -10,6 +10,7 @@ import UIKit
 
 class LatestSearchCollectionViewCell: UICollectionViewCell {
  
+    var delegate:TweetActions?
     var dataModel:[SearchModel]?
     var dataList:[TweetData]?
 
@@ -249,6 +250,10 @@ extension LatestSearchCollectionViewCell:UICollectionViewDelegate , UICollection
             return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
         }
         return CGSize()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.tweetSelected(with: "\(dataList?[indexPath.row].id ?? "")")
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

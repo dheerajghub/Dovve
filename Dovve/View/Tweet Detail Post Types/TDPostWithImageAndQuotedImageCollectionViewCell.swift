@@ -28,7 +28,7 @@ class TDPostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
     
     var quotedViewHeightContraints:NSLayoutConstraint?
     
-    let profileImageView:CustomImageView = {
+    lazy var profileImageView:CustomImageView = {
         let img = CustomImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.image = UIImage(named:"demo")
@@ -117,14 +117,7 @@ class TDPostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
         btn.setAttributedTitle(setMetricDataAttribute("Retweets" , "123"),for: .normal)
         return btn
     }()
-
-    lazy var quoteTweetWithBtn:UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setAttributedTitle(setMetricDataAttribute("Quote Tweets" , "12"),for: .normal)
-        return btn
-    }()
-
+    
     lazy var tweetLikedWithBtn:UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -189,7 +182,6 @@ class TDPostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
         addSubview(dividerLine1)
         addSubview(dividerLine2)
         addSubview(retweetsWithBtn)
-        addSubview(quoteTweetWithBtn)
         addSubview(tweetLikedWithBtn)
         addSubview(stackView)
         stackView.addArrangedSubview(messageBtn)
@@ -197,6 +189,7 @@ class TDPostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
         stackView.addArrangedSubview(likeBtn)
         stackView.addArrangedSubview(shareBtn)
         setUpConstraints()
+        setUpActiveLabels()
 
         userInfo.attributedText = setTweetDetailUserInfoAttributes("Dheeraj", "dheerajdev_twit", true)
     }
@@ -245,11 +238,7 @@ class TDPostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
             retweetsWithBtn.heightAnchor.constraint(equalToConstant: 25),
             retweetsWithBtn.bottomAnchor.constraint(equalTo: dividerLine2.topAnchor, constant: -10),
 
-            quoteTweetWithBtn.leadingAnchor.constraint(equalTo: retweetsWithBtn.trailingAnchor, constant: 10),
-            quoteTweetWithBtn.heightAnchor.constraint(equalToConstant: 25),
-            quoteTweetWithBtn.bottomAnchor.constraint(equalTo: dividerLine2.topAnchor, constant: -10),
-
-            tweetLikedWithBtn.leadingAnchor.constraint(equalTo: quoteTweetWithBtn.trailingAnchor, constant: 10),
+            tweetLikedWithBtn.leadingAnchor.constraint(equalTo: retweetsWithBtn.trailingAnchor, constant: 10),
             tweetLikedWithBtn.heightAnchor.constraint(equalToConstant: 25),
             tweetLikedWithBtn.bottomAnchor.constraint(equalTo: dividerLine2.topAnchor, constant: -10),
 
@@ -275,6 +264,27 @@ class TDPostWithImageAndQuotedImageCollectionViewCell: UICollectionViewCell {
         attributedText.append(NSAttributedString(string: " \(metricType)" , attributes:[NSAttributedString.Key.font: UIFont(name: CustomFonts.appFont, size: 15)! , NSAttributedString.Key.foregroundColor: CustomColors.appDarkGray]))
 
         return attributedText
+    }
+    
+    func setUpActiveLabels(){
+        //Customizing Labels
+        tweet.customize{ label in
+            label.hashtagColor = CustomColors.appBlue
+            label.mentionColor = CustomColors.appBlue
+            label.URLColor = CustomColors.appBlue
+        }
+        
+        tweet.handleURLTap { (url) in
+            self.delegate?.didUrlTapped(url: "\(url)")
+        }
+        
+        tweet.handleMentionTap { (screenName) in
+            self.delegate?.didMentionTapped(screenName: screenName)
+        }
+        
+        tweet.handleHashtagTap { (hashtag) in
+            self.delegate?.didHashtagTapped(hashtag)
+        }
     }
     
     func manageData(){

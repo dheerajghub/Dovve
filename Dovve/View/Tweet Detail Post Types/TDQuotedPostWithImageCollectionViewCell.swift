@@ -30,7 +30,7 @@ class TDQuotedPostWithImageCollectionViewCell: UICollectionViewCell {
     
     var quotedViewHeightContraints:NSLayoutConstraint?
     
-    let profileImageView:CustomImageView = {
+    lazy var profileImageView:CustomImageView = {
         let img = CustomImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.image = UIImage(named:"demo")
@@ -105,13 +105,6 @@ class TDQuotedPostWithImageCollectionViewCell: UICollectionViewCell {
         return btn
     }()
     
-    lazy var quoteTweetWithBtn:UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setAttributedTitle(setMetricDataAttribute("Quote Tweets" , "12"),for: .normal)
-        return btn
-    }()
-    
     lazy var tweetLikedWithBtn:UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -175,7 +168,6 @@ class TDQuotedPostWithImageCollectionViewCell: UICollectionViewCell {
         addSubview(dividerLine1)
         addSubview(dividerLine2)
         addSubview(retweetsWithBtn)
-        addSubview(quoteTweetWithBtn)
         addSubview(tweetLikedWithBtn)
         addSubview(stackView)
         stackView.addArrangedSubview(messageBtn)
@@ -227,11 +219,7 @@ class TDQuotedPostWithImageCollectionViewCell: UICollectionViewCell {
             retweetsWithBtn.heightAnchor.constraint(equalToConstant: 25),
             retweetsWithBtn.bottomAnchor.constraint(equalTo: dividerLine2.topAnchor, constant: -10),
             
-            quoteTweetWithBtn.leadingAnchor.constraint(equalTo: retweetsWithBtn.trailingAnchor, constant: 10),
-            quoteTweetWithBtn.heightAnchor.constraint(equalToConstant: 25),
-            quoteTweetWithBtn.bottomAnchor.constraint(equalTo: dividerLine2.topAnchor, constant: -10),
-            
-            tweetLikedWithBtn.leadingAnchor.constraint(equalTo: quoteTweetWithBtn.trailingAnchor, constant: 10),
+            tweetLikedWithBtn.leadingAnchor.constraint(equalTo: retweetsWithBtn.trailingAnchor, constant: 10),
             tweetLikedWithBtn.heightAnchor.constraint(equalToConstant: 25),
             tweetLikedWithBtn.bottomAnchor.constraint(equalTo: dividerLine2.topAnchor, constant: -10),
             
